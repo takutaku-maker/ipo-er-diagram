@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IPO準備 統合ER図 — 時間軸付き</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Noto Sans JP',sans-serif;background:#0B1222;color:#E2E8F0;overflow:auto;min-height:100vh;width:100vw}
+#canvas{position:relative;width:100%;min-height:2600px;overflow:visible}
+svg#lines{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1}
+
+/* Header */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:100;background:linear-gradient(135deg,#141E33,#0B1222);padding:6px 16px;border-bottom:2px solid #2563EB;display:flex;justify-content:space-between;align-items:center}
+.hdr h1{font-size:13px;color:#CADCFC;letter-spacing:.3px}
+.hdr .sub{font-size:8.5px;color:#64748B;margin-top:1px}
+.leg{display:flex;gap:8px;font-size:7.5px;flex-wrap:wrap}
+.leg-i{display:flex;align-items:center;gap:3px}
+.leg-d{width:7px;height:7px;border-radius:2px}
+
+/* Timeline columns */
+.tl-col{position:absolute;top:55px;bottom:0;border-right:1px solid rgba(100,116,139,.12);z-index:0}
+.tl-label{position:absolute;top:58px;z-index:90;font-size:11px;font-weight:700;color:#CADCFC;background:rgba(11,18,34,.9);padding:3px 10px;border-radius:3px;border:1px solid rgba(37,99,235,.3)}
+.tl-year{font-size:8px;color:#64748B;font-weight:400;display:block;margin-top:1px}
+.tl-desc{position:absolute;top:88px;z-index:89;font-size:7.5px;color:#475569;max-width:180px;text-align:center}
+
+/* Entity */
+.entity{position:absolute;border-radius:5px;cursor:grab;z-index:10;user-select:none;min-width:148px;max-width:200px;transition:box-shadow .15s}
+.entity:hover{z-index:50;box-shadow:0 0 18px rgba(37,99,235,.35)}
+.entity:active{cursor:grabbing}
+.e-h{padding:4px 7px 2px;border-radius:5px 5px 0 0;font-weight:700;font-size:9.5px;display:flex;align-items:center;gap:3px}
+.e-h .ic{font-size:10px}
+.e-b{padding:2px 7px 5px;font-size:8px;line-height:1.45;color:#CBD5E1;border-radius:0 0 5px 5px}
+.at{display:flex;align-items:flex-start;gap:2px;margin:0.5px 0}
+.ak{color:#94A3B8;font-size:7px;min-width:8px;text-align:center}
+.pk{color:#FBBF24;font-weight:600}
+.src{font-size:6.5px;color:#475569;margin-top:1px;font-style:italic;border-top:1px solid rgba(100,116,139,.15);padding-top:1px}
+
+/* Timeline badge on entity */
+.tl-badge{position:absolute;top:-8px;right:4px;font-size:7px;font-weight:700;padding:1px 5px;border-radius:8px;z-index:11}
+.tl-n3{background:#065F46;color:#6EE7B7}.tl-n2{background:#1E40AF;color:#93C5FD}.tl-n1{background:#92400E;color:#FCD34D}.tl-n{background:#7C2D12;color:#FDBA74}
+
+/* Category colors */
+.c-cs .e-h{background:#1E40AF;color:#fff}.c-cs{background:#0C1F4A;border:1.5px solid #1E40AF}
+.c-bm .e-h{background:#6D28D9;color:#fff}.c-bm{background:#1E0A4A;border:1.5px solid #6D28D9}
+.c-gv .e-h{background:#7C3AED;color:#fff}.c-gv{background:#2D1065;border:1.5px solid #7C3AED}
+.c-ic .e-h{background:#0891B2;color:#fff}.c-ic{background:#072A33;border:1.5px solid #0891B2}
+.c-ds .e-h{background:#D97706;color:#fff}.c-ds{background:#3D2206;border:1.5px solid #D97706}
+.c-ki .e-h{background:#DC2626;color:#fff}.c-ki{background:#3B0808;border:1.5px solid #DC2626}
+.c-sw .e-h{background:#059669;color:#fff}.c-sw{background:#052E21;border:1.5px solid #059669}
+.c-rv .e-h{background:#0284C7;color:#fff}.c-rv{background:#082F49;border:1.5px solid #0284C7}
+.c-cp .e-h{background:#BE185D;color:#fff}.c-cp{background:#4C0519;border:1.5px solid #BE185D}
+.c-ph .e-h{background:#4338CA;color:#fff}.c-ph{background:#1E1B4B;border:1.5px solid #4338CA}
+.c-rk .e-h{background:#B91C1C;color:#fff}.c-rk{background:#450A0A;border:1.5px solid #B91C1C}
+.c-op .e-h{background:#475569;color:#fff}.c-op{background:#1E293B;border:1.5px solid #475569}
+
+.rl{position:absolute;font-size:7px;color:#94A3B8;background:rgba(11,18,34,.88);padding:1px 3px;border-radius:2px;pointer-events:none;z-index:5;white-space:nowrap;border:1px solid rgba(100,116,139,.2)}
+.tip{display:none;position:fixed;background:#1E293B;color:#E2E8F0;border:1px solid #334155;border-radius:5px;padding:8px 11px;font-size:9px;line-height:1.4;max-width:260px;z-index:200;box-shadow:0 6px 20px rgba(0,0,0,.5)}
+.tip.vis{display:block}
+.tip h4{font-size:10px;color:#CADCFC;margin-bottom:2px}
+.tip .ts{font-size:7px;color:#64748B;margin-top:3px;font-style:italic}
+</style>
+</head>
+<body>
+<div class="hdr">
+<div>
+<h1>IPO準備 統合ER図 — 時間軸付き（N-3 → N）</h1>
+<div class="sub">出典: IPOショートレビュー報告書(Growth)｜IPO基準チェックシート(証券会社)｜ソフトウェア管理会計基準｜収益認識基準(企業会計基準29号)｜Asana全社管理PJ</div>
+</div>
+<div class="leg">
+<div class="leg-i"><div class="leg-d" style="background:#1E40AF"></div>チェックシート</div>
+<div class="leg-i"><div class="leg-d" style="background:#6D28D9"></div>ビジネスモデル</div>
+<div class="leg-i"><div class="leg-d" style="background:#7C3AED"></div>ガバナンス</div>
+<div class="leg-i"><div class="leg-d" style="background:#0891B2"></div>内部統制</div>
+<div class="leg-i"><div class="leg-d" style="background:#D97706"></div>ディスクロージャー</div>
+<div class="leg-i"><div class="leg-d" style="background:#DC2626"></div>重点課題</div>
+<div class="leg-i"><div class="leg-d" style="background:#059669"></div>ソフトウェア基準</div>
+<div class="leg-i"><div class="leg-d" style="background:#0284C7"></div>収益認識</div>
+<div class="leg-i"><div class="leg-d" style="background:#BE185D"></div>コンプライアンス</div>
+<div class="leg-i"><div class="leg-d" style="background:#4338CA"></div>実行計画</div>
+<div class="leg-i"><div class="leg-d" style="background:#B91C1C"></div>リスク</div>
+<div class="leg-i"><div class="leg-d" style="background:#475569"></div>業務サイクル</div>
+</div>
+</div>
+
+<div id="canvas"><svg id="lines"></svg></div>
+<div class="tip" id="tip"></div>
+
+<script>
+const CW=window.innerWidth;
+// Timeline column boundaries (percentage of width)
+const TL={n3:{x0:0,x1:.25,label:"N-3期",yr:"2027年2月期（2026/3〜2027/2）",desc:"ショートレビュー・体制整備開始"},
+n2:{x0:.25,x1:.50,label:"N-2期",yr:"2028年2月期（2027/3〜2028/2）",desc:"運用定着・監査開始・J-SOX文書化"},
+n1:{x0:.50,x1:.75,label:"N-1期",yr:"2029年2月期（2028/3〜2029/2）",desc:"有効性評価・監査対応・機関完成"},
+n:{x0:.75,x1:1.0,label:"N期",yr:"2030年2月期（2029/3〜2030/2）",desc:"上場申請期"}};
+
+// Draw timeline columns
+const ctr=document.getElementById("canvas");
+Object.entries(TL).forEach(([k,v])=>{
+const col=document.createElement("div");col.className="tl-col";
+col.style.left=(v.x0*100)+"%";col.style.width=((v.x1-v.x0)*100)+"%";
+col.style.background=k==="n3"?"rgba(6,95,70,.04)":k==="n2"?"rgba(30,64,175,.04)":k==="n1"?"rgba(146,64,14,.04)":"rgba(124,45,18,.04)";
+ctr.appendChild(col);
+const lb=document.createElement("div");lb.className="tl-label";
+lb.style.left=(((v.x0+v.x1)/2)*CW-30)+"px";
+lb.innerHTML=`${v.label}<span class="tl-year">${v.yr}</span>`;
+ctr.appendChild(lb);
+const ds=document.createElement("div");ds.className="tl-desc";
+ds.style.left=(((v.x0+v.x1)/2)*CW-80)+"px";ds.textContent=v.desc;
+ctr.appendChild(ds);
+});
+
+// Helper: column center X
+function cx(col,offset){const v=TL[col];return((v.x0+v.x1)/2)*CW+(offset||0);}
+
+const E=[
+// ========== ROW 0: チェックシート全体 (spans all) ==========
+{id:"cs",cat:"cs",x:cx("n2",-75),y:115,tl:"n2",title:"IPO基準チェックシート",icon:"📋",
+attrs:[{k:"★",v:"証券会社 2025年4月版"},{k:"◆",v:"I.ビジネスモデル"},{k:"◆",v:"II.コーポレート・ガバナンス"},{k:"◆",v:"III.資本政策"},{k:"◆",v:"IV.コンプライアンス"},{k:"◆",v:"V.内部統制（13区分）"},{k:"◆",v:"VI.ディスクロージャー（7区分）"},{k:"◆",v:"VII.その他"}],
+src:"IPO基準チェックシート 目次",
+tip:"証券会社のIPO基準チェックシート。HD/MD/ETの3社体制で回答する形式。7大カテゴリ、約500項目で構成。全期間を通じて対応が必要。"},
+
+// ========== N-3期 エンティティ ==========
+// Phase 1
+{id:"p1",cat:"ph",x:cx("n3",-75),y:115,tl:"n3",title:"Phase 1: 規程整備・方針策定",icon:"📝",
+attrs:[{k:"★",v:"〜2026年4月（N-3期内）"},{k:"◆",v:"収益認識PP / 契約・検収SOP"},{k:"◆",v:"RPT台帳 / ソフト資産性基準"},{k:"◆",v:"6,3,1予実サイクル確立"},{k:"◇",v:"MS: 取締役会で規程承認"}],
+src:"結果まとめ P.5",
+tip:"30日以内アクション: 売上証憑SOP、収益認識PPドラフト、RPT台帳、資産性基準筚定。N-3期内に基本規程を整備完了。"},
+
+// I. ビジネスモデル
+{id:"bm",cat:"bm",x:cx("n3",-170),y:280,tl:"n3",title:"I. ビジネスモデル",icon:"🏢",
+attrs:[{k:"◆",v:"a.事業内容・マネタイズ・KPI"},{k:"◆",v:"b-d.市場・仕入・生産(開発)"},{k:"◆",v:"e-f.外注・アウトソーシング管理"},{k:"◆",v:"h.販売(h-13:受注〜売上計上)"},{k:"◆",v:"i.研究開発体制の確立"}],
+src:"チェックシート I章 P.1-3",
+tip:"事業の商流・KPIの整理はN-3期中に着手。特にh-13「受注から売上計上までの期間」とi「研究開発体制」は課題②③④に直結。"},
+
+// 商品戦略 (NEW)
+{id:"product",cat:"bm",x:cx("n3",-170),y:460,tl:"n3",title:"商品戦略・サービス見直し",icon:"🎯",
+attrs:[{k:"◆",v:"サービス/商品ラインナップ見直し"},{k:"◆",v:"KPIの再設定"},{k:"◇",v:"Asana: 商品戦略タスク"}],
+src:"Asana IPO推進セクション",
+tip:"IPO時の成長ストーリーに整合するサービス・商品ポートフォリオの見直し。N-3期中に方針確定。"},
+
+// 法令把握
+{id:"law",cat:"cp",x:cx("n3",-10),y:460,tl:"n3",title:"法令等の把握・管理表作成",icon:"📜",
+attrs:[{k:"◆",v:"関連法令の網羅的把握"},{k:"◆",v:"法令管理表の作成"},{k:"◆",v:"36協定遵守・安全衛生"},{k:"◇",v:"期限: 2026/5末"}],
+src:"Asana IPO推進セクション",
+tip:"コンプライアンス体制構築の第一歩。関連法令を洗い出し管理表として一覧化。労務関逢（36協定・有給・安全衛生）もN-3期内に整備。"},
+
+// IV. コンプライアンス
+{id:"comp",cat:"cp",x:cx("n3",-10),y:280,tl:"n3",title:"IV. コンプライアンス",icon:"⚖️",
+attrs:[{k:"◆",v:"A.法令遵守体制（弁護士・法務DD）"},{k:"◆",v:"A-c.個人情報保護法/GDPR"},{k:"◆",v:"A-d.下請法遵守"},{k:"◆",v:"B.係争・紛争事件確認"},{k:"◇",v:"A-e.企業再編の適法性"}],
+src:"チェックシート IV章 P.1-3",
+tip:"法令遵守体制の基盤整備はN-3期中に着手。顧問弁護士契約・法務DD範囲の決定。"},
+
+// 購買プロセス設計 (NEW)
+{id:"purchase",cat:"op",x:cx("n3",100),y:280,tl:"n3",title:"購買・償却プロセス設計",icon:"🛒",
+attrs:[{k:"◆",v:"001: クレカ/固定資産/通常購買"},{k:"◆",v:"002: 人件費支払プロセス"},{k:"◆",v:"システム実装→新運用開始"},{k:"◇",v:"期限: 2026/4〜5月"}],
+src:"Asana 001〜002系タスク",
+tip:"購買・償却・人件費支払の業務プロセス設計とシステム実装。N-3期内にプロセス確定、N-3期末〜N-2期初に運用開始。"},
+
+// システム連携基盤 (NEW)
+{id:"syslink",cat:"op",x:cx("n3",100),y:460,tl:"n3",title:"システム間連携基盤",icon:"🔗",
+attrs:[{k:"◆",v:"octpath-JUST DB-MF Plus連携"},{k:"◆",v:"API/JS連携基礎構築"},{k:"◆",v:"オンボーディング連動実装"},{k:"◇",v:"期限: 2026/6〜7月"}],
+src:"Asana IPO推進セクション",
+tip:"業務システム間のデータ連携基盤をN-3期内に構築。MF Plus（会計）・JUST DB・octpathの三点連携が基礎。"},
+
+// 内部通報制度 (NEW - completed)
+{id:"whistle",cat:"ic",x:cx("n3",100),y:600,tl:"n3",title:"V-L. 内部通報制度",icon:"📢",
+attrs:[{k:"★",v:"構築完了（Asana完了済み）"},{k:"◆",v:"内部通報窓口設置"},{k:"◆",v:"外部窓口設置（弁護士）"},{k:"◇",v:"公益通報者保護法対応"}],
+src:"チェックシート V-L, Asana",
+tip:"内部通報制度の構築および外部窓口設置はAsana上で完了済み。N-3期内に対応完了。"},
+
+// ========== N-2期 エンティティ ==========
+// Phase 2
+{id:"p2",cat:"ph",x:cx("n2",-75),y:600,tl:"n2",title:"Phase 2: 運用定着・連結準備",icon:"🔄",
+attrs:[{k:"★",v:"2026/5〜10月（N-2期前半）"},{k:"◆",v:"組合・加盟法人の整理実行"},{k:"◆",v:"原価計算制度の本稼働"},{k:"◆",v:"連結決算体制の確立"},{k:"◇",v:"MS: RPT・連帯保証解消完了"}],
+src:"結果まとめ P.5",
+tip:"規程を実運用に移行。組合整理・原価突合・連結テスト。N-2期中に運用実績を積む。"},
+
+// II. ガバナンス
+{id:"gov",cat:"gv",x:cx("n2",-170),y:280,tl:"n2",title:"II. コーポレート・ガバナンス",icon:"🏛️",
+attrs:[{k:"◆",v:"A.株主総会・取締役会運営"},{k:"◆",v:"B.役員等との取引の健全性"},{k:"◆",v:"C.関係会社(子会社)の状況"},{k:"◆",v:"D.親会社等からの独立性"},{k:"◇",v:"E.CG コード対応"}],
+src:"チェックシート II章 P.1-8",
+tip:"取締役会の月次開催・議事録整備。IK-B(役員取引)とII-C(関係会社)は課題①に直結。N-2期中に基盤整備。"},
+
+// 機関設計 (NEW)
+{id:"organ",cat:"gv",x:cx("n2",-170),y:460,tl:"n2",title:"機関設計・役員体制",icon:"🏗️",
+attrs:[{k:"◆",v:"役員・機関設計方針の確定"},{k:"◆",v:"組織体系の確定"},{k:"◆",v:"業務執行役員の選任準備"},{k:"◇",v:"方針確定期限: 2027/2末"}],
+src:"Asana IPO推進セクション",
+tip:"取締役会・監査役会の構成設計。N-2期中に方針確定し、N-1期で実際の選任を行う。監査等委員会設置会社への移行も検討。"},
+
+// V. 内部統制
+{id:"ics",cat:"ic",x:cx("n2",-10),y:280,tl:"n2",title:"V. 内部統制システム",icon:"🛡️",
+attrs:[{k:"★",v:"13区分・約250チェック項目"},{k:"◆",v:"A.社内組織（業務分掌・稟議）"},{k:"◆",v:"B.内部監査制度（J-SOX含む）"},{k:"◆",v:"C.フローチャート（4業務）"},{k:"◆",v:"D.主要業務整備"},{k:"◆",v:"E.規程（14項目以上）"},{k:"◆",v:"F.会社財産管理"},{k:"◆",v:"G〜M.その他6区分"}],
+src:"チェックシート V章 P.1-22",
+tip:"IPO審査で最重要の区分。N-2期中に全13区分の整備を完了し運用を開始する。"},
+
+// V-D 販売
+{id:"vd_sales",cat:"ic",x:cx("n2",80),y:460,tl:"n2",title:"V-D. 販売業務プロセス",icon:"📦",
+attrs:[{k:"◆",v:"D-d-7: 受注管理"},{k:"◆",v:"D-d-13: 受注〜回収の職務分離"},{k:"◆",v:"D-d-19: 収益認識基準の売上計上"},{k:"◆",v:"D-d-22: 請求書発行統制"},{k:"◇",v:"D-d-24: クレーム・返品管理"}],
+src:"チェックシート V-D P.7-9",
+tip:"販売サイクル業務フロー・帳票確定はN-2期（2027/8末）目標。収益認識基準に基づく売上計上基準の明確化が最重要。"},
+
+// V-F 固定資産
+{id:"vf_asset",cat:"ic",x:cx("n2",-170),y:740,tl:"n2",title:"V-F. 固定資産(ソフトウェア)",icon:"💾",
+attrs:[{k:"◆",v:"F-c-25〜30: 無形固定資産管理"},{k:"◆",v:"F-c-26: 規程・マニュアル化"},{k:"◆",v:"F-c-27: 収盆性判定・資産計上要件"},{k:"◆",v:"F-c-28: 取得原価の集計体制"},{k:"◇",v:"F-c-29: 経理↔情シスの照合"}],
+src:"チェックシート V-F P.13",
+tip:"ソフトウェア管理体制の構築はN-2期（2027/2末）目標。資産性判定基準・PJコード統制を確立。"},
+
+// V-I IT統制
+{id:"vi_it",cat:"ic",x:cx("n2",80),y:600,tl:"n2",title:"V-I. システム・セキュリティ",icon:"🖥️",
+attrs:[{k:"◆",v:"I-a: BCP・担当者配置"},{k:"◆",v:"I-b-1: セキュリティポリシー"},{k:"◆",v:"I-b-3〜5: アクセス制限・変更管理"},{k:"◆",v:"I-b-6〜9: バックアップ・ウイルス対策"},{k:"◇",v:"I-b-14〜16: クラウド統制"}],
+src:"チェックシート V-I P.19-20",
+tip:"セキュリティポリシー策定・IT統制整備はN-2期中に完了。ISMS・SOC対応と連携。"},
+
+// V-H 予算管理
+{id:"vh_budget",cat:"ic",x:cx("n2",80),y:740,tl:"n2",title:"V-H. 予算管理",icon:"📊",
+attrs:[{k:"◆",v:"中期経営計画（3年ローリング）"},{k:"◆",v:"6,3,1サイクル確立"},{k:"◆",v:"月次予実差異→取締役会報告"},{k:"◇",v:"連結ベースの予算策定"}],
+src:"チェックシート V-H P.15-18",
+tip:"中期経営計画の策定・予実管理サイクルの確立はN-2期中目標。経営理念・環境分析・戦略策定もこの期に完了。"},
+
+// V-K 労務管理
+{id:"vk_labor",cat:"ic",x:cx("n2",-10),y:880,tl:"n2",title:"V-K. 労務管理",icon:"👥",
+attrs:[{k:"◆",v:"未払残業代の精算（過去3年）"},{k:"◆",v:"36協定・就業規則整備"},{k:"◆",v:"管理監督者範囲の見直し"},{k:"◆",v:"退職金制度・変形労働制変更"},{k:"◇",v:"ハラスメント対策"}],
+src:"チェックシート V-K P.21-22",
+tip:"N-2期中に就業規則見直し・労基罵届出、管理監督者範囲の見直し、退職金制度配置を完了。"},
+
+// 労務DD (NEW)
+{id:"labor_dd",cat:"ic",x:cx("n2",-170),y:880,tl:"n2",title:"労務DD・是正措置",icon:"🔎",
+attrs:[{k:"◆",v:"労務DD 調査完了・課題一覧化"},{k:"◆",v:"勤怠端数処理見直し"},{k:"◆",v:"割増賃金適正計算・支払い"},{k:"◆",v:"入社時健診・衛生推進者"},{k:"◆",v:"代休・振休取得管理"},{k:"◆",v:"見合残業手当の明示"},{k:"◆",v:"雇用条件変更通知"},{k:"◇",v:"労災管理体制構築"}],
+src:"Asana IPO推進セクション",
+tip:"労務DDの調査完了は2027/5末、是正措置完了は2027/11末目標。15項目以上の個別対応が必要。N-2期中に是正完了が必須。"},
+
+// VI ディスクロージャー
+{id:"disc",cat:"ds",x:cx("n2",-10),y:1020,tl:"n2",title:"VI. ディスクロージャー",icon:"📊",
+attrs:[{k:"★",v:"7区分の開示体制"},{k:"◆",v:"A.原価計算制度"},{k:"◆",v:"B.会計組織"},{k:"◆",v:"C.連結決算体制"},{k:"◆",v:"D.会計処理基準"},{k:"◆",v:"E.財務諸表等"},{k:"◇",v:"F.J-SOX対応 / G.その他"}],
+src:"チェックシート VI章",
+tip:"原価計算制度整備・連結決算体制確立・会計処理基準の明文化。全4大重点課題が集約される。N-2期中の整備完了が目標。"},
+
+// VI-A 原価計算
+{id:"vi_cost",cat:"ds",x:cx("n2",80),y:1020,tl:"n2",title:"VI-A. 原価計算制度",icon:"🧮",
+attrs:[{k:"◆",v:"PJコード統制による原価集計"},{k:"◆",v:"直接費（人件費+外注+経費）"},{k:"◆",v:"間接費の配賦基準策定"},{k:"◇",v:"結果→ 資産/売上原価/研開費"}],
+src:"チェックシート VI-A, ショートレビュー P.14",
+tip:"PJコード軸の原価計算制度確立。配賦基準筚定が急務。N-2期内に本稼働"},
+
+// VI-D 会計処理基準
+{id:"vi_acct",cat:"ds",x:cx("n2",-170),y:1020,tl:"n2",title:"VI-D. 会計処理基準",icon:"📐",
+attrs:[{k:"★",v:"収益認識PP筚定 [急務]"},{k:"◆",v:"ソフト資産性判定基準"},{k:"◆",v:"会計上の見積り方針"},{k:"◇",v:"減損会計・税効果会計"}],
+src:"チェックシート VI-D",
+tip:"収益認識PP策定は2026/8末、適用は2027/2末目標。N-3〜N-2期にまたがる。"},
+
+// 規程整備 (NEW)
+{id:"regs",cat:"ic",x:cx("n2",80),y:880,tl:"n2",title:"V-E. 規程・業務フロー整備",icon:"📕",
+attrs:[{k:"◆",v:"規程・マニュアル14項目以上"},{k:"◆",v:"システムアクセス・セキュリティ規約"},{k:"◆",v:"業務フローの整備・運用"},{k:"◇",v:"期限: 2026/11末"}],
+src:"Asana IPO推進セクション",
+tip:"規程・マニュアル整備と4主要業務フローの文書化。N-2期前半に完了。"},
+
+// III. 資本政策
+{id:"cap",cat:"gv",x:cx("n2",-10),y:460,tl:"n2",title:"III. 資本政策",icon:"💰",
+attrs:[{k:"◆",v:"a.資本政策案・資金使途"},{k:"◆",v:"a-5.形式基準(株主数・流通)"},{k:"◆",v:"b.第三者割当・SO発行"},{k:"◇",v:"c.株式移動状況"}],
+src:"チェックシート III章 P.1-3",
+tip:"資本政策の検討はN-2期から開始し、N期の上場申請まで継続。形式基準（株主数・流通比率）の充足計画。"},
+
+// 売上原価プロセス (NEW)
+{id:"cogs",cat:"op",x:cx("n2",-170),y:600,tl:"n2",title:"売上原価・支払計上プロセス",icon:"💵",
+attrs:[{k:"◆",v:"003: プロセス設計（2026/8〜）"},{k:"◆",v:"003: システム実装（2026/9末）"},{k:"◆",v:"003: API/JS連動（2026/10）"},{k:"◇",v:"新プロセス運用開始（2026/10〜）"}],
+src:"Asana 003系タスク",
+tip:"売上原価の支払・計上プロセス。N-2期前半に設計・実装し、後半から新プロセス運用開始。"},
+
+// 4大重点課題
+{id:"k1",cat:"ki",x:cx("n2",-170),y:1160,tl:"n2",title:"課題① 組合・関連法人整理",icon:"🏗️",
+attrs:[{k:"★",v:"Priority: Critical"},{k:"◆",v:"リブート事業協同組合の存続判定"},{k:"◆",v:"支配力基準の子会社該当性判定"},{k:"◆",v:"RPT解消計画（N-2期首まで）"},{k:"◇",v:"関連当事者取引の解消"}],
+src:"ショートレビュー P.8",
+tip:"N-2期首までにRPT解消計画筚定、N-2期中に整理実行。チェックシートII-C, V-Gに対応。"},
+
+{id:"k2",cat:"ki",x:cx("n2",-10),y:1160,tl:"n2",title:"課題② 売上根拠網羅化",icon:"📑",
+attrs:[{k:"★",v:"Priority: High"},{k:"◆",v:"3点セット（契約書/検収書/請求書）"},{k:"◆",v:"契約変更管理の徹底"},{k:"◆",v:"SFA↔販売管理↔Bill One連携"},{k:"◇",v:"SOP筚定・全社展開"}],
+src:"ショートレビュー P.9",
+tip:"N-2期中（2027/2末）に売上根拠の網羅化完了が目標。3点セットの管理体制確立。"},
+
+{id:"k3",cat:"rv",x:cx("n2",80),y:1160,tl:"n2",title:"課題③ 収益認識基準適用",icon:"📈",
+attrs:[{k:"★",v:"Priority: High"},{k:"◆",v:"5ステップ: 契約→履行義務→価格→配分→充足"},{k:"◆",v:"DX売上の進捗度認識"},{k:"◆",v:"代理店グロス/ネット判定"},{k:"◇",v:"PP策定→監査法人合意"}],
+src:"ショートレビュー P.10, 企業会計基準第29号",
+tip:"N-2期中に収益認識PP筚定・影響額箚定・適用完了。会計方針筚定は2026/8末目標。"},
+
+{id:"k4",cat:"sw",x:cx("n2",-10),y:1300,tl:"n2",title:"課題④ ソフト資産・開発プロセス",icon:"💻",
+attrs:[{k:"★",v:"Priority: High"},{k:"◆",v:"3区分判定: 研開費/無形固定資産/修繕費"},{k:"◆",v:"判断フロー確立"},{k:"◆",v:"PJコード統制・工数管理"},{k:"◆",v:"必須成果物: 資産化判断書等"}],
+src:"ショートレビュー P.11-14",
+tip:"ソフトウェア管理体制の構築はN-2期（2027/2末）目標。ASBJ実務指針準拠。"},
+
+// 反社会的勢力排除 (NEW)
+{id:"antisoc",cat:"cp",x:cx("n2",80),y:1300,tl:"n2",title:"V-J. 反社会的勢力排除",icon:"🚫",
+attrs:[{k:"◆",v:"対応部署設置・担当者選任"},{k:"◆",v:"属性調査範囲・方法の決定"},{k:"◆",v:"暴追センター加入"},{k:"◆",v:"取引先への暴排条項導入"},{k:"◆",v:"反社チェック实施"},{k:"◇",v:"主幹事チェック・該当先対応"}],
+src:"Asana IPO推進セクション",
+tip:"反社排除体制の構築。部署設置・暴追センター加入（2027/3）、暴排条項導入（2027/5）、反社チェック・主幹事チェック（2027/8）。N-2期中に完了。"},
+
+// リスク管理体制 (NEW)
+{id:"riskm",cat:"cp",x:cx("n2",-170),y:1300,tl:"n2",title:"リスク管理体制・コンプラ構築",icon:"🔒",
+attrs:[{k:"◆",v:"コンプライアンス規程筚定"},{k:"◆",v:"リスク洗い出し・対応策筚定"},{k:"◆",v:"遵守状況確認体制"},{k:"◆",v:"遵守体制の整備と運用"},{k:"◇",v:"リスク・コンプラ委員会設置"}],
+src:"Asana IPO推進セクション",
+tip:"コンプライアンス規程（2027/8末）、リスク管理体制（2027/11末）。N-2期中に体制構築完了。"},
+
+// 業務サイクル (NEW)
+{id:"cycles",cat:"op",x:cx("n2",-10),y:1440,tl:"n2",title:"業務サイクル（フロー・帳票）",icon:"🔄",
+attrs:[{k:"◆",v:"販売サイクル 業務フロー確定"},{k:"◆",v:"購買(仕入) 業務フロー確定"},{k:"◆",v:"購買(一般経費) 業務フロー確定"},{k:"◆",v:"給与人件費サイクル確定"},{k:"◆",v:"在庫棚卸サイクル確定"},{k:"◇",v:"全サイクル期限: 2027/8末"}],
+src:"Asana IPO推進セクション",
+tip:"J-SOXの3点セット（業務フロー・業務記述書・RCM）の基礎となる全業務サイクルの文書化。N-2期中に完了必須。"},
+
+// 交際費管理 (NEW)
+{id:"entertain",cat:"ic",x:cx("n2",80),y:1440,tl:"n2",title:"交際費の管理",icon:"🍽️",
+attrs:[{k:"◆",v:"交際費管理規程の整備"},{k:"◆",v:"支出承認フローの確立"},{k:"◇",v:"期限: 2027/11末"}],
+src:"Asana IPO推進セクション",
+tip:"交際費の適正管理。社内規程に基づく承認フロー・実績管理体制の構築。N-2期中。"},
+
+// ========== N-1期 エンティティ ==========
+// Phase 3
+{id:"p3",cat:"ph",x:cx("n1",-75),y:115,tl:"n1",title:"Phase 3: 有効性評価・監査対応",icon:"✅",
+attrs:[{k:"★",v:"2026/11〜2028年（N-1期）"},{k:"◆",v:"内部監査・J-SOX評価"},{k:"◆",v:"証憑サンプル監査（事前）"},{k:"◆",v:"IT統制（ITGC）評価"},{k:"◇",v:"MS: 監査契約→内部統制確認完了"}],
+src:"結果まとめ P.5",
+tip:"N-1期はチェックシートV-B（内部監査）、VI-F（J-SOX対応）の全項目充足を目指す。"},
+
+// V-B 内部監査
+{id:"vb_audit",cat:"ic",x:cx("n1",-170),y:280,tl:"n1",title:"V-B. 内部監査・J-SOX",icon:"🔍",
+attrs:[{k:"◆",v:"B-a-1: 社長直轄の独立部署"},{k:"◆",v:"J-SOX 文書化(3点セット)完了"},{k:"◆",v:"J-SOX 運用テスト開始"},{k:"◆",v:"年間計画・報告書の証跡"},{k:"◇",v:"三様監査（監査役・監査法人）"}],
+src:"チェックシート V-B, Asana",
+tip:"J-SOX文書化はN-2期末(2027/8末)、運用テスト開始はN-1期首(2028/3)、評価完了はN-1期中(2028/8末)。"},
+
+// 機関設計（選任） (NEW)
+{id:"appoint",cat:"gv",x:cx("n1",-170),y:460,tl:"n1",title:"役員・監査役の選任",icon:"👔",
+attrs:[{k:"◆",v:"業務執行役員（常勤取締役）選任"},{k:"◆",v:"監査役1人目（常勤）選任"},{k:"◆",v:"監査役2人目（非常勤）選任"},{k:"◆",v:"監査役協議会の開始"},{k:"◇",v:"期限: 2028/2末"}],
+src:"Asana IPO推進セクション",
+tip:"N-1期中に業務執行役員と監査役2名を選任し、監査役協議会を開始。ガバナンス体制の実質化。"},
+
+// 基本契約反社条項 (NEW)
+{id:"antisoc2",cat:"cp",x:cx("n1",-170),y:600,tl:"n1",title:"反社条項・契約整備",icon:"📋",
+attrs:[{k:"◆",v:"基本契約への反社条項追加"},{k:"◆",v:"既存取引先への条項遡及"},{k:"◇",v:"期限: 2028/2末"}],
+src:"Asana IPO推進セクション",
+tip:"既存の全基本契約に反社排除条項を追加。N-1期中に完了。"},
+
+// 印刷会社選定 (NEW)
+{id:"printer",cat:"ds",x:cx("n1",-10),y:600,tl:"n1",title:"印刷会社選定・開示準備",icon:"🖨️",
+attrs:[{k:"◆",v:"申請書類印刷会社の選定"},{k:"◆",v:"I/IIの部の印刷体制"},{k:"◇",v:"期限: 2027/5末"}],
+src:"Asana IPO推進セクション",
+tip:"上場申請書類（Iの部・IIの部）の印刷を担当する印刷会社の選定。N-1期前半に決定。"},
+
+// J-SOX評価
+{id:"jsox",cat:"ic",x:cx("n1",-10),y:280,tl:"n1",title:"J-SOX 運用テスト・評価",icon:"📝",
+attrs:[{k:"◆",v:"運用テスト開始: 2028/3"},{k:"◆",v:"評価完了: 2028/8末"},{k:"◆",v:"業務監査の実施"},{k:"◆",v:"内部監査の実施"},{k:"◇",v:"ITGC評価含む"}],
+src:"Asana IPO推進セクション",
+tip:"N-1期にJ-SOXの運用テスト→評価を完了。業務監査・内部監査も本格実施。"},
+
+// 労務DD是正完了
+{id:"labor_fix",cat:"ic",x:cx("n1",-10),y:460,tl:"n1",title:"労務DD 是正完了・人事計画",icon:"✔️",
+attrs:[{k:"◆",v:"労務DD是正措置完了: 2027/11末"},{k:"◆",v:"人事（採用）計画立案"},{k:"◆",v:"ダイバーシティ対応"},{k:"◇",v:"交際費管理の定着確認"}],
+src:"Asana IPO推進セクション",
+tip:"労務DDの全是正措置をN-1期前半に完了。人事採用計画・ダイバーシティも整備。"},
+
+// リスク
+{id:"risk",cat:"rk",x:cx("n1",80),y:280,tl:"n1",title:"想定される主要リスク",icon:"⚠️",
+attrs:[{k:"●",v:"監査意見不表明（売上証拠不足）"},{k:"●",v:"連結範囲判断遅延"},{k:"●",v:"ソフト資産否認→多額損失"},{k:"●",v:"RPT未解消→独立性抵触"},{k:"●",v:"労務DD是正未完了"}],
+src:"結果まとめ P.3",
+tip:"4大重点課題が未解決の場合のリスク。ソフト仮勘定否認は約10億円損失。N-1期開始時点で全課題解消が必須。"},
+
+// リスク・コンプラ委員会運営
+{id:"rcc",cat:"cp",x:cx("n1",80),y:460,tl:"n1",title:"リスク・コンプラ委員会運営",icon:"⚡",
+attrs:[{k:"◆",v:"委員会の定期開催"},{k:"◆",v:"遵守体制の運用監視"},{k:"◇",v:"〜2029/2末（継続運営）"}],
+src:"Asana IPO推進セクション",
+tip:"N-1期からリスク・コンプライアンス委員会を定期開催し、運用実績を積む。"},
+
+// ========== N期 エンティティ ==========
+// 監査役3人目・監査等委員会 (NEW)
+{id:"audit3",cat:"gv",x:cx("n",-170),y:280,tl:"n",title:"監査役会設置・最終機関完成",icon:"🏛️",
+attrs:[{k:"◆",v:"監査役3人目（社外/独立/CPA）選任"},{k:"◆",v:"監査役会設置会社に移行"},{k:"◆",v:"監査等委員会設置（する場合）"},{k:"◇",v:"選任期限: 2028/6〜2029/2"}],
+src:"Asana IPO推進セクション",
+tip:"N期に監査役3人目を選任して監査役会設置会社に移行。CGコード完全対応。"},
+
+// 資本政策最終
+{id:"cap_final",cat:"gv",x:cx("n",-170),y:460,tl:"n",title:"資本政策の最終確定",icon:"💎",
+attrs:[{k:"◆",v:"株主構成の最終調整"},{k:"◆",v:"公募・売出計画の策定"},{k:"◆",v:"形式基準の最終充足確認"},{k:"◇",v:"〜2029/2末"}],
+src:"Asana IPO推進セクション",
+tip:"N期に資本政策を最終確定。株主数・流通比率等の形式基準充足を確認し上場申請。"},
+
+// 上場申請
+{id:"ipo",cat:"ph",x:cx("n",-10),y:280,tl:"n",title:"上場申請",icon:"🎯",
+attrs:[{k:"★",v:"N期（2030年2月期）"},{k:"◆",v:"Iの部・IIの部 提出"},{k:"◆",v:"東証グロース市場申請"},{k:"◆",v:"監査法人意見書取得"},{k:"◇",v:"上場承認→上場日"}],
+src:"IPO推進全体計画",
+tip:"全準備の集大成。N期に上場申請書類を提出し、東証の審査を経て上場。"},
+
+// J-SOX完了・監査完了
+{id:"audit_done",cat:"ic",x:cx("n",-10),y:460,tl:"n",title:"J-SOX・監査対応完了",icon:"🏆",
+attrs:[{k:"◆",v:"J-SOX対応及び運用完了"},{k:"◆",v:"業務監査・内部監査完了"},{k:"◆",v:"監査法人の無限定適正意見"},{k:"◇",v:"〜2029/2末"}],
+src:"Asana IPO推進セクション",
+tip:"N期末までにJ-SOX・内部監査・業務監査の全プロセスを完了し、監査法人から無限定適正意見を取得。"},
+];
+
+// === RELATIONSHIPS ===
+const R=[
+// チェックシート → カテゴリ
+{f:"cs",t:"bm",l:"I.ビジネス",y:"s"},
+{f:"cs",t:"gov",l:"II.ガバナンス",y:"s"},
+{f:"cs",t:"cap",l:"III.資本政策",y:"s"},
+{f:"cs",t:"comp",l:"IV.コンプラ",y:"s"},
+{f:"cs",t:"ics",l:"V.内部統制",y:"m"},
+{f:"cs",t:"disc",l:"VI.ディスクロージャー",y:"m"},
+
+// Phase連鎖
+{f:"p1",t:"p2",l:"→運用移行",y:"p"},
+{f:"p2",t:"p3",l:"→有効性評価",y:"p"},
+{f:"p3",t:"ipo",l:"→上場申請",y:"p"},
+
+// 内部統制 → サブ
+{f:"ics",t:"vi_it",l:"V-I.IT統制",y:"s"},
+{f:"ics",t:"vb_audit",l:"V-B.内部監査",y:"s"},
+{f:"ics",t:"vd_sales",l:"V-D.販売",y:"s"},
+{f:"ics",t:"vf_asset",l:"V-F.固定資産",y:"s"},
+{f:"ics",t:"vh_budget",l:"V-H.予算",y:"s"},
+{f:"ics",t:"vk_labor",l:"V-K.労務",y:"s"},
+{f:"ics",t:"regs",l:"V-E.規程",y:"s"},
+{f:"ics",t:"antisoc",l:"V-J.反社",y:"s"},
+{f:"ics",t:"whistle",l:"V-L.内部通報",y:"s"},
+{f:"ics",t:"entertain",l:"交際費管理",y:"s"},
+
+// ディスクロージャー → サブ
+{f:"disc",t:"vi_cost",l:"VI-A.原価計算",y:"s"},
+{f:"disc",t:"vi_acct",l:"VI-D.会計基準",y:"s"},
+{f:"disc",t:"printer",l:"開示印刷",y:"s"},
+
+// 重点課題 ← チェックシート対応
+{f:"gov",t:"k1",l:"II-C関係会社→課題①",y:"m"},
+{f:"vd_sales",t:"k2",l:"V-D販売→課題②",y:"m"},
+{f:"vi_acct",t:"k3",l:"VI-D会計基準→課題③",y:"m"},
+{f:"vf_asset",t:"k4",l:"V-F無形固定→課題④",y:"m"},
+{f:"vi_cost",t:"k4",l:"VI-A原価→課題④",y:"d"},
+{f:"bm",t:"k2",l:"I-h販売→課題②",y:"d"},
+{f:"product",t:"bm",l:"商品→ビジネスモデル",y:"d"},
+
+// 課題間
+{f:"k2",t:"k3",l:"証憑で裯付け",y:"d"},
+{f:"k3",t:"vi_acct",l:"PP策定→合意",y:"d"},
+{f:"k4",t:"vi_cost",l:"PJコード→原価",y:"d"},
+
+// リスク
+{f:"k1",t:"risk",l:"連結範囲遅延",y:"r"},
+{f:"k2",t:"risk",l:"監査意見不表明",y:"r"},
+{f:"k4",t:"risk",l:"資産否認・遡及",y:"r"},
+{f:"labor_dd",t:"risk",l:"労務DD未完了",y:"r"},
+{f:"disc",t:"risk",l:"開示不備",y:"r"},
+
+// Phase → 具体施策
+{f:"p1",t:"vi_acct",l:"PP/SOP筚定",y:"d"},
+{f:"p1",t:"comp",l:"法令把握開始",y:"d"},
+{f:"p1",t:"purchase",l:"プロセス設計",y:"d"},
+{f:"p2",t:"k1",l:"組合整理実行",y:"d"},
+{f:"p2",t:"cycles",l:"業務サイクル確定",y:"d"},
+{f:"p2",t:"cogs",l:"売上原価稼働",y:"d"},
+{f:"p3",t:"vb_audit",l:"内部監査",y:"d"},
+{f:"p3",t:"jsox",l:"J-SOX評価",y:"d"},
+{f:"p3",t:"vi_it",l:"ITGC評価",y:"d"},
+
+// NEW: 新規エンティティの関係
+{f:"comp",t:"law",l:"法令管理表",y:"d"},
+{f:"comp",t:"riskm",l:"コンプラ体制",y:"d"},
+{f:"comp",t:"antisoc",l:"反社排除体制",y:"d"},
+{f:"vk_labor",t:"labor_dd",l:"DD→是正",y:"m"},
+{f:"labor_dd",t:"labor_fix",l:"是正完了",y:"d"},
+{f:"gov",t:"organ",l:"機関設計方針",y:"d"},
+{f:"organ",t:"appoint",l:"選任実行",y:"d"},
+{f:"appoint",t:"audit3",l:"監査役会完成",y:"d"},
+{f:"cap",t:"cap_final",l:"資本政策最終",y:"d"},
+{f:"syslink",t:"vi_it",l:"IT基盤→統制",y:"d"},
+{f:"purchase",t:"cycles",l:"購買→全サイクル",y:"d"},
+{f:"cogs",t:"vi_cost",l:"原価計算",y:"d"},
+{f:"cycles",t:"jsox",l:"フロー→J-SOX",y:"m"},
+{f:"antisoc",t:"antisoc2",l:"契約反社条項",y:"d"},
+{f:"riskm",t:"rcc",l:"委員会運営",y:"d"},
+{f:"jsox",t:"audit_done",l:"評価完了",y:"d"},
+{f:"vb_audit",t:"audit_done",l:"監査完了",y:"d"},
+{f:"audit_done",t:"ipo",l:"無限定適正意見",y:"m"},
+{f:"cap_final",t:"ipo",l:"形式基準充足",y:"m"},
+{f:"audit3",t:"ipo",l:"機関完成",y:"m"},
+{f:"whistle",t:"riskm",l:"通報→コンプラ",y:"d"},
+{f:"regs",t:"cycles",l:"規程→業務フロー",y:"d"},
+];
+
+const LC={m:"#3B82F6",s:"#0891B2",d:"#D97706",r:"#EF4444",p:"#818CF8"};
+const LD={m:"",s:"6,3",d:"8,4",r:"4,3",p:"10,5"};
+const svg=document.getElementById("lines"),tt=document.getElementById("tip");
+const eMap={};const lEls=[];
+
+E.forEach(e=>{
+const d=document.createElement("div");d.className=`entity c-${e.cat}`;d.style.left=e.x+"px";d.style.top=e.y+"px";
+// Timeline badge
+const badge=e.tl?`<div class="tl-badge tl-${e.tl}">${TL[e.tl].label}</div>`:"";
+let ah=e.attrs.map(a=>`<div class="at"><span class="ak ${a.k==='★'||a.k==='●'?'pk':''}">${a.k}</span>${a.v}</div>`).join("");
+let sh=e.src?`<div class="src">出典: ${e.src}</div>`:"";
+d.innerHTML=`${badge}<div class="e-h"><span class="ic">${e.icon}</span>${e.title}</div><div class="e-b">${ah}${sh}</div>`;
+let dr=false,sx,sy,ox,oy;
+d.onmousedown=ev=>{dr=true;sx=ev.clientX;sy=ev.clientY;ox=parseInt(d.style.left);oy=parseInt(d.style.top);d.style.zIndex=60;ev.preventDefault()};
+document.addEventListener("mousemove",ev=>{if(!dr)return;d.style.left=(ox+ev.clientX-sx)+"px";d.style.top=(oy+ev.clientY-sy)+"px";draw()});
+document.addEventListener("mouseup",()=>{if(dr){dr=false;d.style.zIndex=10}});
+d.onmouseenter=()=>{tt.innerHTML=`<h4>${e.icon} ${e.title}</h4>${e.tip}<div class="ts">出典: ${e.src||""}</div>`;tt.classList.add("vis")};
+d.onmouseleave=()=>tt.classList.remove("vis");
+d.onmousemove=ev=>{let tx=ev.clientX+12,ty=ev.clientY+8;if(tx+260>window.innerWidth)tx=ev.clientX-270;if(ty+100>window.innerHeight)ty=ev.clientY-110;tt.style.left=tx+"px";tt.style.top=ty+"px"};
+ctr.appendChild(d);eMap[e.id]=d;
+});
+
+function gc(el){const r=el.getBoundingClientRect(),c=ctr.getBoundingClientRect();return{x:r.left-c.left+r.width/2,y:r.top-c.top+r.height/2}}
+function draw(){
+let s=`<defs>`;Object.keys(LC).forEach(t=>{s+=`<marker id="a-${t}" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto"><polygon points="0 0,7 2.5,0 5" fill="${LC[t]}" opacity=".6"/></marker>`});s+=`</defs>`;
+lEls.forEach(l=>l.remove());lEls.length=0;
+R.forEach(r=>{const fe=eMap[r.f],te=eMap[r.t];if(!fe||!te)return;const f=gc(fe),t=gc(te);
+s+=`<line x1="${f.x}" y1="${f.y}" x2="${t.x}" y2="${t.y}" stroke="${LC[r.y]||'#64748B'}" stroke-width="1.1" stroke-opacity=".35" stroke-dasharray="${LD[r.y]||''}" marker-end="url(#a-${r.y})"/>`;
+if(r.l){const lb=document.createElement("div");lb.className="rl";lb.textContent=r.l;lb.style.left=((f.x+t.x)/2-16)+"px";lb.style.top=((f.y+t.y)/2-6)+"px";ctr.appendChild(lb);lEls.push(lb)}
+});svg.innerHTML=s}
+draw();window.addEventListener("resize",draw);
+</script>
+</body>
+</html>
