@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会計システムフロー概要図</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI','Hiragino Sans','Meiryo',sans-serif;background:#f7f8fc;color:#1a202c;padding:32px 24px}
+h1{text-align:center;font-size:1.35rem;color:#1e293b;margin-bottom:32px;letter-spacing:.5px}
+
+.diagram-area{position:relative;margin:0 auto;max-width:1100px}
+
+/* ===== SVG canvas ===== */
+.flow-svg{width:100%;overflow:visible}
+.flow-svg text{font-family:'Segoe UI','Hiragino Sans','Meiryo',sans-serif}
+
+/* ===== Section labels ===== */
+.section-bg{rx:10;ry:10}
+
+/* ===== Tooltip ===== */
+.tip{position:absolute;background:#1e293b;color:#fff;font-size:.72rem;padding:6px 10px;border-radius:6px;pointer-events:none;opacity:0;transition:opacity .15s;z-index:10;max-width:220px;line-height:1.45}
+</style>
+</head>
+<body>
+
+<h1>会計システムフロー概要図</h1>
+
+<!-- ========== SYSTEM ENVIRONMENT ========== -->
+<div class="diagram-area" style="margin-bottom:36px;">
+<svg class="flow-svg" viewBox="0 0 1060 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="a" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6Z" fill="#64748b"/></marker>
+    <filter id="shadow"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity=".08"/></filter>
+  </defs>
+
+  <text x="530" y="22" text-anchor="middle" font-size="13" font-weight="700" fill="#475569">システム環境</text>
+
+  <!-- MF会計1 -->
+  <rect x="20" y="40" width="230" height="150" rx="10" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="20" y="40" width="230" height="30" rx="10" fill="#3b82f6"/>
+  <rect x="20" y="60" width="230" height="10" fill="#3b82f6"/>
+  <text x="135" y="60" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">MF会計 1</text>
+  <text x="135" y="92" text-anchor="middle" font-size="10" fill="#1e40af">入金データ取込</text>
+  <text x="135" y="108" text-anchor="middle" font-size="10" fill="#1e40af">データ処理用</text>
+  <rect x="60" y="124" width="120" height="22" rx="4" fill="#fbbf24" opacity=".25" stroke="#f59e0b" stroke-width="1"/>
+  <text x="120" y="139" text-anchor="middle" font-size="9" font-weight="600" fill="#92400e">AI対応</text>
+  <text x="135" y="170" text-anchor="middle" font-size="9" fill="#64748b">自動仕訳・振分処理</text>
+
+  <!-- MF会計2 -->
+  <rect x="290" y="40" width="230" height="150" rx="10" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="290" y="40" width="230" height="30" rx="10" fill="#22c55e"/>
+  <rect x="290" y="60" width="230" height="10" fill="#22c55e"/>
+  <text x="405" y="60" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">MF会計 2</text>
+  <text x="405" y="92" text-anchor="middle" font-size="10" fill="#166534">管理会計項目に分類</text>
+  <text x="405" y="108" text-anchor="middle" font-size="10" fill="#166534">補助科目で管理会計実施</text>
+  <text x="405" y="135" text-anchor="middle" font-size="9" fill="#64748b">MF会計1のデータを</text>
+  <text x="405" y="150" text-anchor="middle" font-size="9" fill="#64748b">管理会計用に再分類</text>
+
+  <!-- MF会計プラス -->
+  <rect x="560" y="40" width="230" height="150" rx="10" fill="#faf5ff" stroke="#c4b5fd" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="560" y="40" width="230" height="30" rx="10" fill="#8b5cf6"/>
+  <rect x="560" y="60" width="230" height="10" fill="#8b5cf6"/>
+  <text x="675" y="60" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">MF会計プラス</text>
+  <text x="675" y="92" text-anchor="middle" font-size="10" fill="#5b21b6">決算用</text>
+  <text x="675" y="112" text-anchor="middle" font-size="9.5" fill="#6d28d9">補助科目なし</text>
+  <text x="675" y="128" text-anchor="middle" font-size="9.5" fill="#6d28d9">基本勘定科目のみ</text>
+
+  <!-- サブシステム -->
+  <rect x="830" y="40" width="210" height="150" rx="10" fill="#fefce8" stroke="#fde68a" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="830" y="40" width="210" height="30" rx="10" fill="#eab308"/>
+  <rect x="830" y="60" width="210" height="10" fill="#eab308"/>
+  <text x="935" y="60" text-anchor="middle" font-size="11.5" font-weight="700" fill="#fff">サブシステム</text>
+  <text x="935" y="90" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">給与計算システム</text>
+  <text x="935" y="106" text-anchor="middle" font-size="9" fill="#78716c">給与計算及び仕訳</text>
+  <line x1="850" y1="118" x2="1020" y2="118" stroke="#d4d4d8" stroke-width=".8" stroke-dasharray="3"/>
+  <text x="935" y="138" text-anchor="middle" font-size="10" font-weight="600" fill="#854d0e">債務システム</text>
+  <text x="935" y="154" text-anchor="middle" font-size="9" fill="#78716c">支払仕訳</text>
+</svg>
+</div>
+
+<!-- ========== REPAIR FLOW ========== -->
+<div class="diagram-area" style="margin-bottom:36px;">
+<svg class="flow-svg" viewBox="0 0 1060 340" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="ar" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7Z" fill="#475569"/></marker>
+    <marker id="ar-b" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7Z" fill="#3b82f6"/></marker>
+    <marker id="ar-g" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7Z" fill="#22c55e"/></marker>
+    <marker id="ar-y" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7Z" fill="#eab308"/></marker>
+    <marker id="ar-p" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7Z" fill="#8b5cf6"/></marker>
+    <marker id="ar-r" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7Z" fill="#ef4444"/></marker>
+    <filter id="s2"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity=".08"/></filter>
+  </defs>
+
+  <!-- Section background -->
+  <rect x="0" y="0" width="1060" height="340" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="1" filter="url(#s2)"/>
+  <text x="30" y="28" font-size="13" font-weight="700" fill="#1e293b">修理費のフロー</text>
+  <line x1="30" y1="36" x2="200" y2="36" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- === NODES === -->
+  <!-- 顧客 -->
+  <rect x="30" y="70" width="120" height="54" rx="27" fill="#fee2e2" stroke="#fca5a5" stroke-width="1.5"/>
+  <text x="90" y="94" text-anchor="middle" font-size="11" font-weight="700" fill="#991b1b">顧客</text>
+  <text x="90" y="110" text-anchor="middle" font-size="8.5" fill="#b91c1c">入金</text>
+
+  <!-- AI処理 -->
+  <polygon points="240,72 310,97 240,122 170,97" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="240" y="95" text-anchor="middle" font-size="10" font-weight="700" fill="#92400e">AI処理</text>
+  <text x="240" y="107" text-anchor="middle" font-size="8" fill="#a16207">自動振分</text>
+
+  <!-- MF会計1 -->
+  <rect x="350" y="72" width="140" height="50" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="420" y="94" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">MF会計 1</text>
+  <text x="420" y="109" text-anchor="middle" font-size="8.5" fill="#3b82f6">入金データ取込</text>
+
+  <!-- MF会計2 -->
+  <rect x="350" y="190" width="140" height="50" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="420" y="212" text-anchor="middle" font-size="10.5" font-weight="700" fill="#166534">MF会計 2</text>
+  <text x="420" y="227" text-anchor="middle" font-size="8.5" fill="#22c55e">管理会計仕訳</text>
+
+  <!-- 債務システム -->
+  <rect x="620" y="190" width="140" height="50" rx="8" fill="#fefce8" stroke="#fde68a" stroke-width="1.5"/>
+  <text x="690" y="210" text-anchor="middle" font-size="10" font-weight="700" fill="#854d0e">サブシステム</text>
+  <text x="690" y="226" text-anchor="middle" font-size="8.5" fill="#a16207">債務システム</text>
+
+  <!-- MF会計プラス -->
+  <rect x="870" y="190" width="150" height="50" rx="8" fill="#faf5ff" stroke="#c4b5fd" stroke-width="1.5"/>
+  <text x="945" y="212" text-anchor="middle" font-size="10.5" font-weight="700" fill="#5b21b6">MF会計プラス</text>
+  <text x="945" y="227" text-anchor="middle" font-size="8.5" fill="#7c3aed">決算用登録</text>
+
+  <!-- 工場 -->
+  <rect x="870" y="278" width="150" height="46" rx="23" fill="#fce7f3" stroke="#f9a8d4" stroke-width="1.5"/>
+  <text x="945" y="298" text-anchor="middle" font-size="10.5" font-weight="700" fill="#9d174d">工場</text>
+  <text x="945" y="313" text-anchor="middle" font-size="8.5" fill="#be185d">支払出金</text>
+
+  <!-- === ARROWS === -->
+  <!-- 顧客 → AI -->
+  <line x1="150" y1="97" x2="168" y2="97" stroke="#475569" stroke-width="1.8" marker-end="url(#ar)"/>
+  <text x="159" y="90" text-anchor="middle" font-size="7.5" fill="#64748b">入金</text>
+
+  <!-- AI → MF1 -->
+  <line x1="310" y1="97" x2="348" y2="97" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#ar-b)"/>
+
+  <!-- MF1 → MF2 (down-left) -->
+  <path d="M420,122 L420,178" stroke="#22c55e" stroke-width="1.8" fill="none" marker-end="url(#ar-g)"/>
+  <text x="432" y="155" font-size="7.5" fill="#16a34a" font-weight="600">連携</text>
+
+  <!-- MF1 → 債務 (down-right) -->
+  <path d="M490,110 L555,110 L555,205 L618,205" stroke="#eab308" stroke-width="1.8" fill="none" marker-end="url(#ar-y)"/>
+  <text x="555" y="155" font-size="7.5" fill="#ca8a04" font-weight="600" text-anchor="middle">連携</text>
+
+  <!-- 債務 → MF会計プラス -->
+  <line x1="760" y1="215" x2="868" y2="215" stroke="#8b5cf6" stroke-width="1.8" marker-end="url(#ar-p)"/>
+  <text x="814" y="208" text-anchor="middle" font-size="7.5" fill="#7c3aed" font-weight="600">登録</text>
+
+  <!-- 債務 → 工場 -->
+  <path d="M760,228 L815,228 L815,301 L868,301" stroke="#ef4444" stroke-width="1.8" fill="none" marker-end="url(#ar-r)"/>
+  <text x="815" y="268" font-size="7.5" fill="#dc2626" font-weight="600" text-anchor="middle">支払出金</text>
+
+  <!-- Dashed grouping: AI zone -->
+  <rect x="155" y="60" width="345" height="78" rx="6" fill="none" stroke="#f59e0b" stroke-width="1" stroke-dasharray="5,3" opacity=".4"/>
+  <text x="328" y="56" text-anchor="middle" font-size="7" fill="#d97706" font-weight="600">AI自動処理ゾーン</text>
+</svg>
+</div>
+
+<!-- ========== SALARY FLOW ========== -->
+<div class="diagram-area" style="margin-bottom:24px;">
+<svg class="flow-svg" viewBox="0 0 1060 280" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="as" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7Z" fill="#475569"/></marker>
+    <marker id="as-b" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7Z" fill="#3b82f6"/></marker>
+    <marker id="as-g" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7Z" fill="#22c55e"/></marker>
+    <marker id="as-y" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7Z" fill="#eab308"/></marker>
+    <marker id="as-p" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto"><path d="M0,0 L9,3.5 L0,7Z" fill="#8b5cf6"/></marker>
+    <filter id="s3"><feDropShadow dx="0" dy="1" stdDeviation="2" flood-opacity=".08"/></filter>
+  </defs>
+
+  <!-- Section background -->
+  <rect x="0" y="0" width="1060" height="280" rx="12" fill="#fff" stroke="#e2e8f0" stroke-width="1" filter="url(#s3)"/>
+  <text x="30" y="28" font-size="13" font-weight="700" fill="#1e293b">給与支払いフロー</text>
+  <line x1="30" y1="36" x2="220" y2="36" stroke="#22c55e" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- === NODES === -->
+  <!-- 社員 -->
+  <rect x="30" y="70" width="120" height="54" rx="27" fill="#fee2e2" stroke="#fca5a5" stroke-width="1.5"/>
+  <text x="90" y="94" text-anchor="middle" font-size="11" font-weight="700" fill="#991b1b">社員</text>
+  <text x="90" y="110" text-anchor="middle" font-size="8.5" fill="#b91c1c">支払（出金）</text>
+
+  <!-- AI処理 -->
+  <polygon points="240,72 310,97 240,122 170,97" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+  <text x="240" y="95" text-anchor="middle" font-size="10" font-weight="700" fill="#92400e">AI処理</text>
+  <text x="240" y="107" text-anchor="middle" font-size="8" fill="#a16207">自動振分</text>
+
+  <!-- MF会計1 -->
+  <rect x="350" y="72" width="140" height="50" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+  <text x="420" y="94" text-anchor="middle" font-size="10.5" font-weight="700" fill="#1e40af">MF会計 1</text>
+  <text x="420" y="109" text-anchor="middle" font-size="8.5" fill="#3b82f6">出金データ取込</text>
+
+  <!-- MF会計2 -->
+  <rect x="350" y="185" width="140" height="50" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+  <text x="420" y="207" text-anchor="middle" font-size="10.5" font-weight="700" fill="#166534">MF会計 2</text>
+  <text x="420" y="222" text-anchor="middle" font-size="8.5" fill="#22c55e">管理会計仕訳</text>
+
+  <!-- 給与計算システム -->
+  <rect x="620" y="185" width="140" height="50" rx="8" fill="#fefce8" stroke="#fde68a" stroke-width="1.5"/>
+  <text x="690" y="205" text-anchor="middle" font-size="10" font-weight="700" fill="#854d0e">サブシステム</text>
+  <text x="690" y="221" text-anchor="middle" font-size="8.5" fill="#a16207">給与計算システム</text>
+
+  <!-- MF会計プラス -->
+  <rect x="870" y="185" width="150" height="50" rx="8" fill="#faf5ff" stroke="#c4b5fd" stroke-width="1.5"/>
+  <text x="945" y="207" text-anchor="middle" font-size="10.5" font-weight="700" fill="#5b21b6">MF会計プラス</text>
+  <text x="945" y="222" text-anchor="middle" font-size="8.5" fill="#7c3aed">決算用登録</text>
+
+  <!-- === ARROWS === -->
+  <!-- 社員 → AI -->
+  <line x1="150" y1="97" x2="168" y2="97" stroke="#475569" stroke-width="1.8" marker-end="url(#as)"/>
+  <text x="159" y="90" text-anchor="middle" font-size="7.5" fill="#64748b">出金</text>
+
+  <!-- AI → MF1 -->
+  <line x1="310" y1="97" x2="348" y2="97" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#as-b)"/>
+
+  <!-- MF1 → MF2 -->
+  <path d="M420,122 L420,173" stroke="#22c55e" stroke-width="1.8" fill="none" marker-end="url(#as-g)"/>
+  <text x="432" y="152" font-size="7.5" fill="#16a34a" font-weight="600">連携</text>
+
+  <!-- MF1 → 給与計算 -->
+  <path d="M490,110 L555,110 L555,200 L618,200" stroke="#eab308" stroke-width="1.8" fill="none" marker-end="url(#as-y)"/>
+  <text x="555" y="152" font-size="7.5" fill="#ca8a04" font-weight="600" text-anchor="middle">連携</text>
+
+  <!-- 給与計算 → MF会計プラス -->
+  <line x1="760" y1="210" x2="868" y2="210" stroke="#8b5cf6" stroke-width="1.8" marker-end="url(#as-p)"/>
+  <text x="814" y="203" text-anchor="middle" font-size="7.5" fill="#7c3aed" font-weight="600">登録</text>
+
+  <!-- Dashed grouping: AI zone -->
+  <rect x="155" y="60" width="345" height="78" rx="6" fill="none" stroke="#f59e0b" stroke-width="1" stroke-dasharray="5,3" opacity=".4"/>
+  <text x="328" y="56" text-anchor="middle" font-size="7" fill="#d97706" font-weight="600">AI自動処理ゾーン</text>
+</svg>
+</div>
+
+<!-- ========== LEGEND ========== -->
+<div class="diagram-area">
+<svg class="flow-svg" viewBox="0 0 1060 50" xmlns="http://www.w3.org/2000/svg">
+  <rect x="0" y="0" width="1060" height="50" rx="8" fill="#f8fafc" stroke="#e2e8f0" stroke-width="1"/>
+  <!-- items -->
+  <rect x="20" y="16" width="18" height="18" rx="4" fill="#eff6ff" stroke="#93c5fd" stroke-width="1"/>
+  <text x="44" y="30" font-size="9" fill="#475569">MF会計1</text>
+
+  <rect x="110" y="16" width="18" height="18" rx="4" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+  <text x="134" y="30" font-size="9" fill="#475569">MF会計2</text>
+
+  <rect x="200" y="16" width="18" height="18" rx="4" fill="#faf5ff" stroke="#c4b5fd" stroke-width="1"/>
+  <text x="224" y="30" font-size="9" fill="#475569">MF会計プラス</text>
+
+  <rect x="320" y="16" width="18" height="18" rx="4" fill="#fefce8" stroke="#fde68a" stroke-width="1"/>
+  <text x="344" y="30" font-size="9" fill="#475569">サブシステム</text>
+
+  <polygon points="443,17 455,25 443,33 431,25" fill="#fef3c7" stroke="#f59e0b" stroke-width="1"/>
+  <text x="462" y="30" font-size="9" fill="#475569">AI処理</text>
+
+  <rect x="520" y="16" width="18" height="18" rx="9" fill="#fee2e2" stroke="#fca5a5" stroke-width="1"/>
+  <text x="544" y="30" font-size="9" fill="#475569">外部（顧客/社員）</text>
+
+  <rect x="660" y="16" width="18" height="18" rx="9" fill="#fce7f3" stroke="#f9a8d4" stroke-width="1"/>
+  <text x="684" y="30" font-size="9" fill="#475569">工場</text>
+
+  <line x1="740" y1="25" x2="770" y2="25" stroke="#475569" stroke-width="1.5" stroke-dasharray="5,3"/>
+  <text x="778" y="30" font-size="9" fill="#475569">AI自動処理ゾーン</text>
+
+  <line x1="900" y1="25" x2="930" y2="25" stroke="#475569" stroke-width="1.8" marker-end="url(#ar)"/>
+  <text x="938" y="30" font-size="9" fill="#475569">データフロー</text>
+</svg>
+</div>
+
+</body>
+</html>
