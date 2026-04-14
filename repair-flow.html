@@ -62,13 +62,9 @@ svg text{font-family:'Segoe UI','Hiragino Sans','Meiryo',sans-serif}
 <rect x="190" y="128" width="90" height="16" rx="3" fill="#fef3c7" stroke="#f59e0b" stroke-width=".8"/>
 <text x="235" y="140" text-anchor="middle" font-size="7.5" font-weight="600" fill="#92400e">一部AI化済</text>
 
-<!-- Arrow -->
-<line x1="300" y1="115" x2="328" y2="115" stroke="#475569" stroke-width="1.5" marker-end="url(#a)"/>
-<text x="314" y="108" text-anchor="middle" font-size="7" fill="#64748b">審査完了</text>
-
-<!-- 修理審査完了ステータス -->
-<polygon points="365,82 365,148 330,115" fill="none" stroke="#f97316" stroke-width="1.2"/>
-<!-- Actually let me use a proper diamond for decision -->
+<!-- Arrow: コールセンター → JustDB -->
+<line x1="300" y1="115" x2="418" y2="115" stroke="#475569" stroke-width="1.5" marker-end="url(#a)"/>
+<text x="358" y="108" text-anchor="middle" font-size="7" fill="#64748b">審査完了</text>
 
 <!-- JustDB: 入金記録 -->
 <rect x="420" y="86" width="240" height="58" rx="8" fill="#dbeafe" stroke="#3b82f6" stroke-width="1.5" filter="url(#sh)"/>
@@ -90,9 +86,12 @@ svg text{font-family:'Segoe UI','Hiragino Sans','Meiryo',sans-serif}
 <text x="540" y="276" text-anchor="middle" font-size="7.5" fill="#854d0e" font-weight="600">SSOT参照: 契約書 / 規定 / 事業計画</text>
 <text x="540" y="288" text-anchor="middle" font-size="7" fill="#a16207">→ P-03 ルーティング設計により判断基準一元化</text>
 
-<!-- Arrow right from SSOT to MF1 -->
-<line x1="590" y1="210" x2="718" y2="210" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#ab)"/>
-<text x="654" y="203" text-anchor="middle" font-size="7" fill="#2563eb" font-weight="600">データ連携</text>
+<!-- Arrow right from SSOT to AI処理 diamond -->
+<line x1="590" y1="210" x2="753" y2="210" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#ab)"/>
+<text x="670" y="203" text-anchor="middle" font-size="7" fill="#2563eb" font-weight="600">データ連携</text>
+<!-- Arrow up from SSOT area to MF1 -->
+<path d="M620,195 L720,145" stroke="#3b82f6" stroke-width="1.2" stroke-dasharray="4,3" fill="none" marker-end="url(#ab)"/>
+<text x="680" y="165" font-size="7" fill="#3b82f6">MF1連携</text>
 
 <!-- ===== ROW 1 right: MF1 ===== -->
 <rect x="720" y="86" width="160" height="58" rx="8" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5" filter="url(#sh)"/>
@@ -143,13 +142,12 @@ svg text{font-family:'Segoe UI','Hiragino Sans','Meiryo',sans-serif}
 <text x="810" y="406" text-anchor="middle" font-size="8.5" fill="#7c3aed">決算用登録</text>
 <text x="810" y="418" text-anchor="middle" font-size="7.5" fill="#64748b">補助科目なし・基本勘定科目のみ</text>
 
-<!-- Arrow from subsystem to MF+ -->
-<path d="M880,368 L860,368 L860,385 L892,385" stroke="#8b5cf6" stroke-width="1.5" fill="none"/>
-<path d="M880,368 L810,368 L810,368" stroke="#8b5cf6" stroke-width="0" fill="none"/>
-<line x1="905" y1="365" x2="905" y2="385" stroke="none"/>
-<!-- Redo: arrow from SubSys splits -->
-<path d="M870,365 L810,365 L810,368" stroke="#8b5cf6" stroke-width="1.5" fill="none" marker-end="url(#ap)"/>
-<path d="M940,365 L980,365 L980,378" stroke="#ef4444" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+<!-- Arrow: サブシステム → MF会計プラス (left) -->
+<path d="M870,327 L870,355 L810,355 L810,368" stroke="#8b5cf6" stroke-width="1.5" fill="none" marker-end="url(#ap)"/>
+<text x="830" y="350" font-size="7" fill="#7c3aed" font-weight="600">決算連携</text>
+<!-- Arrow: サブシステム → 工場 (right) -->
+<path d="M940,327 L940,355 L985,355 L985,378" stroke="#ef4444" stroke-width="1.5" fill="none" marker-end="url(#ar)"/>
+<text x="970" y="350" font-size="7" fill="#ef4444" font-weight="600">支払</text>
 
 <!-- 工場 -->
 <rect x="920" y="380" width="130" height="45" rx="22" fill="#fce7f3" stroke="#f9a8d4" stroke-width="1.5" filter="url(#sh)"/>
