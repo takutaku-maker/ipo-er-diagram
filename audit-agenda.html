@@ -59,39 +59,76 @@
     flex-shrink: 0;
   }
 
-  /* ===== SLIDE 1: TITLE ===== */
+  /* ===== SLIDE 1: TITLE (White + REVISE Yellow/Black) ===== */
   .slide-1 {
-    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 40%, #1d4ed8 100%);
+    background: var(--white);
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
-    color: var(--white);
+    color: var(--gray-900);
     position: relative;
   }
   .slide-1::before {
     content: '';
     position: absolute;
-    top: -200px; right: -200px;
-    width: 600px; height: 600px;
-    background: radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%);
-    border-radius: 50%;
+    top: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #FFD500 0%, #FFD500 40%, #999999 40%, #999999 60%, #222222 60%, #222222 100%);
   }
   .slide-1::after {
     content: '';
     position: absolute;
-    bottom: -150px; left: -100px;
-    width: 400px; height: 400px;
-    background: radial-gradient(circle, rgba(96,165,250,0.15) 0%, transparent 70%);
+    bottom: 0; left: 0; right: 0;
+    height: 6px;
+    background: linear-gradient(90deg, #222222 0%, #222222 40%, #999999 40%, #999999 60%, #FFD500 60%, #FFD500 100%);
+  }
+  /* Decorative yellow accent shapes */
+  .slide-1 .accent-top {
+    position: absolute;
+    top: 40px; right: 60px;
+    width: 120px; height: 120px;
+    border: 3px solid rgba(255,213,0,0.25);
     border-radius: 50%;
+    z-index: 0;
+  }
+  .slide-1 .accent-bottom {
+    position: absolute;
+    bottom: 50px; left: 70px;
+    width: 80px; height: 80px;
+    background: rgba(255,213,0,0.08);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  .slide-1 .accent-diag {
+    position: absolute;
+    top: 160px; left: 100px;
+    width: 40px; height: 4px;
+    background: #FFD500;
+    transform: rotate(-30deg);
+    z-index: 0;
+  }
+  .slide-1 .logo-text {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #222222;
+    margin-bottom: 32px;
+    z-index: 1;
+  }
+  .slide-1 .logo-text span.v-yellow {
+    color: #FFD500;
+  }
+  .slide-1 .logo-text span.v-gray {
+    color: #999999;
   }
   .slide-1 .label {
     font-size: 13px;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: var(--blue-400);
-    margin-bottom: 20px;
+    color: #999999;
+    margin-bottom: 16px;
     font-weight: 500;
     z-index: 1;
   }
@@ -99,25 +136,26 @@
     font-size: 52px;
     font-weight: 800;
     letter-spacing: 2px;
+    color: #222222;
     margin-bottom: 16px;
     z-index: 1;
   }
   .slide-1 .subtitle {
     font-size: 20px;
     font-weight: 400;
-    color: rgba(255,255,255,0.8);
+    color: var(--gray-600);
     margin-bottom: 48px;
     z-index: 1;
   }
   .slide-1 .meta {
     font-size: 14px;
-    color: rgba(255,255,255,0.5);
+    color: var(--gray-500);
     z-index: 1;
   }
   .slide-1 .divider {
     width: 60px;
     height: 3px;
-    background: var(--blue-400);
+    background: #FFD500;
     margin-bottom: 24px;
     z-index: 1;
   }
@@ -593,6 +631,10 @@
 
 <!-- SLIDE 1: TITLE -->
 <div class="slide slide-1" id="slide1">
+  <div class="accent-top"></div>
+  <div class="accent-bottom"></div>
+  <div class="accent-diag"></div>
+  <div class="logo-text">RE<span class="v-gray">\</span><span class="v-yellow">V</span>ISE</div>
   <div class="label">AUDIT FIRM REGULAR MEETING</div>
   <h1>監査法人定例会</h1>
   <div class="divider"></div>
