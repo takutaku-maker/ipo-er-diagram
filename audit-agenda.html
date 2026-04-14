@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>監査法人定例会 — アジェンダ・進め方・成果物</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600;700;800;900&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --blue-900: #1e3a5f;
+    --blue-700: #1d4ed8;
+    --blue-600: #2563eb;
+    --blue-500: #3b82f6;
+    --blue-400: #60a5fa;
+    --blue-100: #dbeafe;
+    --blue-50: #eff6ff;
+    --gray-900: #111827;
+    --gray-700: #374151;
+    --gray-600: #4b5563;
+    --gray-500: #6b7280;
+    --gray-400: #9ca3af;
+    --gray-300: #d1d5db;
+    --gray-200: #e5e7eb;
+    --gray-100: #f3f4f6;
+    --gray-50: #f9fafb;
+    --green-600: #16a34a;
+    --green-100: #dcfce7;
+    --green-50: #f0fdf4;
+    --orange-600: #ea580c;
+    --orange-100: #ffedd5;
+    --orange-50: #fff7ed;
+    --red-600: #dc2626;
+    --red-100: #fee2e2;
+    --white: #ffffff;
+  }
+
+  body {
+    font-family: 'Noto Sans JP', '游ゴシック', 'Yu Gothic', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #0f172a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    gap: 40px;
+    min-height: 100vh;
+  }
+
+  .slide {
+    width: 1280px;
+    height: 720px;
+    background: var(--white);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  /* ===== SLIDE 1: TITLE ===== */
+  .slide-1 {
+    background: linear-gradient(135deg, #0f172a 0%, #1e3a5f 40%, #1d4ed8 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: var(--white);
+    position: relative;
+  }
+  .slide-1::before {
+    content: '';
+    position: absolute;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(59,130,246,0.3) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .slide-1::after {
+    content: '';
+    position: absolute;
+    bottom: -150px; left: -100px;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(96,165,250,0.15) 0%, transparent 70%);
+    border-radius: 50%;
+  }
+  .slide-1 .label {
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--blue-400);
+    margin-bottom: 20px;
+    font-weight: 500;
+    z-index: 1;
+  }
+  .slide-1 h1 {
+    font-size: 52px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    z-index: 1;
+  }
+  .slide-1 .subtitle {
+    font-size: 20px;
+    font-weight: 400;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 48px;
+    z-index: 1;
+  }
+  .slide-1 .meta {
+    font-size: 14px;
+    color: rgba(255,255,255,0.5);
+    z-index: 1;
+  }
+  .slide-1 .divider {
+    width: 60px;
+    height: 3px;
+    background: var(--blue-400);
+    margin-bottom: 24px;
+    z-index: 1;
+  }
+
+  /* ===== SLIDE 2: TIMELINE ===== */
+  .slide-2 {
+    padding: 40px 50px;
+    display: flex;
+    flex-direction: column;
+  }
+  .slide-2 .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+  .slide-2 h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gray-900);
+  }
+  .slide-2 .slide-num {
+    font-size: 12px;
+    color: var(--gray-400);
+    font-weight: 500;
+  }
+  .slide-2 .goal-bar {
+    background: var(--blue-50);
+    border-left: 4px solid var(--blue-600);
+    padding: 10px 18px;
+    border-radius: 0 8px 8px 0;
+    margin-bottom: 20px;
+  }
+  .slide-2 .goal-bar span {
+    font-size: 13px;
+    color: var(--blue-700);
+    font-weight: 600;
+  }
+  .slide-2 .goal-bar p {
+    font-size: 13px;
+    color: var(--gray-700);
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    flex: 1;
+  }
+  .timeline-item {
+    display: grid;
+    grid-template-columns: 54px 110px 1fr;
+    gap: 12px;
+    align-items: start;
+    background: var(--gray-50);
+    border-radius: 10px;
+    padding: 12px 16px;
+    border: 1px solid var(--gray-200);
+    transition: all 0.2s;
+  }
+  .timeline-item:hover {
+    border-color: var(--blue-300, #93c5fd);
+    box-shadow: 0 2px 8px rgba(37,99,235,0.08);
+  }
+  .time-badge {
+    background: var(--blue-600);
+    color: white;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 4px 0;
+    border-radius: 6px;
+    text-align: center;
+  }
+  .section-label {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue-700);
+    padding-top: 3px;
+  }
+  .timeline-content h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--gray-900);
+    margin-bottom: 3px;
+  }
+  .timeline-content p {
+    font-size: 11.5px;
+    color: var(--gray-600);
+    line-height: 1.5;
+  }
+
+  .deliverables-bar {
+    background: linear-gradient(90deg, var(--blue-600), var(--blue-700));
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-top: 12px;
+  }
+  .deliverables-bar .label-d {
+    font-size: 11px;
+    font-weight: 700;
+    opacity: 0.8;
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+  }
+  .deliverables-bar p {
+    font-size: 12px;
+    line-height: 1.6;
+  }
+
+  /* ===== SLIDE 3: SCHEDULE ===== */
+  .slide-3 {
+    padding: 40px 50px;
+    display: flex;
+    flex-direction: column;
+  }
+  .slide-3 .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+  .slide-3 h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gray-900);
+  }
+  .gantt {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .gantt-header {
+    display: grid;
+    grid-template-columns: 200px repeat(7, 1fr);
+    gap: 0;
+    margin-bottom: 8px;
+  }
+  .gantt-header span {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray-700);
+    padding: 8px 0;
+  }
+  .gantt-header span:first-child {
+    text-align: left;
+  }
+  .gantt-row {
+    display: grid;
+    grid-template-columns: 200px repeat(7, 1fr);
+    gap: 0;
+    align-items: center;
+    height: 56px;
+    position: relative;
+  }
+  .gantt-row:nth-child(odd) {
+    background: var(--gray-50);
+    border-radius: 8px;
+  }
+  .phase-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gray-900);
+    padding-left: 12px;
+    line-height: 1.3;
+  }
+  .gantt-bar-wrapper {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 32px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: white;
+  }
+  .bar-phase1 {
+    background: linear-gradient(90deg, #2563eb, #3b82f6);
+    left: calc(200px + 0 * (100% - 200px) / 7);
+    width: calc(3 * (100% - 200px) / 7 - 8px);
+  }
+  .bar-phase2 {
+    background: linear-gradient(90deg, #0891b2, #22d3ee);
+    left: calc(200px + 1.5 * (100% - 200px) / 7);
+    width: calc(3 * (100% - 200px) / 7 - 8px);
+  }
+  .bar-phase3 {
+    background: linear-gradient(90deg, #7c3aed, #a78bfa);
+    left: calc(200px + 3 * (100% - 200px) / 7);
+    width: calc(3 * (100% - 200px) / 7 - 8px);
+  }
+  .bar-phase4 {
+    background: linear-gradient(90deg, #ea580c, #fb923c);
+    left: calc(200px + 4 * (100% - 200px) / 7);
+    width: calc(3 * (100% - 200px) / 7 - 8px);
+  }
+  .bar-sr {
+    background: linear-gradient(90deg, #dc2626, #f87171);
+    left: calc(200px + 6 * (100% - 200px) / 7 + 4px);
+    width: calc(0.8 * (100% - 200px) / 7);
+    font-size: 10px;
+    justify-content: center;
+    border-radius: 6px;
+    height: 26px;
+  }
+
+  .schedule-info {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: auto;
+    padding-top: 20px;
+  }
+  .info-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 16px 20px;
+  }
+  .info-card h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--blue-600);
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+  }
+  .info-card p {
+    font-size: 12px;
+    color: var(--gray-700);
+    line-height: 1.6;
+  }
+
+  /* ===== SLIDE 4: DELIVERABLES ===== */
+  .slide-4 {
+    padding: 36px 44px;
+    display: flex;
+    flex-direction: column;
+  }
+  .slide-4 .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  .slide-4 h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--gray-900);
+  }
+  .deliverables-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    flex: 1;
+  }
+  .deliverable-col {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .deliverable-col .col-header {
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 700;
+    color: white;
+  }
+  .col-1 .col-header { background: linear-gradient(135deg, #2563eb, #1d4ed8); }
+  .col-2 .col-header { background: linear-gradient(135deg, #0891b2, #0e7490); }
+  .col-3 .col-header { background: linear-gradient(135deg, #7c3aed, #6d28d9); }
+  .col-4 .col-header { background: linear-gradient(135deg, #ea580c, #c2410c); }
+
+  .deliverable-col ul {
+    list-style: none;
+    padding: 10px 14px;
+    flex: 1;
+  }
+  .deliverable-col li {
+    font-size: 11.5px;
+    color: var(--gray-700);
+    padding: 6px 0 6px 18px;
+    position: relative;
+    line-height: 1.4;
+    border-bottom: 1px solid var(--gray-100);
+  }
+  .deliverable-col li:last-child { border-bottom: none; }
+  .deliverable-col li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 11px;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    border: 2px solid;
+  }
+  .col-1 li::before { border-color: var(--blue-500); }
+  .col-2 li::before { border-color: #0891b2; }
+  .col-3 li::before { border-color: #7c3aed; }
+  .col-4 li::before { border-color: #ea580c; }
+
+  /* ===== SLIDE 5: REGULATIONS ===== */
+  .slide-5 {
+    padding: 36px 44px;
+    display: flex;
+    flex-direction: column;
+  }
+  .slide-5 .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 6px;
+  }
+  .slide-5 h2 {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--gray-900);
+  }
+  .slide-5 .sub-note {
+    font-size: 11.5px;
+    color: var(--gray-500);
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+  .reg-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 16px;
+    flex: 1;
+  }
+  .reg-col {
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .reg-col .reg-header {
+    padding: 10px 14px;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .reg-col .reg-header .num {
+    font-size: 11px;
+    opacity: 0.7;
+  }
+  .reg-c1 .reg-header { background: var(--blue-100); color: var(--blue-700); }
+  .reg-c2 .reg-header { background: #cffafe; color: #0e7490; }
+  .reg-c3 .reg-header { background: #ede9fe; color: #6d28d9; }
+  .reg-c4 .reg-header { background: var(--orange-100); color: var(--orange-600); }
+
+  .reg-col table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .reg-col td {
+    padding: 7px 14px;
+    font-size: 11.5px;
+    color: var(--gray-700);
+    border-bottom: 1px solid var(--gray-100);
+    vertical-align: middle;
+  }
+  .reg-col td:last-child {
+    width: 32px;
+    text-align: center;
+  }
+  .reg-col tr:last-child td { border-bottom: none; }
+  .badge-x {
+    display: inline-block;
+    background: var(--red-100);
+    color: var(--red-600);
+    font-size: 10px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 6px;
+  }
+  .badge-ok {
+    display: inline-block;
+    background: var(--green-100);
+    color: var(--green-600);
+    font-size: 10px;
+    font-weight: 700;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    border-radius: 6px;
+  }
+
+  .foundation-bar {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 10px;
+    padding: 12px 20px;
+  }
+  .foundation-bar h4 {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--gray-700);
+    margin-bottom: 8px;
+  }
+  .foundation-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .found-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    color: var(--gray-600);
+    background: var(--white);
+    border: 1px solid var(--gray-200);
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+  .found-item .dot-x {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--red-600);
+  }
+  .found-item .dot-ok {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--green-600);
+  }
+  .slide-5 .footer-note {
+    font-size: 10.5px;
+    color: var(--gray-400);
+    margin-top: 8px;
+  }
+
+  /* Nav dots */
+  .nav {
+    display: flex;
+    gap: 8px;
+    position: fixed;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    flex-direction: column;
+    z-index: 100;
+  }
+  .nav a {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.25);
+    transition: all 0.2s;
+  }
+  .nav a:hover { background: rgba(255,255,255,0.6); }
+</style>
+</head>
+<body>
+
+<div class="nav">
+  <a href="#slide1"></a>
+  <a href="#slide2"></a>
+  <a href="#slide3"></a>
+  <a href="#slide4"></a>
+  <a href="#slide5"></a>
+</div>
+
+<!-- SLIDE 1: TITLE -->
+<div class="slide slide-1" id="slide1">
+  <div class="label">AUDIT FIRM REGULAR MEETING</div>
+  <h1>監査法人定例会</h1>
+  <div class="divider"></div>
+  <div class="subtitle">コンセプト先行合意 — アジェンダ・進め方・成果物</div>
+  <div class="meta">リバイス株式会社 &nbsp;|&nbsp; 監査法人Growth &nbsp;|&nbsp; 2026年4月〜10月</div>
+</div>
+
+<!-- SLIDE 2: TIMELINE -->
+<div class="slide slide-2" id="slide2">
+  <div class="header">
+    <h2>第１回定例会　タイムスケジュール</h2>
+    <span class="slide-num">02 / 05</span>
+  </div>
+  <div class="goal-bar">
+    <span>本日のゴール</span>
+    <p>10月までに達成すべき条件と進め方を双方で合意する</p>
+  </div>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="time-badge">10分</div>
+      <div class="section-label">Opening</div>
+      <div class="timeline-content">
+        <h4>本定例会の位置づけと進め方の確認</h4>
+        <p>本定例会の目的・ゴール・フェーズ概観の共有 ／ 双方の役割分担の確認</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="time-badge">30分</div>
+      <div class="section-label">総論</div>
+      <div class="timeline-content">
+        <h4>N-2 監査契約締結のための条件整理</h4>
+        <p>監査法人Growth様から監査契約締結にあたりリバイスに求める条件・水準を提示いただく ／ 2026年10月SRまでに到達すべき状態の共通認識を形成 ／ リバイスが認識している4課題（連結整理・SW資産・収益認識・売上根拠）の過不足を確認</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="time-badge">40分</div>
+      <div class="section-label">各論</div>
+      <div class="timeline-content">
+        <h4>4課題の方向性と月別スケジュールの確認</h4>
+        <p>総論で合意した条件・優先順位を踏まえ各課題の検討方向性を確認 ／ 連結整理・SW資産管理：方向性のみ合意、数値・エビデンスは5月以降 ／ 収益認識・売上根拠：5月以降の具体化スケジュールを確認</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="time-badge">15分</div>
+      <div class="section-label">運営ルール</div>
+      <div class="timeline-content">
+        <h4>定例会の運営ルール合意</h4>
+        <p>月次定例のフォーマット（アジェンダ事前送付・議事録・課題管理表の運用） ／ コンセプト先行合意プロセスの双方確認</p>
+      </div>
+    </div>
+
+    <div class="timeline-item">
+      <div class="time-badge">10分</div>
+      <div class="section-label">Closing</div>
+      <div class="timeline-content">
+        <h4>次回に向けた準備事項の確認</h4>
+        <p>ロードマップ初版（フェーズ別）の承認 ／ アクションオーナーと期限の明示（リバイス・監査法人双方）</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="deliverables-bar">
+    <div class="label-d">本日の成果物</div>
+    <p>監査契約締結条件の共通認識メモ ／ 4課題の過不足確認結果 ／ 定例会運営ルール（書面） ／ ロードマップ初版 ／ 次回準備事項リスト（オーナー・期限付き）</p>
+  </div>
+</div>
+
+<!-- SLIDE 3: SCHEDULE -->
+<div class="slide slide-3" id="slide3">
+  <div class="header">
+    <h2>全体スケジュール概観</h2>
+    <span class="slide-num" style="font-size:12px;color:#9ca3af;">03 / 05</span>
+  </div>
+
+  <div class="gantt">
+    <div class="gantt-header">
+      <span></span>
+      <span>4月</span><span>5月</span><span>6月</span><span>7月</span><span>8月</span><span>9月</span><span>10月</span>
+    </div>
+
+    <div class="gantt-row">
+      <div class="phase-label">Phase 1<br><span style="font-size:11px;color:#6b7280;">連結会社整理・<br>グループ再編</span></div>
+      <div class="gantt-bar-wrapper bar-phase1">4月〜6月</div>
+    </div>
+
+    <div class="gantt-row">
+      <div class="phase-label">Phase 2<br><span style="font-size:11px;color:#6b7280;">ソフトウェア<br>資産管理体制</span></div>
+      <div class="gantt-bar-wrapper bar-phase2">5月〜8月</div>
+    </div>
+
+    <div class="gantt-row">
+      <div class="phase-label">Phase 3<br><span style="font-size:11px;color:#6b7280;">収益認識基準<br>の適用</span></div>
+      <div class="gantt-bar-wrapper bar-phase3">7月〜9月</div>
+    </div>
+
+    <div class="gantt-row">
+      <div class="phase-label">Phase 4<br><span style="font-size:11px;color:#6b7280;">売上根拠の<br>網羅化</span></div>
+      <div class="gantt-bar-wrapper bar-phase4">8月〜10月</div>
+      <div class="gantt-bar-wrapper bar-sr">SR</div>
+    </div>
+  </div>
+
+  <div class="schedule-info">
+    <div class="info-card">
+      <h4>定例会頻度</h4>
+      <p>月1回（各月最終週）<br>所要時間: 1.5〜2時間</p>
+    </div>
+    <div class="info-card">
+      <h4>参加者</h4>
+      <p>リバイス: CFO+経理+開発<br>監査法人: 主任+担当者</p>
+    </div>
+    <div class="info-card">
+      <h4>進め方</h4>
+      <p>コンセプト合意→具体化→エビデンス<br>事前アジェンダ送付（担当:高橋）</p>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 4: DELIVERABLES -->
+<div class="slide slide-4" id="slide4">
+  <div class="header">
+    <h2>成果物一覧（課題別）</h2>
+    <span class="slide-num" style="font-size:12px;color:#9ca3af;">04 / 05</span>
+  </div>
+
+  <div class="deliverables-grid">
+    <div class="deliverable-col col-1">
+      <div class="col-header">課題1: 連結会社整理</div>
+      <ul>
+        <li>連結会社台帳（取引先・金額・性質一覧）</li>
+        <li>グループ再編計画書（タイムライン付）</li>
+        <li>子会社判定メモ（ポジションペーパー）</li>
+        <li>関連当事者管理規程 / 連結決算手続規程</li>
+        <li>連結会社再編完了報告書</li>
+      </ul>
+    </div>
+    <div class="deliverable-col col-2">
+      <div class="col-header">課題2: ソフトウェア資産管理</div>
+      <ul>
+        <li>ソフトウェア資産性判定基準</li>
+        <li>原価計算規程 / 固定資産管理規程</li>
+        <li>開発稟議制度規程・フロー図</li>
+        <li>PJコード体系・工数管理マニュアル</li>
+        <li>ソフトウェア制作方針書</li>
+      </ul>
+    </div>
+    <div class="deliverable-col col-3">
+      <div class="col-header">課題3: 収益認識基準適用</div>
+      <ul>
+        <li>収益認識PP（5ステップ適用方針）</li>
+        <li>経理規程 / 勘定科目処理要領</li>
+        <li>収益認識会計方針書</li>
+        <li>履行義務識別表（DX/保守/初期費用）</li>
+        <li>代理人取引整理メモ</li>
+      </ul>
+    </div>
+    <div class="deliverable-col col-4">
+      <div class="col-header">課題4: 売上根拠網羅化</div>
+      <ul>
+        <li>販売管理規程 / 与信管理規程</li>
+        <li>債権管理規程 / 契約管理規程</li>
+        <li>売上証憑SOP（標準業務手順書）</li>
+        <li>契約・検収回収率レポート</li>
+        <li>証憑サンプル監査結果報告書</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SLIDE 5: REGULATIONS -->
+<div class="slide slide-5" id="slide5">
+  <div class="header">
+    <h2>課題別 必要規程・規約一覧</h2>
+    <span class="slide-num" style="font-size:12px;color:#9ca3af;">05 / 05</span>
+  </div>
+  <div class="sub-note">ショートレビュー報告書 P.41-43 規程一覧より — ほぼ全規程が×（未作成）。以下は4大課題に直結する必須規程。</div>
+
+  <div class="reg-grid">
+    <div class="reg-col reg-c1">
+      <div class="reg-header">
+        <span>課題1: 連結会社整理</span>
+      </div>
+      <table>
+        <tr><td>関連当事者管理規程</td><td><span class="badge-x">×</span></td></tr>
+        <tr><td>連結決算手続規程</td><td><span class="badge-x">×</span></td></tr>
+        <tr><td>連結パッケージ</td><td><span class="badge-x">×</span></td></tr>
+        <tr><td>グループ会社管理規程</td><td><span class="badge-x">×</span></td></tr>
+      </table>
+    </div>
+    <div class="reg-col reg-c2">
+      <div class="reg-header">
+        <span>課題2: ソフトウェア資産</span>
+      </div>
+      <table>
+        <tr><td>原価計算規程</td><td><span class="badge-x">×</span></td></tr>
+        <tr><td>固定資産管理規程</td><td><span class="badge-x">×</span></td></tr>
+        <tr><td>ソフトウェア制作方針</td><td><span class="badge-x">×</span></td></tr>
+        <tr><td>開発稟議制度規程</td><td><span class="badge-x">×</span></td></tr>
+        <tr><td>工数管理マニュアル</td><td><span class="badge-x">×</span></td></tr>
+      </table>
+    </div>
+    <div class="reg-col reg-c3">
+      <div class="reg-header">
+        <span>課題3: 収益認識基準</span>
+      </div>
+      <table>
+        <tr><td>経理規程</td><td><span class="badge-x">×</span></td></tr>
+        <tr><td>勘定科目処理要領</td><td><span class="badge-x">×</span></td></tr>
+        <tr><td>収益認識会計方針書</td><td><span class="badge-x">×</span></td></tr>
+        <tr><td>会計処理マニュアル</td><td><span class="badge-x">×</span></td></tr>
+      </table>
+    </div>
+    <div class="reg-col reg-c4">
+      <div class="reg-header">
+        <span>課題4: 売上根拠網羅化</span>
+      </div>
+      <table>
+        <tr><td>販売管理規程</td><td><span class="badge-x">×</span></td></tr>
+        <tr><td>与信管理規程</td><td><span class="badge-x">×</span></td></tr>
+        <tr><td>債権管理規程</td><td><span class="badge-x">×</span></td></tr>
+        <tr><td>契約管理規程</td><td><span class="badge-x">×</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="foundation-bar">
+    <h4>横断的に必要な基盤規程（全課題共通）</h4>
+    <div class="foundation-items">
+      <span class="found-item"><span class="dot-x"></span>取締役会規程</span>
+      <span class="found-item"><span class="dot-x"></span>監査役監査規程</span>
+      <span class="found-item"><span class="dot-x"></span>組織規程</span>
+      <span class="found-item"><span class="dot-x"></span>職務分掌規程</span>
+      <span class="found-item"><span class="dot-x"></span>職務権限規程</span>
+      <span class="found-item"><span class="dot-x"></span>稟議規程</span>
+      <span class="found-item"><span class="dot-x"></span>情報システム管理規程</span>
+      <span class="found-item"><span class="dot-ok"></span>就業規則（届出準備中）</span>
+      <span class="found-item"><span class="dot-ok"></span>定款</span>
+    </div>
+  </div>
+  <div class="footer-note">※ <span style="color:#dc2626;">●</span> 未作成 &nbsp; <span style="color:#16a34a;">●</span> 作成済み — 基盤規程の整備は全課題の前提であり、4月〜6月に優先的に策定する。</div>
+</div>
+
+</body>
+</html>
