@@ -17,7 +17,11 @@
   --midGray: #E0E0E0;
   --white: #FFFFFF;
   --lightYel: #FFFBEC;
-  --name-col-width: 340px;
+  --info-col-width: 520px;
+  --name-w: 280px;
+  --assignee-w: 100px;
+  --due-w: 90px;
+  --status-w: 50px;
   --row-height: 32px;
   --subtask-row-height: 28px;
   --group-header-height: 35px;
@@ -43,36 +47,23 @@ body {
   z-index: 100;
   background: var(--dark);
   color: var(--white);
-  padding: 12px 24px;
+  padding: 10px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-shrink: 0;
 }
-.header h1 {
-  font-size: 18px;
-  font-weight: 700;
-}
+.header h1 { font-size: 18px; font-weight: 700; }
 .header-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   font-size: 13px;
 }
-.legend {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-.legend-item {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 12px;
-}
+.legend { display: flex; gap: 10px; align-items: center; }
+.legend-item { display: flex; align-items: center; gap: 4px; font-size: 11px; }
 .legend-swatch {
-  width: 14px;
-  height: 14px;
+  width: 13px; height: 13px;
   border-radius: 2px;
   border: 1px solid var(--midGray);
 }
@@ -81,7 +72,7 @@ body {
   color: var(--dark);
   border: none;
   border-radius: 4px;
-  padding: 6px 14px;
+  padding: 5px 12px;
   font-size: 12px;
   font-weight: 700;
   font-family: 'Noto Sans JP', sans-serif;
@@ -114,6 +105,53 @@ body {
   line-height: 1.3;
 }
 
+/* FILTER BAR */
+.filter-bar {
+  flex-shrink: 0;
+  background: #f8f8f8;
+  border-bottom: 1px solid var(--midGray);
+  padding: 8px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.filter-bar label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray);
+}
+.filter-bar select, .filter-bar input[type="text"] {
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 12px;
+  padding: 4px 8px;
+  border: 1px solid var(--midGray);
+  border-radius: 4px;
+  background: var(--white);
+  color: var(--dark);
+}
+.filter-bar select { min-width: 120px; }
+.filter-bar input[type="text"] { width: 180px; }
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.filter-count {
+  font-size: 11px;
+  color: var(--gray);
+  margin-left: auto;
+}
+.filter-reset {
+  font-size: 11px;
+  color: #1565C0;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: 'Noto Sans JP', sans-serif;
+  text-decoration: underline;
+}
+
 /* TIMELINE HEADER */
 .timeline-header-wrapper {
   flex-shrink: 0;
@@ -125,27 +163,25 @@ body {
   display: flex;
   min-width: max-content;
 }
-.timeline-header-name {
+.timeline-header-info {
   position: sticky;
   left: 0;
   z-index: 10;
-  width: var(--name-col-width);
-  min-width: var(--name-col-width);
+  width: var(--info-col-width);
+  min-width: var(--info-col-width);
   background: var(--lightBg);
-  font-size: 12px;
-  font-weight: 700;
   display: flex;
   align-items: flex-end;
-  padding: 8px 12px;
   border-right: 1px solid var(--midGray);
+  font-size: 11px;
+  font-weight: 700;
 }
-.timeline-months {
-  display: flex;
-}
-.year-group {
-  display: flex;
-  flex-direction: column;
-}
+.th-name { width: var(--name-w); padding: 8px 12px; }
+.th-assignee { width: var(--assignee-w); padding: 8px 4px; text-align: center; }
+.th-due { width: var(--due-w); padding: 8px 4px; text-align: center; }
+.th-status { width: var(--status-w); padding: 8px 4px; text-align: center; }
+.timeline-months { display: flex; }
+.year-group { display: flex; flex-direction: column; }
 .year-label {
   text-align: center;
   font-size: 12px;
@@ -153,9 +189,7 @@ body {
   padding: 4px 0;
   border-bottom: 1px solid var(--midGray);
 }
-.month-row {
-  display: flex;
-}
+.month-row { display: flex; }
 .month-cell {
   width: var(--month-width);
   text-align: center;
@@ -163,20 +197,11 @@ body {
   padding: 4px 0;
   border-right: 1px solid #eee;
 }
-.month-cell.quarter-start {
-  border-right: 1px solid var(--midGray);
-}
+.month-cell.quarter-start { border-right: 1px solid var(--midGray); }
 
 /* GANTT BODY */
-.gantt-body {
-  flex: 1;
-  overflow: auto;
-  position: relative;
-}
-.gantt-body-inner {
-  position: relative;
-  min-height: 100%;
-}
+.gantt-body { flex: 1; overflow: auto; position: relative; }
+.gantt-body-inner { position: relative; min-height: 100%; }
 
 /* ROWS */
 .gantt-row {
@@ -185,51 +210,89 @@ body {
   border-bottom: 1px solid #f0f0f0;
   align-items: center;
 }
-.gantt-row:hover {
-  background: var(--lightBg);
-}
+.gantt-row:hover { background: var(--lightBg); }
 .group-header {
   display: flex;
   height: var(--group-header-height);
   align-items: center;
   border-bottom: 1px solid var(--midGray);
 }
-.row-name {
+
+/* INFO COLUMNS */
+.row-info {
   position: sticky;
   left: 0;
   z-index: 5;
-  width: var(--name-col-width);
-  min-width: var(--name-col-width);
-  background: var(--white);
-  padding: 0 12px;
-  font-size: 12px;
+  width: var(--info-col-width);
+  min-width: var(--info-col-width);
   display: flex;
   align-items: center;
-  gap: 6px;
   height: 100%;
+  background: var(--white);
   border-right: 1px solid var(--midGray);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
-.group-header .row-name {
+.gantt-row:hover .row-info { background: var(--lightBg); }
+.group-header .row-info {
+  background: var(--darkGray);
+  color: var(--white);
+}
+
+.col-name {
+  width: var(--name-w);
+  padding: 0 10px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+.col-assignee {
+  width: var(--assignee-w);
+  font-size: 10px;
+  text-align: center;
+  color: var(--gray);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding: 0 4px;
+}
+.col-due {
+  width: var(--due-w);
+  font-size: 10px;
+  text-align: center;
+  color: var(--gray);
+  padding: 0 4px;
+}
+.col-due.overdue { color: #C62828; font-weight: 700; }
+.col-due.soon { color: #E65100; }
+.col-status {
+  width: var(--status-w);
+  text-align: center;
+  padding: 0 2px;
+}
+.status-chip {
+  display: inline-block;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 3px;
+  white-space: nowrap;
+}
+.status-chip.in-progress { background: var(--accent); color: var(--dark); }
+.status-chip.not-started { background: #f0f0f0; color: var(--gray); }
+.status-chip.completed { background: var(--midGray); color: var(--white); }
+.status-chip.no-status { background: #f5f5f5; color: #bbb; }
+
+.group-header .col-name {
   font-weight: 700;
   font-size: 11px;
   letter-spacing: 0.5px;
 }
-.gantt-row:hover .row-name {
-  background: var(--lightBg);
-}
-.row-bars {
-  flex: 1;
-  position: relative;
-  height: 100%;
-}
 
 /* STATUS DOT */
 .status-dot {
-  width: 8px;
-  height: 8px;
+  width: 8px; height: 8px;
   border-radius: 50%;
   flex-shrink: 0;
 }
@@ -249,15 +312,18 @@ body {
 .toggle-arrow:hover { color: var(--dark); }
 
 /* TASK NAME */
-.task-name-text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.subtask-badge {
-  font-size: 10px;
-  color: var(--gray);
+.task-name-text { overflow: hidden; text-overflow: ellipsis; }
+.subtask-badge { font-size: 10px; color: var(--gray); flex-shrink: 0; }
+.ms-icon {
   flex-shrink: 0;
+  width: 10px; height: 10px;
+  transform: rotate(45deg);
+  border: 1.5px solid var(--dark);
+  background: var(--accent);
+  display: inline-block;
 }
+
+.row-bars { flex: 1; position: relative; height: 100%; }
 
 /* BARS */
 .gantt-bar {
@@ -275,8 +341,7 @@ body {
 /* MILESTONE */
 .milestone-marker {
   position: absolute;
-  width: 14px;
-  height: 14px;
+  width: 14px; height: 14px;
   top: 50%;
   transform: translateY(-50%) rotate(45deg);
   border: 2px solid var(--dark);
@@ -292,16 +357,14 @@ body {
   display: none;
   background: #fafafa;
 }
-.subtask-row.visible {
-  display: flex;
-}
-.subtask-row .row-name {
-  padding-left: 40px;
+.subtask-row.visible { display: flex; }
+.subtask-row .row-info { background: #fafafa; }
+.subtask-row .col-name {
+  padding-left: 36px;
   font-size: 11px;
   color: var(--gray);
-  background: #fafafa;
 }
-.subtask-row:hover .row-name { background: var(--lightBg); }
+.subtask-row:hover .row-info { background: var(--lightBg); }
 .subtask-line {
   position: absolute;
   height: 6px;
@@ -355,15 +418,15 @@ body {
   z-index: 200;
   pointer-events: none;
   display: none;
-  max-width: 320px;
+  max-width: 360px;
 }
 
 /* FOOTER */
 .footer {
   flex-shrink: 0;
   text-align: center;
-  padding: 8px;
-  font-size: 14px;
+  padding: 6px;
+  font-size: 13px;
   color: var(--gray);
   border-top: 1px solid var(--midGray);
   background: var(--white);
@@ -371,8 +434,7 @@ body {
 
 /* PAT DIALOG */
 .overlay {
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   background: rgba(0,0,0,0.5);
   z-index: 1000;
   display: flex;
@@ -388,52 +450,23 @@ body {
   width: 90%;
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
 }
-.dialog h2 {
-  font-size: 18px;
-  margin-bottom: 12px;
-}
-.dialog p {
-  font-size: 13px;
-  color: var(--gray);
-  margin-bottom: 16px;
-  line-height: 1.6;
-}
+.dialog h2 { font-size: 18px; margin-bottom: 12px; }
+.dialog p { font-size: 13px; color: var(--gray); margin-bottom: 16px; line-height: 1.6; }
 .dialog input[type="text"] {
-  width: 100%;
-  padding: 10px 12px;
-  font-size: 14px;
-  font-family: monospace;
-  border: 1px solid var(--midGray);
-  border-radius: 4px;
-  margin-bottom: 16px;
+  width: 100%; padding: 10px 12px; font-size: 14px;
+  font-family: monospace; border: 1px solid var(--midGray); border-radius: 4px; margin-bottom: 16px;
 }
-.dialog .btn-row {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-}
+.dialog .btn-row { display: flex; gap: 8px; justify-content: flex-end; }
 .dialog button {
-  padding: 8px 20px;
-  font-size: 13px;
+  padding: 8px 20px; font-size: 13px;
   font-family: 'Noto Sans JP', sans-serif;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: 700;
+  border: none; border-radius: 4px; cursor: pointer; font-weight: 700;
 }
-.dialog .btn-primary {
-  background: var(--accent);
-  color: var(--dark);
-}
-.dialog .btn-secondary {
-  background: var(--midGray);
-  color: var(--dark);
-}
+.dialog .btn-primary { background: var(--accent); color: var(--dark); }
 
-/* LOADING OVERLAY */
+/* LOADING */
 .loading-overlay {
-  position: fixed;
-  inset: 0;
+  position: fixed; inset: 0;
   background: rgba(255,255,255,0.9);
   z-index: 500;
   display: flex;
@@ -450,30 +483,18 @@ body {
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
-.loading-text {
-  font-size: 14px;
-  color: var(--gray);
-}
+.loading-text { font-size: 14px; color: var(--gray); }
 
-/* ERROR BANNER */
+/* ERROR */
 .error-banner {
-  background: #FFEBEE;
-  color: #C62828;
-  padding: 12px 24px;
-  font-size: 13px;
-  display: none;
-  align-items: center;
-  gap: 8px;
-  flex-shrink: 0;
+  background: #FFEBEE; color: #C62828;
+  padding: 10px 24px; font-size: 13px;
+  display: none; align-items: center; gap: 8px; flex-shrink: 0;
 }
 .error-banner.visible { display: flex; }
 .error-banner .close-err {
-  margin-left: auto;
-  background: none;
-  border: none;
-  color: #C62828;
-  font-size: 16px;
-  cursor: pointer;
+  margin-left: auto; background: none; border: none;
+  color: #C62828; font-size: 16px; cursor: pointer;
 }
 </style>
 </head>
@@ -507,6 +528,7 @@ body {
   <button class="close-err" id="closeErr">&times;</button>
 </div>
 
+<!-- HEADER -->
 <div class="header">
   <h1>IPO推進 ガントチャート <span style="font-size:12px;color:var(--accent);font-weight:400">LIVE</span></h1>
   <div class="header-right">
@@ -514,28 +536,68 @@ body {
       <div class="legend-item"><div class="legend-swatch" style="background:var(--accent)"></div>仕掛中</div>
       <div class="legend-item"><div class="legend-swatch" style="background:var(--lightBg);border:1px solid var(--midGray)"></div>未着手</div>
       <div class="legend-item"><div class="legend-swatch" style="background:var(--midGray)"></div>完了</div>
-      <div class="legend-item"><div style="width:12px;height:12px;transform:rotate(45deg);border:2px solid var(--dark);background:var(--accent)"></div>MS</div>
+      <div class="legend-item"><div style="width:11px;height:11px;transform:rotate(45deg);border:2px solid var(--dark);background:var(--accent)"></div>MS</div>
     </div>
     <div class="update-info">
       <span id="taskCount">-- tasks</span>
       <span id="lastUpdate">--</span>
     </div>
-    <button class="refresh-btn" id="refreshBtn" title="Asanaから最新データを取得">
+    <button class="refresh-btn" id="refreshBtn" title="最新データを取得">
       <div class="spinner"></div>
       <span class="btn-text">&#x21bb; 更新</span>
     </button>
-    <button class="refresh-btn" id="settingsBtn" title="PAT設定" style="background:#555;color:#fff;padding:6px 10px;">
+    <button class="refresh-btn" id="settingsBtn" title="PAT設定" style="background:#555;color:#fff;padding:5px 10px;">
       <span>&#x2699;</span>
     </button>
   </div>
 </div>
 
-<div class="timeline-header-wrapper" id="timelineHeader">
+<!-- FILTER BAR -->
+<div class="filter-bar" id="filterBar">
+  <div class="filter-group">
+    <label>種別:</label>
+    <select id="filterType">
+      <option value="all">すべて</option>
+      <option value="milestone">マイルストーンのみ</option>
+      <option value="task">タスクのみ</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>ステータス:</label>
+    <select id="filterStatus">
+      <option value="all">すべて</option>
+      <option value="仕掛中">仕掛中</option>
+      <option value="未着手">未着手</option>
+      <option value="完了">完了</option>
+      <option value="none">未設定</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>担当者:</label>
+    <select id="filterAssignee">
+      <option value="all">すべて</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>タグ:</label>
+    <select id="filterTag">
+      <option value="all">すべて</option>
+    </select>
+  </div>
+  <div class="filter-group">
+    <label>検索:</label>
+    <input type="text" id="filterSearch" placeholder="タスク名で検索...">
+  </div>
+  <span class="filter-count" id="filterCount"></span>
+  <button class="filter-reset" id="filterReset">リセット</button>
 </div>
 
+<!-- TIMELINE HEADER -->
+<div class="timeline-header-wrapper" id="timelineHeader"></div>
+
+<!-- GANTT BODY -->
 <div class="gantt-body" id="ganttBody">
-  <div class="gantt-body-inner" id="ganttInner">
-  </div>
+  <div class="gantt-body-inner" id="ganttInner"></div>
 </div>
 
 <div class="tooltip" id="tooltip"></div>
@@ -544,25 +606,24 @@ body {
 
 <script>
 // ============ CONFIG ============
-const SECTION_GID = '1213528680128590'; // IPO推進 section
+const SECTION_GID = '1213528680128590';
 const ASANA_BASE = 'https://app.asana.com/api/1.0';
-const SUBTASK_THRESHOLD = 0; // fetch subtasks for any task with num_subtasks > 0
 
 // ============ STATE ============
 let DATA = [];
 let SUBTASKS = {};
+let FILTERED = [];
 let lastFetchTime = null;
 
-// ============ TIMELINE CONFIG ============
+// ============ TIMELINE ============
 const TIMELINE_START = new Date(2026, 0, 1);
 const TIMELINE_END = new Date(2029, 5, 30);
 const MONTH_WIDTH = 60;
+const INFO_COL_WIDTH = 520;
 
 function getTodayStr() {
   const d = new Date();
-  return d.getFullYear() + '-' +
-    String(d.getMonth() + 1).padStart(2, '0') + '-' +
-    String(d.getDate()).padStart(2, '0');
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
 }
 
 const months = [];
@@ -573,35 +634,15 @@ while (cur <= TIMELINE_END) {
 }
 const TOTAL_WIDTH = months.length * MONTH_WIDTH;
 
-// ============ PAT MANAGEMENT ============
-function getPAT() {
-  return localStorage.getItem('asana_pat') || '';
-}
-function savePAT(pat) {
-  localStorage.setItem('asana_pat', pat);
-}
+// ============ PAT ============
+function getPAT() { return localStorage.getItem('asana_pat') || ''; }
+function savePAT(pat) { localStorage.setItem('asana_pat', pat); }
 
 // ============ ASANA API ============
-async function asanaGet(path) {
-  const pat = getPAT();
-  if (!pat) throw new Error('PAT not set');
-  const res = await fetch(ASANA_BASE + path, {
-    headers: { 'Authorization': 'Bearer ' + pat }
-  });
-  if (!res.ok) {
-    if (res.status === 401 || res.status === 403) {
-      throw new Error('認証エラー: PATが無効です。設定を確認してください。');
-    }
-    throw new Error('Asana API error: ' + res.status + ' ' + res.statusText);
-  }
-  return (await res.json()).data;
-}
-
 async function fetchAllTasks() {
-  const fields = 'name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.display_value,custom_fields.name,num_subtasks';
+  const fields = 'name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.display_value,custom_fields.name,num_subtasks,assignee.name';
   let allTasks = [];
   let offset = null;
-
   do {
     let url = '/tasks?section=' + SECTION_GID + '&opt_fields=' + fields + '&limit=100';
     if (offset) url += '&offset=' + offset;
@@ -609,21 +650,17 @@ async function fetchAllTasks() {
       headers: { 'Authorization': 'Bearer ' + getPAT() }
     });
     if (!res.ok) {
-      if (res.status === 401 || res.status === 403) {
-        throw new Error('認証エラー: PATが無効です。');
-      }
+      if (res.status === 401 || res.status === 403) throw new Error('認証エラー: PATが無効です。');
       throw new Error('Asana API error: ' + res.status);
     }
     const json = await res.json();
     allTasks = allTasks.concat(json.data);
     offset = json.next_page ? json.next_page.offset : null;
   } while (offset);
-
   return allTasks;
 }
 
 function parseTask(raw) {
-  // Extract status from custom_fields
   let status = '';
   if (raw.custom_fields) {
     for (const cf of raw.custom_fields) {
@@ -633,9 +670,7 @@ function parseTask(raw) {
       }
     }
   }
-  // Extract tags
   const tags = (raw.tags || []).map(t => t.name).join(', ');
-
   return {
     gid: raw.gid,
     n: raw.name,
@@ -646,12 +681,17 @@ function parseTask(raw) {
     tag: tags,
     st: status,
     ns: raw.num_subtasks || 0,
+    assignee: raw.assignee ? raw.assignee.name : '',
   };
 }
 
 async function fetchSubtasks(taskGid) {
-  const subs = await asanaGet('/tasks/' + taskGid + '/subtasks?opt_fields=name');
-  return subs.map(s => ({ n: s.name }));
+  const pat = getPAT();
+  const res = await fetch(ASANA_BASE + '/tasks/' + taskGid + '/subtasks?opt_fields=name', {
+    headers: { 'Authorization': 'Bearer ' + pat }
+  });
+  if (!res.ok) return [];
+  return (await res.json()).data.map(s => ({ n: s.name }));
 }
 
 async function loadData() {
@@ -659,44 +699,101 @@ async function loadData() {
   const loadingText = document.getElementById('loadingText');
   loadingEl.classList.remove('hidden');
   loadingText.textContent = 'Asanaからタスクを取得中...';
-
   try {
     const rawTasks = await fetchAllTasks();
     DATA = rawTasks.map(parseTask);
 
-    // Fetch subtasks for tasks that have them
     SUBTASKS = {};
     const tasksWithSubs = DATA.filter(t => t.ns > 0);
-    loadingText.textContent = 'サブタスクを取得中 (0/' + tasksWithSubs.length + ')...';
-
     for (let i = 0; i < tasksWithSubs.length; i++) {
-      const t = tasksWithSubs[i];
-      loadingText.textContent = 'サブタスクを取得中 (' + (i + 1) + '/' + tasksWithSubs.length + ')...';
-      try {
-        SUBTASKS[t.gid] = await fetchSubtasks(t.gid);
-      } catch (e) {
-        console.warn('Failed to fetch subtasks for ' + t.gid, e);
-      }
+      loadingText.textContent = 'サブタスクを取得中 (' + (i+1) + '/' + tasksWithSubs.length + ')...';
+      try { SUBTASKS[tasksWithSubs[i].gid] = await fetchSubtasks(tasksWithSubs[i].gid); }
+      catch(e) { console.warn('Subtask fetch failed', e); }
     }
 
     lastFetchTime = new Date();
-    updateHeader();
-    rebuildChart();
+    populateFilters();
+    applyFilters();
     hideError();
-  } catch (e) {
+  } catch(e) {
     showError(e.message);
   } finally {
     loadingEl.classList.add('hidden');
   }
 }
 
+// ============ FILTERS ============
+function populateFilters() {
+  // Assignees
+  const assignees = [...new Set(DATA.map(t => t.assignee).filter(a => a))].sort((a,b) => a.localeCompare(b,'ja'));
+  const asel = document.getElementById('filterAssignee');
+  asel.innerHTML = '<option value="all">すべて</option><option value="none">未割当</option>';
+  assignees.forEach(a => {
+    const o = document.createElement('option');
+    o.value = a; o.textContent = a;
+    asel.appendChild(o);
+  });
+
+  // Tags
+  const allTags = new Set();
+  DATA.forEach(t => {
+    if (t.tag) t.tag.split(',').forEach(tg => allTags.add(tg.trim()));
+  });
+  const sortedTags = [...allTags].sort((a,b) => {
+    const ka = tagSortKey(a), kb = tagSortKey(b);
+    if (ka !== kb) return ka - kb;
+    return a.localeCompare(b,'ja');
+  });
+  const tsel = document.getElementById('filterTag');
+  tsel.innerHTML = '<option value="all">すべて</option>';
+  sortedTags.forEach(t => {
+    const o = document.createElement('option');
+    o.value = t; o.textContent = t.length > 30 ? t.substring(0,30) + '...' : t;
+    tsel.appendChild(o);
+  });
+}
+
+function applyFilters() {
+  const type = document.getElementById('filterType').value;
+  const status = document.getElementById('filterStatus').value;
+  const assignee = document.getElementById('filterAssignee').value;
+  const tag = document.getElementById('filterTag').value;
+  const search = document.getElementById('filterSearch').value.trim().toLowerCase();
+
+  FILTERED = DATA.filter(t => {
+    if (type === 'milestone' && t.t !== 'milestone') return false;
+    if (type === 'task' && t.t === 'milestone') return false;
+
+    if (status !== 'all') {
+      if (status === 'none') {
+        if (t.c || t.st) return false;
+      } else if (status === '完了') {
+        if (!t.c && t.st !== '完了') return false;
+      } else if (t.st !== status) return false;
+    }
+
+    if (assignee === 'none') { if (t.assignee) return false; }
+    else if (assignee !== 'all' && t.assignee !== assignee) return false;
+
+    if (tag !== 'all') {
+      const tags = t.tag.split(',').map(x => x.trim());
+      if (!tags.includes(tag)) return false;
+    }
+
+    if (search && !t.n.toLowerCase().includes(search)) return false;
+
+    return true;
+  });
+
+  document.getElementById('filterCount').textContent = FILTERED.length + ' / ' + DATA.length + ' 件表示';
+  rebuildChart();
+}
+
 // ============ UTILITY ============
 function dateToX(dateStr) {
   if (!dateStr) return null;
   const d = new Date(dateStr + 'T00:00:00');
-  const diffMs = d - TIMELINE_START;
-  const totalMs = TIMELINE_END - TIMELINE_START;
-  return (diffMs / totalMs) * TOTAL_WIDTH;
+  return ((d - TIMELINE_START) / (TIMELINE_END - TIMELINE_START)) * TOTAL_WIDTH;
 }
 
 function getFirstTag(tagStr) {
@@ -718,7 +815,21 @@ function getStatusLabel(task) {
   return '−';
 }
 
-// ============ GROUPING ============
+function formatDue(d) {
+  if (!d) return '';
+  return d.replace(/^\d{4}-/, '').replace('-', '/');
+}
+
+function getDueClass(task) {
+  if (task.c || task.st === '完了' || !task.d) return '';
+  const due = new Date(task.d + 'T00:00:00');
+  const now = new Date(); now.setHours(0,0,0,0);
+  const diffDays = (due - now) / 86400000;
+  if (diffDays < 0) return 'overdue';
+  if (diffDays <= 14) return 'soon';
+  return '';
+}
+
 const tagOrder = [
   '00', '01 ', '01_', '02 ', '02_', '03_', '04_', '05_', '06_',
   '07_', '08_', '09_', '10_', '11_', '12_', '13_', '14_', '99_'
@@ -738,30 +849,24 @@ function buildTimelineHeader() {
   const inner = document.createElement('div');
   inner.className = 'timeline-header-inner';
 
-  const nameCol = document.createElement('div');
-  nameCol.className = 'timeline-header-name';
-  nameCol.textContent = 'タスク名';
-  inner.appendChild(nameCol);
+  const infoCol = document.createElement('div');
+  infoCol.className = 'timeline-header-info';
+  infoCol.innerHTML = '<div class="th-name">タスク名</div><div class="th-assignee">担当者</div><div class="th-due">期日</div><div class="th-status">状態</div>';
+  inner.appendChild(infoCol);
 
   const monthsArea = document.createElement('div');
   monthsArea.className = 'timeline-months';
-
   const yearGroups = {};
-  months.forEach(m => {
-    if (!yearGroups[m.year]) yearGroups[m.year] = [];
-    yearGroups[m.year].push(m);
-  });
+  months.forEach(m => { if (!yearGroups[m.year]) yearGroups[m.year] = []; yearGroups[m.year].push(m); });
 
   Object.keys(yearGroups).sort().forEach(year => {
     const yg = document.createElement('div');
     yg.className = 'year-group';
-
     const yl = document.createElement('div');
     yl.className = 'year-label';
     yl.textContent = year;
     yl.style.width = (yearGroups[year].length * MONTH_WIDTH) + 'px';
     yg.appendChild(yl);
-
     const mr = document.createElement('div');
     mr.className = 'month-row';
     yearGroups[year].forEach(m => {
@@ -783,21 +888,19 @@ function buildTimelineHeader() {
 function buildBody() {
   const container = document.getElementById('ganttInner');
   container.innerHTML = '';
-  container.style.width = (MONTH_WIDTH * months.length + parseInt(getComputedStyle(document.documentElement).getPropertyValue('--name-col-width'))) + 'px';
+  container.style.width = (MONTH_WIDTH * months.length + INFO_COL_WIDTH) + 'px';
 
-  // Group tasks
+  // Group filtered tasks
   const groups = {};
-  DATA.forEach(task => {
+  FILTERED.forEach(task => {
     const tag = getFirstTag(task.tag);
     if (!groups[tag]) groups[tag] = [];
     groups[tag].push(task);
   });
-
-  const sortedTags = Object.keys(groups).sort((a, b) => {
-    const ka = tagSortKey(a);
-    const kb = tagSortKey(b);
+  const sortedTags = Object.keys(groups).sort((a,b) => {
+    const ka = tagSortKey(a), kb = tagSortKey(b);
     if (ka !== kb) return ka - kb;
-    return a.localeCompare(b, 'ja');
+    return a.localeCompare(b,'ja');
   });
 
   // Quarter lines
@@ -805,18 +908,17 @@ function buildBody() {
     if (m.month % 3 === 0) {
       const ql = document.createElement('div');
       ql.className = 'quarter-line';
-      ql.style.left = (340 + i * MONTH_WIDTH) + 'px';
+      ql.style.left = (INFO_COL_WIDTH + i * MONTH_WIDTH) + 'px';
       container.appendChild(ql);
     }
   });
 
   // Today line
-  const todayStr = getTodayStr();
-  const todayX = dateToX(todayStr);
+  const todayX = dateToX(getTodayStr());
   if (todayX !== null) {
     const tl = document.createElement('div');
     tl.className = 'today-line';
-    tl.style.left = (340 + todayX) + 'px';
+    tl.style.left = (INFO_COL_WIDTH + todayX) + 'px';
     const tlabel = document.createElement('div');
     tlabel.className = 'today-label';
     tlabel.textContent = 'TODAY';
@@ -828,32 +930,41 @@ function buildBody() {
     // Group header
     const gh = document.createElement('div');
     gh.className = 'group-header';
+    const ghInfo = document.createElement('div');
+    ghInfo.className = 'row-info';
     const ghName = document.createElement('div');
-    ghName.className = 'row-name';
+    ghName.className = 'col-name';
     ghName.textContent = tag + ' (' + groups[tag].length + ')';
-    ghName.style.background = 'var(--darkGray)';
-    ghName.style.color = 'var(--white)';
-    gh.appendChild(ghName);
+    ghInfo.appendChild(ghName);
+    gh.appendChild(ghInfo);
     const ghBars = document.createElement('div');
     ghBars.className = 'row-bars';
     gh.appendChild(ghBars);
     container.appendChild(gh);
 
-    // Tasks
     groups[tag].forEach(task => {
       const row = document.createElement('div');
       row.className = 'gantt-row';
       row.dataset.gid = task.gid;
 
-      const nameDiv = document.createElement('div');
-      nameDiv.className = 'row-name';
+      // INFO COLUMNS
+      const info = document.createElement('div');
+      info.className = 'row-info';
 
-      // Status dot
+      // Name
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'col-name';
+
       const dot = document.createElement('div');
       dot.className = 'status-dot ' + getStatusClass(task);
       nameDiv.appendChild(dot);
 
-      // Toggle arrow if subtasks
+      if (task.t === 'milestone') {
+        const msi = document.createElement('div');
+        msi.className = 'ms-icon';
+        nameDiv.appendChild(msi);
+      }
+
       const hasSubtasks = task.ns > 0 && SUBTASKS[task.gid] && SUBTASKS[task.gid].length > 0;
       if (hasSubtasks) {
         const arrow = document.createElement('span');
@@ -883,10 +994,33 @@ function buildBody() {
         badge.textContent = '(' + SUBTASKS[task.gid].length + ')';
         nameDiv.appendChild(badge);
       }
+      info.appendChild(nameDiv);
 
-      row.appendChild(nameDiv);
+      // Assignee
+      const assigneeDiv = document.createElement('div');
+      assigneeDiv.className = 'col-assignee';
+      assigneeDiv.textContent = task.assignee || '−';
+      assigneeDiv.title = task.assignee || '';
+      info.appendChild(assigneeDiv);
 
-      // Bar area
+      // Due
+      const dueDiv = document.createElement('div');
+      dueDiv.className = 'col-due ' + getDueClass(task);
+      dueDiv.textContent = formatDue(task.d);
+      info.appendChild(dueDiv);
+
+      // Status chip
+      const statusDiv = document.createElement('div');
+      statusDiv.className = 'col-status';
+      const chip = document.createElement('span');
+      chip.className = 'status-chip ' + getStatusClass(task);
+      chip.textContent = getStatusLabel(task);
+      statusDiv.appendChild(chip);
+      info.appendChild(statusDiv);
+
+      row.appendChild(info);
+
+      // BARS
       const barArea = document.createElement('div');
       barArea.className = 'row-bars';
 
@@ -917,7 +1051,6 @@ function buildBody() {
           }
         }
       }
-
       row.appendChild(barArea);
       container.appendChild(row);
 
@@ -930,13 +1063,26 @@ function buildBody() {
           srow.className = 'gantt-row subtask-row';
           srow.dataset.parent = task.gid;
 
+          const sinfo = document.createElement('div');
+          sinfo.className = 'row-info';
           const sname = document.createElement('div');
-          sname.className = 'row-name';
+          sname.className = 'col-name';
           const stext = document.createElement('span');
           stext.className = 'task-name-text';
           stext.textContent = st.n;
           sname.appendChild(stext);
-          srow.appendChild(sname);
+          sinfo.appendChild(sname);
+
+          const sa = document.createElement('div');
+          sa.className = 'col-assignee';
+          sinfo.appendChild(sa);
+          const sd = document.createElement('div');
+          sd.className = 'col-due';
+          sinfo.appendChild(sd);
+          const ss = document.createElement('div');
+          ss.className = 'col-status';
+          sinfo.appendChild(ss);
+          srow.appendChild(sinfo);
 
           const sbar = document.createElement('div');
           sbar.className = 'row-bars';
@@ -963,8 +1109,8 @@ function buildBody() {
 const tooltipEl = document.getElementById('tooltip');
 
 function showTooltip(task, e) {
-  const lines = [];
-  lines.push('<strong>' + task.n + '</strong>');
+  const lines = ['<strong>' + task.n + '</strong>'];
+  if (task.assignee) lines.push('担当: ' + task.assignee);
   if (task.s) lines.push('開始: ' + task.s);
   if (task.d) lines.push('期日: ' + task.d);
   lines.push('ステータス: ' + getStatusLabel(task));
@@ -980,9 +1126,7 @@ function positionTooltip(e) {
   tooltipEl.style.top = (e.clientY + 12) + 'px';
 }
 
-function hideTooltip() {
-  tooltipEl.style.display = 'none';
-}
+function hideTooltip() { tooltipEl.style.display = 'none'; }
 
 document.addEventListener('mousemove', function(e) {
   if (tooltipEl.style.display === 'block') positionTooltip(e);
@@ -992,13 +1136,14 @@ document.addEventListener('mousemove', function(e) {
 function updateHeader() {
   document.getElementById('taskCount').textContent = DATA.length + ' tasks';
   if (lastFetchTime) {
-    const h = String(lastFetchTime.getHours()).padStart(2, '0');
-    const m = String(lastFetchTime.getMinutes()).padStart(2, '0');
+    const h = String(lastFetchTime.getHours()).padStart(2,'0');
+    const m = String(lastFetchTime.getMinutes()).padStart(2,'0');
     document.getElementById('lastUpdate').textContent = '最終取得 ' + h + ':' + m;
   }
 }
 
 function rebuildChart() {
+  updateHeader();
   buildTimelineHeader();
   buildBody();
   syncScroll();
@@ -1009,35 +1154,25 @@ function showError(msg) {
   document.getElementById('errorMsg').textContent = msg;
   document.getElementById('errorBanner').classList.add('visible');
 }
-function hideError() {
-  document.getElementById('errorBanner').classList.remove('visible');
-}
+function hideError() { document.getElementById('errorBanner').classList.remove('visible'); }
 
-// ============ SYNC SCROLL ============
 function syncScroll() {
   const body = document.getElementById('ganttBody');
   const header = document.getElementById('timelineHeader');
-  body.addEventListener('scroll', function() {
-    header.scrollLeft = body.scrollLeft;
-  });
+  body.addEventListener('scroll', function() { header.scrollLeft = body.scrollLeft; });
 }
 
-// ============ SCROLL TO TODAY ============
 function scrollToToday() {
   const body = document.getElementById('ganttBody');
   const todayX = dateToX(getTodayStr());
-  if (todayX !== null) {
-    body.scrollLeft = Math.max(0, todayX - 200);
-  }
+  if (todayX !== null) body.scrollLeft = Math.max(0, todayX - 200);
 }
 
 // ============ EVENT LISTENERS ============
 document.getElementById('refreshBtn').addEventListener('click', async function() {
-  this.classList.add('loading');
-  this.disabled = true;
+  this.classList.add('loading'); this.disabled = true;
   await loadData();
-  this.classList.remove('loading');
-  this.disabled = false;
+  this.classList.remove('loading'); this.disabled = false;
 });
 
 document.getElementById('settingsBtn').addEventListener('click', function() {
@@ -1053,11 +1188,24 @@ document.getElementById('patSave').addEventListener('click', function() {
   loadData();
 });
 
-document.getElementById('closeErr').addEventListener('click', hideError);
-
-// Handle Enter key in PAT input
 document.getElementById('patInput').addEventListener('keydown', function(e) {
   if (e.key === 'Enter') document.getElementById('patSave').click();
+});
+
+document.getElementById('closeErr').addEventListener('click', hideError);
+
+// Filter listeners
+['filterType','filterStatus','filterAssignee','filterTag'].forEach(id => {
+  document.getElementById(id).addEventListener('change', applyFilters);
+});
+document.getElementById('filterSearch').addEventListener('input', applyFilters);
+document.getElementById('filterReset').addEventListener('click', function() {
+  document.getElementById('filterType').value = 'all';
+  document.getElementById('filterStatus').value = 'all';
+  document.getElementById('filterAssignee').value = 'all';
+  document.getElementById('filterTag').value = 'all';
+  document.getElementById('filterSearch').value = '';
+  applyFilters();
 });
 
 // ============ INIT ============
