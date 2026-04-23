@@ -217,6 +217,156 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
   <p style="font-size:12px;color:var(--text2);line-height:1.7">フォルダ構成の設計・移行対象の選定・運用ルールの策定において、まず第1層（IPO・ISMS要件）で必要十分な最低限の構成を固める。その上で第2層（業務要件）として、プロセスのアウトプットやSSOT資料を追加していく。第1層だけでも監査・認証には耐えうる状態を保ちつつ、第2層で実務上の利便性を確保する。フォルダを「あったほうがいい」で増やすのではなく、「第1層か第2層のどちらかの基準を満たすか」で判断する。</p>
 </div>
 
+<!-- SSOT Orthogonal Axis -->
+<div class="section" style="margin-bottom:24px">
+  <div class="section-head"><span class="num">★+</span><h2>SSOT属性：2層に直交する第3の軸</h2></div>
+  <div class="section-desc">SSOTは第2層に内包される概念ではなく、2層構造に対して直交する独立属性として設計する。第1層にもSSOT（議事録・情報資産台帳）が存在し、第2層にもSSOT（631HB・マニュアル）が存在するため、「どの層か」と「SSOTか」は別の判断軸である。</div>
+</div>
+
+<div style="background:var(--bg2);border:2px solid var(--green);border-radius:10px;padding:16px 20px;margin-bottom:16px;">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+    <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--green);padding:2px 8px;border-radius:4px;">SSOT属性</span>
+    <span style="font-size:14px;font-weight:500">層と直交する正本管理フラグ</span>
+  </div>
+  <table class="migration-table" style="margin-bottom:12px">
+    <thead>
+      <tr><th style="width:20%"></th><th style="width:40%">非SSOT</th><th style="width:40%">SSOT（正本）</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight:500;color:var(--coral)">第1層<br><span style="font-size:10px;font-weight:400">IPO/ISMS必須</span></td>
+        <td style="font-size:11px;color:var(--text2)">監査作業ワークペーパー、一時的な証跡ログ、レビュー用ドラフト</td>
+        <td style="font-size:11px;color:var(--green)"><b>取締役会議事録</b>、<b>情報資産台帳</b>、<b>J-SOX 3点セット</b>、<b>IT統制規程</b>、<b>全社規程原本</b>、<b>SOCレポート</b></td>
+      </tr>
+      <tr>
+        <td style="font-weight:500;color:var(--accent)">第2層<br><span style="font-size:10px;font-weight:400">業務必要</span></td>
+        <td style="font-size:11px;color:var(--text2)">日常業務メモ、打合せメモ、部門内共有資料、暫定フォルダ内ファイル</td>
+        <td style="font-size:11px;color:var(--green)"><b>631ハンドブック</b>、<b>事業計画</b>、<b>決算書類</b>、<b>加盟店契約書</b>、<b>SW工数確定版</b></td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="padding:8px 12px;background:rgba(22,163,74,0.06);border-radius:6px;font-size:11px;color:var(--green);margin-bottom:8px">
+    判断基準：「この情報の正本（唯一の真実の源）はどこか」— 層の判断とは独立
+  </div>
+  <ul style="font-size:12px;color:var(--text2);padding-left:16px;margin:0">
+    <li style="margin-bottom:4px">SSOT指定されたファイル → メタデータ「SSOT: Yes」付与、複製禁止（参照リンクのみ）、変更ログ自動記録</li>
+    <li style="margin-bottom:4px">SSOTファイルは各サイトの適切な場所に<b>分散配置</b>（集約フォルダは権限境界に反する）</li>
+    <li style="margin-bottom:4px"><b>SSOTマスタインデックス</b>（04_IT統制/01_ISMS/）で全SSOTを横断管理</li>
+    <li style="margin-bottom:4px">AIエージェントのインデックス対象として登録</li>
+  </ul>
+</div>
+
+<!-- AI Agent Vision -->
+<div style="background:var(--bg2);border:2px solid var(--purple);border-radius:10px;padding:16px 20px;margin-bottom:16px;">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+    <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--purple);padding:2px 8px;border-radius:4px;">構想</span>
+    <span style="font-size:14px;font-weight:500">AIエージェントによるSSOT活用ビジョン</span>
+  </div>
+  <p style="font-size:12px;color:var(--text2);margin-bottom:12px">データ移行後、SSOTとマスタデータの「メタデータ＋サマリー」をMarkdown・図に構造化し、AIエージェント（Claude MCP連携）が問合せ・意思決定支援を行う基盤を構築する。</p>
+
+  <div style="margin-bottom:12px">
+    <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">ssot-knowledge-base/ の構成（8カテゴリ）</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:6px;padding:10px">
+        <div style="font-size:11px;font-weight:500;color:var(--coral);margin-bottom:4px">company/</div>
+        <div style="font-size:10px;color:var(--text2);line-height:1.6">企業概要・沿革<br>組織図・部門構成<br>グループ会社<br>ガバナンス体制</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:6px;padding:10px">
+        <div style="font-size:11px;font-weight:500;color:var(--purple);margin-bottom:4px">strategy/</div>
+        <div style="font-size:10px;color:var(--text2);line-height:1.6">631ハンドブック<br>事業計画サマリー<br>IPOロードマップ<br>競合分析・市場動向</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:6px;padding:10px">
+        <div style="font-size:11px;font-weight:500;color:var(--teal);margin-bottom:4px">products/</div>
+        <div style="font-size:10px;color:var(--text2);line-height:1.6">Mobiconサービス仕様<br>保証BPO定義<br>料金体系・課金<br>API仕様・連携</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:6px;padding:10px">
+        <div style="font-size:11px;font-weight:500;color:var(--accent);margin-bottom:4px">customers/</div>
+        <div style="font-size:10px;color:var(--text2);line-height:1.6">顧客セグメント<br>パートナープロファイル<br>標準契約条件・SLA<br>カスタマージャーニー</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:6px;padding:10px">
+        <div style="font-size:11px;font-weight:500;color:var(--amber);margin-bottom:4px">masters/</div>
+        <div style="font-size:10px;color:var(--text2);line-height:1.6">勘定科目マスタ<br>加盟店一覧<br>役職・権限マトリクス<br>IT資産・システム一覧</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:6px;padding:10px">
+        <div style="font-size:11px;font-weight:500;color:var(--green);margin-bottom:4px">knowhow/</div>
+        <div style="font-size:10px;color:var(--text2);line-height:1.6">BPO運用ノウハウ<br>営業プレイブック<br>顧客対応FAQ<br>トラブルシューティング<br>新人ガイド・教訓集</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:6px;padding:10px">
+        <div style="font-size:11px;font-weight:500;color:var(--text2);margin-bottom:4px">policies/</div>
+        <div style="font-size:10px;color:var(--text2);line-height:1.6">情報セキュリティ方針<br>経理規程<br>就業規則<br>内部統制基本方針</div>
+      </div>
+      <div style="background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:6px;padding:10px">
+        <div style="font-size:11px;font-weight:500;color:var(--text2);margin-bottom:4px">processes/ + diagrams/</div>
+        <div style="font-size:10px;color:var(--text2);line-height:1.6">会計・承認フロー<br>障害対応・営業プロセス<br>ER図・構成図<br>SharePoint構成案</div>
+      </div>
+    </div>
+    <div style="padding:6px 10px;background:rgba(22,163,74,0.06);border-radius:6px;font-size:11px;color:var(--green);margin-bottom:4px">
+      MD化の範囲：原本インデックスだけでなく、散在するファイルからの構造化統合・暗黙知の形式知化を含む
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+    <div style="background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">MD化の3つの性質</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">
+        <b>①インデックス</b> — 確定版文書へのリンク参照<br>
+        <b>②構造化統合</b> — 散在する情報の再構成<br>
+        <b>③形式知化</b> — 暗黙知・ノウハウの言語化
+      </div>
+    </div>
+    <div style="background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:8px;padding:12px">
+      <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">AIエージェント連携</div>
+      <div style="font-size:12px;color:var(--text2);line-height:1.7">
+        <b>SharePoint MCP</b> — 原本の実データ読取<br>
+        <b>Asana MCP</b> — タスク・進捗・ワークフロー<br>
+        <b>MoneyForward MCP</b> — 会計データ連携<br>
+        <b>Notion MCP</b> — ナレッジDB参照
+      </div>
+    </div>
+  </div>
+
+  <table class="migration-table" style="margin-bottom:8px">
+    <thead>
+      <tr><th style="width:12%">段階</th><th style="width:20%">名称</th><th style="width:40%">内容</th><th style="width:15%">時期</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="action-tag move">Step 1</span></td>
+        <td style="font-size:11px;font-weight:500">SSOT問合せ</td>
+        <td style="font-size:11px;color:var(--text2)">「〇〇はどこにある？」にMDインデックスから即答。SSOT正本へのリンク提供</td>
+        <td style="font-size:11px;color:var(--text2)">SP統合完了後</td>
+      </tr>
+      <tr>
+        <td><span class="action-tag new">Step 2</span></td>
+        <td style="font-size:11px;font-weight:500">コンテキスト付き回答</td>
+        <td style="font-size:11px;color:var(--text2)">SSOT原本をSharePoint MCPで読取→要約・比較して回答。「前期との差分は〇〇」</td>
+        <td style="font-size:11px;color:var(--text2)">2027 Q2</td>
+      </tr>
+      <tr>
+        <td><span style="display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;background:rgba(124,58,237,0.08);color:var(--purple);border:1px solid rgba(124,58,237,0.2);margin-right:4px">Step 3</span></td>
+        <td style="font-size:11px;font-weight:500">意思決定支援</td>
+        <td style="font-size:11px;color:var(--text2)">複数SSOTを横断分析→「この規程に基づくとこの判断が妥当」「類似案件の前例は〇〇」等の提案</td>
+        <td style="font-size:11px;color:var(--text2)">2027 Q3〜</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="padding:6px 10px;background:rgba(124,58,237,0.06);border-radius:6px;font-size:11px;color:var(--purple)">
+    Human-in-the-Loop：AIは「収集・構造化・提案」を自動化。SSOTの「確定（承認）」は必ず人間が行う
+  </div>
+</div>
+
+<div style="background:var(--bg2);border:1px solid rgba(217,119,6,0.15);border-left:3px solid var(--amber);border-radius:8px;padding:14px 18px;margin-bottom:24px;">
+  <h4 style="font-size:13px;font-weight:500;color:var(--amber);margin-bottom:6px;">SSOTマスタインデックスの管理</h4>
+  <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:8px">全SSOTを横断管理するインデックスは<b>04_IT統制/01_ISMS/SSOT_マスタインデックス</b>に配置。ISMSの情報資産台帳との整合性を維持する。J-SOX監査で参照される場合は03_管理部門/06_内部統制から参照リンクで対応。</p>
+  <ul style="font-size:12px;color:var(--text2);padding-left:16px;margin:0">
+    <li style="margin-bottom:4px">インデックス項目：SSOT名、原本サイト/フォルダ、SharePointリンク、管理責任者、更新頻度、法的根拠、AI対象フラグ</li>
+    <li style="margin-bottom:4px">四半期レビュー：権限棚卸と同時にSSOTインデックスの整合性を確認</li>
+    <li style="margin-bottom:4px">SSOT分類：マスタデータ / トランザクションSSOT / 規程・ポリシー / 商品・サービス / 顧客・パートナー / 戦略・ナレッジ の6類型</li>
+  </ul>
+</div>
+
 <!-- Design Principles -->
 <div class="section">
   <div class="section-head"><span class="num">00</span><h2>設計原則</h2></div>
