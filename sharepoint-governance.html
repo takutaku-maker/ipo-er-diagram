@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SharePoint統合 ガバナンスガイド | REVISE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --accent: #FEDA3E;
+  --dark: #333333;
+  --gray: #626161;
+  --dark-gray: #4D4D4D;
+  --light-bg: #FFFBEC;
+  --mid-gray: #E0E0E0;
+  --white: #FFFFFF;
+  --light-yel: #FFFBEC;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "Noto Sans JP", "Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+  color: var(--dark);
+  background: var(--white);
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+/* ─── Sidebar ─── */
+.sidebar {
+  position: fixed; top: 0; left: 0;
+  width: 280px; height: 100vh;
+  background: var(--white);
+  border-right: 1px solid var(--mid-gray);
+  overflow-y: auto;
+  z-index: 100;
+  padding: 24px 0;
+  transition: transform .3s;
+}
+.sidebar-header {
+  padding: 0 20px 16px;
+  border-bottom: 3px solid var(--accent);
+  margin-bottom: 12px;
+}
+.sidebar-header h1 {
+  font-size: 16px; font-weight: 700; color: var(--dark);
+  line-height: 1.4;
+}
+.sidebar-header p {
+  font-size: 11px; color: var(--gray); margin-top: 4px;
+}
+.nav-section { padding: 4px 0; }
+.nav-section-title {
+  font-size: 11px; font-weight: 700; color: var(--gray);
+  text-transform: uppercase; letter-spacing: .08em;
+  padding: 8px 20px 4px;
+}
+.nav-link {
+  display: block;
+  padding: 6px 20px 6px 28px;
+  font-size: 13px; color: var(--dark-gray);
+  text-decoration: none;
+  border-left: 3px solid transparent;
+  transition: all .15s;
+}
+.nav-link:hover { background: var(--light-bg); border-left-color: var(--accent); color: var(--dark); }
+.nav-link.active { background: var(--light-yel); border-left-color: var(--accent); font-weight: 700; color: var(--dark); }
+
+/* ─── Mobile toggle ─── */
+.menu-toggle {
+  display: none; position: fixed; top: 12px; left: 12px; z-index: 200;
+  background: var(--accent); border: none; border-radius: 8px;
+  width: 40px; height: 40px; cursor: pointer;
+  font-size: 20px; color: var(--dark);
+}
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); box-shadow: 4px 0 24px rgba(0,0,0,.12); }
+  .menu-toggle { display: flex; align-items: center; justify-content: center; }
+  .main { margin-left: 0 !important; }
+}
+
+/* ─── Main Content ─── */
+.main {
+  margin-left: 280px;
+  max-width: 920px;
+  padding: 40px 48px 80px;
+}
+.page-title {
+  font-size: 32px; font-weight: 700; color: var(--dark);
+  padding-bottom: 16px;
+  border-bottom: 3px solid var(--accent);
+  margin-bottom: 32px;
+}
+.page-subtitle {
+  font-size: 14px; color: var(--gray);
+  margin-top: -24px; margin-bottom: 32px;
+}
+
+/* ─── Sections ─── */
+section { margin-bottom: 48px; scroll-margin-top: 24px; }
+section h2 {
+  font-size: 22px; font-weight: 700; color: var(--dark);
+  padding: 8px 0 8px 16px;
+  border-left: 4px solid var(--accent);
+  margin-bottom: 20px;
+}
+section h3 {
+  font-size: 17px; font-weight: 700; color: var(--dark);
+  margin: 24px 0 12px;
+}
+section h4 {
+  font-size: 15px; font-weight: 700; color: var(--dark-gray);
+  margin: 16px 0 8px;
+}
+p { margin-bottom: 12px; }
+ul, ol { margin: 8px 0 16px 20px; }
+li { margin-bottom: 4px; }
+strong { font-weight: 700; }
+
+/* ─── Cards & Boxes ─── */
+.card {
+  background: var(--white);
+  border: 1px solid var(--mid-gray);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+.highlight-box {
+  background: var(--light-yel);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 16px 0;
+}
+.highlight-box strong { color: var(--dark); }
+
+/* ─── Tables ─── */
+.table-wrap { overflow-x: auto; margin: 12px 0 20px; }
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: 13px;
+}
+thead th {
+  background: var(--dark);
+  color: var(--white);
+  font-weight: 700;
+  text-align: left;
+  padding: 10px 14px;
+}
+thead th:first-child { border-radius: 8px 0 0 0; }
+thead th:last-child { border-radius: 0 8px 0 0; }
+tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--mid-gray);
+  vertical-align: top;
+}
+tbody tr:nth-child(even) { background: var(--light-bg); }
+tbody tr:hover { background: #FFF8D6; }
+
+/* ─── Tags ─── */
+.tag {
+  display: inline-block;
+  font-size: 11px; font-weight: 700;
+  padding: 2px 10px;
+  border-radius: 12px;
+  margin-right: 4px;
+}
+.tag-l1 { background: var(--accent); color: var(--dark); }
+.tag-l2 { background: var(--mid-gray); color: var(--dark-gray); }
+
+/* ─── Code / Pre ─── */
+pre {
+  background: #F7F7F7;
+  border: 1px solid var(--mid-gray);
+  border-radius: 8px;
+  padding: 16px 20px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 12px 0 20px;
+  white-space: pre;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+code {
+  background: #F0F0F0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+}
+
+/* ─── Flow diagram ─── */
+.flow {
+  display: flex; align-items: center; gap: 8px;
+  flex-wrap: wrap;
+  margin: 12px 0 20px;
+}
+.flow-step {
+  background: var(--light-yel);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-size: 13px; font-weight: 700;
+  text-align: center;
+}
+.flow-arrow { font-size: 18px; color: var(--gray); }
+
+/* ─── Footer ─── */
+.footer {
+  text-align: center;
+  padding: 24px 0;
+  font-size: 12px;
+  color: var(--gray);
+  border-top: 1px solid var(--mid-gray);
+  margin-top: 48px;
+}
+
+/* ─── Badges for decision cards ─── */
+.decision-card { border-left: 4px solid var(--accent); }
+.decision-card h4 { margin-top: 0; }
+.decision-label {
+  font-size: 11px; font-weight: 700; color: var(--gray);
+  margin-bottom: 4px;
+}
+</style>
+</head>
+<body>
+
+<button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">☰</button>
+
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h1>SharePoint統合<br>ガバナンスガイド</h1>
+    <p>REVISE Co., Ltd.</p>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-section-title">基本方針</div>
+    <a class="nav-link" href="#overview">概要・2層の優先順位</a>
+    <a class="nav-link" href="#flow">ファイル配置の判定フロー</a>
+    <a class="nav-link" href="#sites">5サイト構成</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-title">フォルダ構成</div>
+    <a class="nav-link" href="#site01">01 経営管理</a>
+    <a class="nav-link" href="#site02">02 業務共通</a>
+    <a class="nav-link" href="#site03">03 管理部門</a>
+    <a class="nav-link" href="#site04">04 IT統制・ISMS</a>
+    <a class="nav-link" href="#site05">05 全社共通</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-title">設計判断</div>
+    <a class="nav-link" href="#decisions">5つの設計判断</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-title">SSOT方針</div>
+    <a class="nav-link" href="#ssot-arch">多層SSOTアーキテクチャ</a>
+    <a class="nav-link" href="#ssot-class">SSOT分類・定義書</a>
+    <a class="nav-link" href="#ssot-governance">データガバナンス</a>
+    <a class="nav-link" href="#ssot-map">SSOT資料マップ</a>
+    <a class="nav-link" href="#ssot-ai">AI自動化ビジョン</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-title">ガバナンス</div>
+    <a class="nav-link" href="#governance">運用ルール</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-section-title">参照資料</div>
+    <a class="nav-link" href="#legal">法令・規格一覧</a>
+    <a class="nav-link" href="#migration">移行マッピング表</a>
+    <a class="nav-link" href="#glossary">用語定義表</a>
+  </div>
+</nav>
+
+<main class="main">
+  <h1 class="page-title">SharePoint統合 ガバナンスガイド</h1>
+  <p class="page-subtitle">Revise株式会社のSharePoint統合（既存11サイト→新5サイト）における構成設計・運用ルールの基準文書</p>
+
+  <!-- ═══ 概要 ═══ -->
+  <section id="overview">
+    <h2>最上位方針：2層の優先順位</h2>
+
+    <div class="card">
+      <h3><span class="tag tag-l1">第1層</span> IPO・ISMSで最低限必要な構成</h3>
+      <p><strong>判断基準：</strong>「これがないと監査で指摘される / ISMS認証が取れない」</p>
+      <p>複雑化・煩雑化を避ける。含まれるもの：権限分離、職務分掌、文書管理、アクセス制御、監査証跡</p>
+    </div>
+
+    <div class="card">
+      <h3><span class="tag tag-l2">第2層</span> 業務上必要なもの</h3>
+      <p><strong>判断基準：</strong>「業務を回すために必要 / SSOTとして正本管理すべき」</p>
+      <p>含まれるもの：プロセスから発生する成果物、SSOTにつながる資料</p>
+      <p><strong>最終形態：</strong>システム制御ワークフロー（Asana等）から自動生成されるアウトプットの保存先。ワークフロー経由でないファイル追加は例外扱い</p>
+    </div>
+
+    <div class="highlight-box">
+      <strong>判断ルール：</strong>「あったほうがいい」でフォルダを増やさない。第1層か第2層のどちらかの基準を満たすかで判断する。
+    </div>
+  </section>
+
+  <!-- ═══ 判定フロー ═══ -->
+  <section id="flow">
+    <h2>ファイル配置の判定フロー</h2>
+
+    <h3>Step 1: サイト判定（機密レベル）</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>情報の種類</th><th>配置先サイト</th></tr></thead>
+        <tbody>
+          <tr><td>経営機密（取締役会・IPO・事業計画・インサイダー情報）</td><td><strong>01_経営管理</strong></td></tr>
+          <tr><td>IT統制・ISMS関連（規程・監査証跡・SOC・セキュリティ）</td><td><strong>04_IT統制</strong></td></tr>
+          <tr><td>財務・人事・法務・内部統制</td><td><strong>03_管理部門</strong></td></tr>
+          <tr><td>全社公開（規程公開版・テンプレート・研修・ナレッジ）</td><td><strong>05_全社共通</strong></td></tr>
+          <tr><td>上記以外の日常業務ドキュメント</td><td><strong>02_業務共通</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Step 2: 層の判定</h3>
+    <ul>
+      <li>監査・認証で必須 → <span class="tag tag-l1">第1層</span></li>
+      <li>業務プロセスの成果物 or SSOTとして正本管理すべき → <span class="tag tag-l2">第2層</span></li>
+      <li>どちらにも該当しない → 移行対象外</li>
+    </ul>
+
+    <h3>Step 3: SSOT判定</h3>
+    <ul>
+      <li><strong>確定版</strong>（承認済み正式文書）→ SSOT本体。各サイトの正式フォルダ</li>
+      <li><strong>インプット</strong>（参考文献・書籍）→ 05_全社共通/04_ナレッジライブラリ</li>
+      <li><strong>作業中</strong>（WIP・下書き）→ 移行しない。OneDrive/Teams</li>
+    </ul>
+
+    <h3>移行対象の判定（3問フロー）</h3>
+    <div class="flow">
+      <div class="flow-step">業務プロセスの<br>正式なアウトプットか？</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">他者が業務で<br>参照する必要があるか？</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">法的・規制上の<br>保存義務があるか？</div>
+    </div>
+    <p>すべてYes → <span class="tag tag-l1">第1層</span>、保存義務なしだが業務上必要 → <span class="tag tag-l2">第2層</span>、途中でNo → 移行しない</p>
+  </section>
+
+  <!-- ═══ 5サイト構成 ═══ -->
+  <section id="sites">
+    <h2>5サイト構成</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>No</th><th>サイト名</th><th>役割</th><th>サイト所有者</th><th>機密レベル</th></tr></thead>
+        <tbody>
+          <tr><td>01</td><td><strong>経営管理</strong></td><td>取締役会・株主総会・IPO準備・事業計画</td><td>管理部長</td><td>極秘</td></tr>
+          <tr><td>02</td><td><strong>業務共通</strong></td><td>部門別ドキュメント（BPO・営業・開発・分析）</td><td>IT管理責任者</td><td>社外秘</td></tr>
+          <tr><td>03</td><td><strong>管理部門</strong></td><td>財務経理・人事・法務・SW資産・内部統制</td><td>管理部長</td><td>機密</td></tr>
+          <tr><td>04</td><td><strong>IT統制・ISMS</strong></td><td>ISMS文書・IT統制規程・監査証跡・SOC</td><td>IT管理責任者</td><td>機密</td></tr>
+          <tr><td>05</td><td><strong>全社共通</strong></td><td>規程公開版・テンプレート・教育研修・ナレッジ</td><td>総務担当</td><td>一般</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="highlight-box">
+      <strong>原則：</strong>サイト＝権限境界。フォルダ単位の個別権限設定は原則禁止。サイトコレクション管理者は全社2名限定。
+    </div>
+  </section>
+
+  <!-- ═══ フォルダ構成 ═══ -->
+  <section id="site01">
+    <h2>01_経営管理 (Executive)</h2>
+    <p>サイト所有者: 管理部長 / 機密レベル: 極秘 / アクセス: 取締役・監査役・管理部門長</p>
+    <pre>01_取締役会/{YYYY}年{MM}月{DD}日_取締役会/        <span class="tag tag-l1" style="font-family:inherit">L1</span>
+  ├── 01_報告資料/
+  ├── 02_決議資料/
+  ├── 03_通知文/
+  └── 04_議事録/
+
+02_株主総会/定時/臨時/                              <span class="tag tag-l1" style="font-family:inherit">L1</span>
+
+03_執行役員会議/{YYYYMMDD}/                         <span class="tag tag-l1" style="font-family:inherit">L1</span>
+
+10_IPO推進/                                         <span class="tag tag-l2" style="font-family:inherit">L2</span>
+  ├── 00_週次打合せ/{YYYYMMDD}/
+  ├── 01_ショートレビュー/
+  ├── 02_吸収合併/
+  └── 03_監査法人提出資料/
+
+20_事業計画/{N}期事業計画/                          <span class="tag tag-l1" style="font-family:inherit">L1</span>
+
+21_631戦略/SSOT成果物/ハンドブック/                 <span class="tag tag-l2" style="font-family:inherit">L2</span></pre>
+  </section>
+
+  <section id="site02">
+    <h2>02_業務共通 (Operations)</h2>
+    <p>サイト所有者: IT管理責任者 / 機密レベル: 社外秘 / アクセス: 全社員（部門別に編集/閲覧分離）</p>
+    <pre>BPO運営部/
+  ├── 加盟店個別/{店舗コード}_{店舗名}/              <span class="tag tag-l2" style="font-family:inherit">L2</span>
+  ├── プール金管理/                                  <span class="tag tag-l1" style="font-family:inherit">L1</span>  ← 財務報告に直結
+  └── メール対応管理/                                <span class="tag tag-l2" style="font-family:inherit">L2</span>
+
+営業推進部/
+  ├── 01_提案資料（共通テンプレート）/               <span class="tag tag-l2" style="font-family:inherit">L2</span>
+  ├── 02_案件管理/{案件名 or パートナー名}/          <span class="tag tag-l2" style="font-family:inherit">L2</span>
+  │   ※旧番号体系（41_ヤマダデンキ等）を統合
+  └── 03_契約書管理/                                 <span class="tag tag-l1" style="font-family:inherit">L1</span>  ← J-SOX取引証憑
+
+プロダクト開発部/
+  ├── mobicon/開発関連資料/                          <span class="tag tag-l2" style="font-family:inherit">L2</span>
+  ├── 01_要件定義〜03_テスト/                        <span class="tag tag-l2" style="font-family:inherit">L2</span>
+  ├── 04_リリース/リリースノート/変更管理記録/       <span class="tag tag-l1" style="font-family:inherit">L1</span>  ← IT全般統制
+  ├── 05_運用/障害対応記録/監視設定/                 <span class="tag tag-l1" style="font-family:inherit">L1</span>  ← IT全般統制
+  └── 06_MTG議事録 / 07_開発工数記録/               <span class="tag tag-l2" style="font-family:inherit">L2</span>
+
+パートナー/三菱UFJ/AD損保/アプラス/                 <span class="tag tag-l2" style="font-family:inherit">L2</span>
+補助金/{補助金名}_{YYYYMM}/                          <span class="tag tag-l2" style="font-family:inherit">L2</span>
+データ分析/セグメント分析/                           <span class="tag tag-l2" style="font-family:inherit">L2</span></pre>
+  </section>
+
+  <section id="site03">
+    <h2>03_管理部門 (BackOffice)</h2>
+    <p>サイト所有者: 管理部長 / 機密レベル: 機密 / アクセス: 管理部門＋経営層</p>
+    <pre>01_財務経理/                                         <span class="tag tag-l1" style="font-family:inherit">L1</span>
+  ├── 決算書類/{期}/ ├── 銀行借入/{金融機関名}/
+  ├── 会計データ/MF資料/{YYYYMM}/
+  ├── 支払処理/{YYYYMM}/
+  ├── BPO費内訳/                                     <span class="tag tag-l2" style="font-family:inherit">L2</span>
+  └── 月次報告/{YYYYMM}/
+
+02_人事労務/                                         <span class="tag tag-l1" style="font-family:inherit">L1</span>
+  ├── 採用/ ├── 給与/ ├── 社会保険/
+  └── 社内制度/マニュアル/                           <span class="tag tag-l2" style="font-family:inherit">L2</span>
+
+03_法務総務/                                         <span class="tag tag-l1" style="font-family:inherit">L1</span>
+  ├── 01_全社規程（原本）/  ← SSOTの原本保管場所
+  ├── 02_契約書管理/
+  └── 03_登記・届出/
+
+04_広報/                                             <span class="tag tag-l2" style="font-family:inherit">L2</span>
+
+05_ソフトウェア資産/                                 <span class="tag tag-l1" style="font-family:inherit">L1</span>
+  ├── 資産台帳/ ├── 工数確定版/ └── 原価按分/
+
+06_内部統制/                                         <span class="tag tag-l1" style="font-family:inherit">L1</span>
+  └── {業務プロセス名}/
+      ├── 業務記述書/ ├── 業務フローチャート/ └── RCM/</pre>
+  </section>
+
+  <section id="site04">
+    <h2>04_IT統制・ISMS (IT Governance)</h2>
+    <p>サイト所有者: IT管理責任者 / 機密レベル: 機密 / アクセス: IT管理責任者＋ISMS事務局＋経営層</p>
+    <pre>01_ISMS/                                             <span class="tag tag-l1" style="font-family:inherit">L1</span>
+  ├── 情報セキュリティ方針/ ├── 適用宣言書(SoA)/
+  ├── リスクアセスメント/情報資産台帳/
+  ├── リスク対応計画/
+  ├── マネジメントシステムマニュアル/                 <span class="tag tag-l2" style="font-family:inherit">L2</span>
+  └── 情報セキュリティマニュアル/                     <span class="tag tag-l2" style="font-family:inherit">L2</span>
+
+02_IT統制規程/                                       <span class="tag tag-l1" style="font-family:inherit">L1</span>
+  ├── 情報セキュリティ基本方針/ ├── 情報システム管理規程/
+  ├── アクセス管理規程/ ├── 開発管理規程/
+  ├── IT運用管理規程/ ├── 外部委託管理規程/
+  ├── インシデント対応規程/ └── BCP・DR規程/
+
+03_監査証跡/                                         <span class="tag tag-l1" style="font-family:inherit">L1</span>
+  ├── アクセス権限棚卸/{YYYY}Q{N}/
+  ├── 変更管理ログ/ └── インシデント対応記録/
+
+04_SOCレポート/{委託先名}/{YYYY}/                    <span class="tag tag-l1" style="font-family:inherit">L1</span>
+05_セキュリティ教育/                                 <span class="tag tag-l1" style="font-family:inherit">L1</span>
+06_IT資産管理/                                       <span class="tag tag-l1" style="font-family:inherit">L1</span></pre>
+  </section>
+
+  <section id="site05">
+    <h2>05_全社共通 (Company-Wide)</h2>
+    <p>サイト所有者: 総務担当 / 機密レベル: 一般 / アクセス: 全社員（読取中心）</p>
+    <pre>01_社内規程（公開版・読取専用）/                     <span class="tag tag-l1" style="font-family:inherit">L1</span>
+  ※原本は03_管理部門/法務総務が管理
+
+02_テンプレート/帳票/報告書/稟議書/                  <span class="tag tag-l2" style="font-family:inherit">L2</span>
+
+03_教育研修/                                         <span class="tag tag-l2" style="font-family:inherit">L2</span>
+  ├── セキュリティハンドブック/ └── 新入社員研修/
+
+04_ナレッジライブラリ/                               <span class="tag tag-l2" style="font-family:inherit">L2</span>
+  ├── 経営戦略/ ├── 人事・組織/
+  ├── マーケティング/ ├── IT・開発/ └── 業界知識/
+  ※SSOTを「作る」ためのインプット材料
+
+05_社内コミュニケーション/                           <span class="tag tag-l2" style="font-family:inherit">L2</span>
+06_業務マニュアル/部門別SOP/                         <span class="tag tag-l2" style="font-family:inherit">L2</span></pre>
+  </section>
+
+  <!-- ═══ 設計判断 ═══ -->
+  <section id="decisions">
+    <h2>5つの設計判断</h2>
+
+    <div class="card decision-card">
+      <div class="decision-label">判断 #1</div>
+      <h4>SW資産の開発資料と資産性担保資料の分離</h4>
+      <p><strong>課題：</strong>開発資料と資産性担保資料を同一場所に置くべきか</p>
+      <p><strong>結論：</strong>分けるべき。開発資料→02_業務共通、資産性担保資料→03_管理部門。「作る人」と「評価する人」を物理分離</p>
+      <p><strong>根拠：</strong>J-SOX実施基準II.1「職務の分掌」/ 企業会計原則注解20 / ISMS A.8.4</p>
+    </div>
+
+    <div class="card decision-card">
+      <div class="decision-label">判断 #2</div>
+      <h4>規程はIPO推進フォルダに置かない</h4>
+      <p><strong>課題：</strong>IPO準備で整備する規程をIPO推進フォルダに配置すべきか</p>
+      <p><strong>結論：</strong>置かない。規程は会社の恒久資産。全社規程原本→03法務総務、IT統制規程→04、公開版→05（読取専用）</p>
+      <p><strong>根拠：</strong>ISMS箇条7.5.2/7.5.3 / J-SOX実施基準II.1</p>
+    </div>
+
+    <div class="card decision-card">
+      <div class="decision-label">判断 #3</div>
+      <h4>J-SOX 3点セットは管理部門サイトに一元管理</h4>
+      <p><strong>課題：</strong>業務記述書・フローチャート・RCMをどこに配置するか</p>
+      <p><strong>結論：</strong>03_管理部門/06_内部統制に業務プロセス単位で格納。IT統制RCMは04と相互参照するが原本は03</p>
+      <p><strong>根拠：</strong>金商法第24条の4の4 / 実施基準III.4.(2) / 監査実務委員会報告82号</p>
+    </div>
+
+    <div class="card decision-card">
+      <div class="decision-label">判断 #4</div>
+      <h4>サイト所有者にはIT管理責任者ではなく業務責任者を置く</h4>
+      <p><strong>課題：</strong>5サイトの管理者をどう決めるか</p>
+      <p><strong>結論：</strong>01,03=管理部長、02,04=IT管理責任者、05=総務担当。サイトコレクション管理者は全社2名限定</p>
+      <p><strong>根拠：</strong>J-SOX実施基準II.1 / ISMS箇条5.3 / A.8.2</p>
+    </div>
+
+    <div class="card decision-card">
+      <div class="decision-label">判断 #5</div>
+      <h4>パートナー別フォルダの再構成</h4>
+      <p><strong>課題：</strong>「41_ヤマダデンキ」「63_インターゾーン」等の個別番号付きフォルダをどうするか</p>
+      <p><strong>結論：</strong>番号体系廃止。営業推進部/02_案件管理に統合。契約書は03_契約書管理に集約。プロセスのアウトプットのみ移行</p>
+      <p><strong>根拠：</strong>J-SOX取引証憑管理 / ISMS A.5.20</p>
+    </div>
+  </section>
+
+  <!-- ═══ SSOT ═══ -->
+  <section id="ssot-arch">
+    <h2>多層SSOTアーキテクチャ（5層モデル）</h2>
+    <p>SSOTは単一DBではなく多層で捉える基盤。SharePointの2層はフォルダ配置の軸、以下はデータの意味と役割の階層。</p>
+
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>層</th><th>名称</th><th>役割</th><th>例</th></tr></thead>
+        <tbody>
+          <tr><td>第0層</td><td>規範SSOT</td><td>戦略・KPI定義・会計規則など「正の原則」</td><td>631HB、事業計画、経理規程</td></tr>
+          <tr><td>第1層</td><td>意味SSOT / MDM</td><td>顧客・契約・用語など「言葉と意味の正本」</td><td>顧客定義、商品マスタ、KPI辞書</td></tr>
+          <tr><td>第2層</td><td>実行SSOT</td><td>業務実行の記録（確定版成果物）</td><td>議事録、契約書、決算書</td></tr>
+          <tr><td>第3層</td><td>AI整流層</td><td>定義揺れ検知・重複候補抽出・統合提案</td><td>名寄せ提案、表記ゆれ検知</td></tr>
+          <tr><td>派生層</td><td>利用・AI層</td><td>RAG・要約・検索インデックス（正本ではない）</td><td>BI、RAG、AIメモリ</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>SOR → SSOT → 利用層のデータフロー</h3>
+    <div class="flow">
+      <div class="flow-step">SOR<br><small>各業務システムの元データ</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">SSOT<br><small>重複解消＋意味統一の正本</small></div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">利用層<br><small>BI/RAG/AIメモリ（再生成可能）</small></div>
+    </div>
+
+    <h3>SSOT属性：SharePoint 2層構造との関係</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th></th><th>非SSOT</th><th>SSOT（正本）</th></tr></thead>
+        <tbody>
+          <tr><td><strong>第1層</strong>（IPO/ISMS必須）</td><td>監査WP、一時証跡ログ</td><td>取締役会議事録、情報資産台帳、J-SOX 3点セット</td></tr>
+          <tr><td><strong>第2層</strong>（業務必要）</td><td>日常メモ、部門内共有</td><td>631HB、事業計画、契約書原本、SW工数確定版</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="ssot-class">
+    <h2>SSOT分類・定義書</h2>
+
+    <h3>SSOT分類（6類型）</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>分類</th><th>説明</th><th>例</th></tr></thead>
+        <tbody>
+          <tr><td>マスタデータ</td><td>業務の基盤となる参照データ</td><td>加盟店一覧、勘定科目、組織図</td></tr>
+          <tr><td>トランザクションSSOT</td><td>業務プロセスの確定版成果物</td><td>議事録、決算書、契約書</td></tr>
+          <tr><td>規程・ポリシー</td><td>全社の行動規範を定める文書</td><td>就業規則、情報セキュリティ方針</td></tr>
+          <tr><td>商品・サービス</td><td>プロダクト定義・料金体系</td><td>Mobicon仕様、保証規約</td></tr>
+          <tr><td>顧客・パートナー</td><td>顧客セグメント・取引条件</td><td>加盟店プロファイル、標準SLA</td></tr>
+          <tr><td>戦略・ナレッジ</td><td>経営戦略・ノウハウの確定版</td><td>631HB、競合分析、営業ノウハウ</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>定義書3層モデル</h3>
+    <div class="card">
+      <h4>① テーブル定義書（実装・監査向け）</h4>
+      <p>物理名・論理名、データ型・桁数、NULL制約・デフォルト値、PK/FK</p>
+    </div>
+    <div class="card">
+      <h4>② セマンティック定義書（AI・分析向け、中核）</h4>
+      <p>用語定義（「顧客」「有効契約」「売上」の厳密な意味）、コード値の業務的意味、カラムの業務意味、リレーションと業務ルール</p>
+      <p>管理項目: 名称/別名、含む/含まない範囲、粒度、状態遷移、定義文、責任者</p>
+    </div>
+    <div class="card">
+      <h4>③ 利用ポリシー定義（統制・ガバナンス向け）</h4>
+      <p>ロール別アクセス権限、変更承認フロー、AI利用許可範囲、公式値指定、PII取扱い</p>
+    </div>
+  </section>
+
+  <section id="ssot-governance">
+    <h2>データガバナンス</h2>
+
+    <h3>役割分担</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>役割</th><th>担当</th><th>責務</th></tr></thead>
+        <tbody>
+          <tr><td><strong>データオーナー</strong></td><td>事業責任者</td><td>定義決定者。正本を最終承認</td></tr>
+          <tr><td><strong>データスチュワード</strong></td><td>実務管理者</td><td>AI提案をレビュー、マスタ品質維持</td></tr>
+          <tr><td><strong>利用部門</strong></td><td>各部門担当</td><td>ポリシー準拠でデータ利用。修正は申請経由</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>動的マスタ管理ライフサイクル（6ステップ）</h3>
+    <div class="flow">
+      <div class="flow-step">① 観測</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">② 候補生成</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">③ スコア</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">④ 承認</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">⑤ 昇格</div>
+      <div class="flow-arrow">→</div>
+      <div class="flow-step">⑥ 配信</div>
+    </div>
+    <div class="highlight-box">
+      <strong>AIに正本決定権は渡さない（Human-in-the-Loop）</strong>
+    </div>
+
+    <h3>健全性KPI</h3>
+    <p>SSOT適用率、顧客ID統合率、定義準拠率、AI提案採択率</p>
+  </section>
+
+  <section id="ssot-map">
+    <h2>SSOT資料マップ</h2>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>SSOT資料</th><th>原本保管場所</th><th>参照・コピー</th><th>ルール</th></tr></thead>
+        <tbody>
+          <tr><td>全社規程</td><td>03_管理部門/法務総務/全社規程</td><td>05_全社共通（読取専用）</td><td>改訂→法務が原本更新→公開版反映</td></tr>
+          <tr><td>IT統制規程</td><td>04_IT統制/02_IT統制規程</td><td>05_全社共通（基本方針のみ）</td><td>IT管理責任者承認→版数自動採番</td></tr>
+          <tr><td>J-SOX 3点セット</td><td>03_管理部門/06_内部統制</td><td>04_IT統制（RCM相互参照）</td><td>内部監査部門が原本管理</td></tr>
+          <tr><td>SW工数確定版</td><td>03_管理部門/05_SW資産</td><td>02_業務共通（元データ参考）</td><td>経理承認後のみ原本</td></tr>
+          <tr><td>取締役会議事録</td><td>01_経営管理/01_取締役会</td><td>なし</td><td>会社法371条 10年保管</td></tr>
+          <tr><td>事業計画</td><td>01_経営管理/20_事業計画</td><td>なし</td><td>インサイダー情報</td></tr>
+          <tr><td>631ハンドブック</td><td>01_経営管理/21_631戦略</td><td>なし</td><td>最新版のみ</td></tr>
+          <tr><td>情報資産台帳</td><td>04_IT統制/01_ISMS</td><td>なし</td><td>ISMS事務局管理</td></tr>
+          <tr><td>SSOTマスタインデックス</td><td>04_IT統制/01_ISMS/</td><td>03_管理部門（参照リンク）</td><td>情報資産台帳と整合</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section id="ssot-ai">
+    <h2>AI自動化ビジョン</h2>
+
+    <h3>5段階の進化</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Step</th><th>名称</th><th>時期</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>棚卸し＋SSOT候補選定</td><td>SP統合と並行</td></tr>
+          <tr><td>2</td><td>定義書3層整備＋MD化</td><td>SP統合完了後</td></tr>
+          <tr><td>3</td><td>SSOT問合せ＋コンテキスト回答</td><td>2027 Q2</td></tr>
+          <tr><td>4</td><td>AI整流層＋夜間自動正規化</td><td>2027 Q3</td></tr>
+          <tr><td>5</td><td>意思決定支援＋動的ライフサイクル</td><td>2027 Q4〜</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="highlight-box">
+      <strong>将来ビジョン：翌朝には正規化されている世界</strong><br>
+      日中：現場が入力（表記揺れ・誤記が混在）→ 夜間：AIが検知→スコアリング→正規化候補生成 → 翌朝：Golden Recordに統合。全社統一の正本
+    </div>
+  </section>
+
+  <!-- ═══ ガバナンス ═══ -->
+  <section id="governance">
+    <h2>ガバナンス運用ルール</h2>
+    <ul>
+      <li>サイトコレクション管理者：全社<strong>2名限定</strong></li>
+      <li><strong>四半期</strong>アクセス権限棚卸</li>
+      <li>M365セキュリティグループで権限付与（個人アカウント直接付与禁止）</li>
+      <li>SG命名規則：<code>SP_{No}_{Role}</code></li>
+      <li>フォルダ改訂手順：変更申請→IT管理責任者承認→変更記録保管</li>
+    </ul>
+
+    <h3>基本運用ルール（SSOT）</h3>
+    <ul>
+      <li>1情報1原本。他は参照リンクまたは読取専用コピー。複製禁止</li>
+      <li>メタデータ「SSOT: Yes」付与。四半期レビュー</li>
+      <li>派生データは壊れても再生成可能な設計</li>
+    </ul>
+
+    <h3>Asana連携</h3>
+    <ul>
+      <li>SP統合25タスク：ISMSプロジェクト</li>
+      <li>タスクノート冒頭：<code>【Claude連携】</code> / コメント冒頭：<code>【Claudeより】</code></li>
+    </ul>
+  </section>
+
+  <!-- ═══ 法令 ═══ -->
+  <section id="legal">
+    <h2>参照法令・規格一覧</h2>
+
+    <h3>ISMS (ISO/IEC 27001:2022)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>条項</th><th>内容</th><th>本設計での適用</th></tr></thead>
+        <tbody>
+          <tr><td>A.5.1</td><td>情報セキュリティのための方針群</td><td>04_IT統制の規程体系</td></tr>
+          <tr><td>A.5.12</td><td>情報の分類</td><td>3段階分類、5サイト分離</td></tr>
+          <tr><td>A.5.13</td><td>情報のラベル付け</td><td>SSOTメタデータ「SSOT: Yes」</td></tr>
+          <tr><td>A.5.15</td><td>アクセス制御</td><td>サイト＝権限境界</td></tr>
+          <tr><td>A.5.18</td><td>アクセス権</td><td>四半期棚卸、SGによる権限付与</td></tr>
+          <tr><td>A.5.20</td><td>供給者関係</td><td>パートナーフォルダの契約書管理</td></tr>
+          <tr><td>A.8.2</td><td>特権的アクセス権</td><td>サイトコレクション管理者2名限定</td></tr>
+          <tr><td>A.8.3</td><td>情報へのアクセス制限</td><td>権限継承の破壊禁止</td></tr>
+          <tr><td>A.8.4</td><td>ソースコードへのアクセス</td><td>開発資料(02)と管理資料(03)の分離</td></tr>
+          <tr><td>箇条5.3</td><td>組織の役割・責任</td><td>サイト所有者＝業務責任者</td></tr>
+          <tr><td>箇条7.5</td><td>文書化した情報</td><td>ISMS文書管理</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>J-SOX（金融商品取引法・内部統制基準）</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>法令・基準</th><th>内容</th><th>本設計での適用</th></tr></thead>
+        <tbody>
+          <tr><td>金商法 第24条の4の4</td><td>内部統制報告制度</td><td>03_管理部門/06_内部統制の3点セット</td></tr>
+          <tr><td>金商法 第166条</td><td>インサイダー取引規制</td><td>01_経営管理のアクセス制限</td></tr>
+          <tr><td>会社法 第362条</td><td>取締役会の権限</td><td>01_経営管理/01_取締役会</td></tr>
+          <tr><td>会社法 第371条</td><td>議事録の保管（10年）</td><td>取締役会議事録の保管義務</td></tr>
+          <tr><td>実施基準 II.1.</td><td>職務の分掌</td><td>SW資産分離、サイト所有者選定</td></tr>
+          <tr><td>実施基準 III.4.(2)</td><td>業務プロセス評価</td><td>3点セットによる文書化</td></tr>
+          <tr><td>実施基準 III.4.(3)</td><td>ITGC評価</td><td>04_IT統制の整備</td></tr>
+          <tr><td>企業会計原則 注解20</td><td>ソフトウェア資産計上</td><td>03_管理部門/05_SW資産</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══ 移行マッピング ═══ -->
+  <section id="migration">
+    <h2>移行マッピング表（旧11サイト→新5サイト）</h2>
+
+    <h3>Managed Trust → 複数サイトに分散</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>旧フォルダ</th><th>新配置先</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr><td>00_MT事業運営/01_事業計画</td><td>01_経営管理/20_事業計画</td><td>最新版のみ</td></tr>
+          <tr><td>09_631関連</td><td>01_経営管理/21_631戦略</td><td>HB V5のみ。旧版移行しない</td></tr>
+          <tr><td>03_SSOT成果物/03.自炊PDF</td><td>05_全社共通/04_ナレッジライブラリ</td><td>カテゴリ別に再分類</td></tr>
+          <tr><td>98_REVISE執行役員会議</td><td>01_経営管理/03_執行役員会議</td><td>議事録・配布資料のみ</td></tr>
+          <tr><td>99_REVISE取締役会</td><td>01_経営管理/01_取締役会</td><td>全資料（法定保管）</td></tr>
+          <tr><td>77_株主総会</td><td>01_経営管理/02_株主総会</td><td>全資料（法定保管）</td></tr>
+          <tr><td>01_mobicon</td><td>02_業務共通/プロダクト開発部</td><td>開発関連資料</td></tr>
+          <tr><td>41_ヤマダデンキ</td><td>02_業務共通/営業推進部/02_案件管理</td><td>成果物のみ。車両画像移行しない</td></tr>
+          <tr><td>12_会計関連</td><td>03_管理部門/01_財務経理</td><td>MF資料</td></tr>
+          <tr><td>07_IPO関連</td><td>01_経営管理/10_IPO推進</td><td>IPO意思決定資料</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>IPO_PJ → 01_経営管理</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>旧フォルダ</th><th>新配置先</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr><td>00_打ち合わせ</td><td>01_経営管理/10_IPO推進/00_週次打合せ</td><td>議事録・配布資料のみ</td></tr>
+          <tr><td>01_ショートレビュー</td><td>01_経営管理/10_IPO推進/01_ショートレビュー</td><td>AI対応フォルダ含む</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>BACKOFFICE → 03_管理部門</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>旧フォルダ</th><th>新配置先</th><th>備考</th></tr></thead>
+        <tbody>
+          <tr><td>02_財務・経理領域</td><td>03_管理部門/01_財務経理</td><td>全フォルダ</td></tr>
+          <tr><td>03_人事領域</td><td>03_管理部門/02_人事労務</td><td>全フォルダ</td></tr>
+          <tr><td>00_BackOffice共通/02_業務一覧</td><td>03_管理部門/06_内部統制</td><td>業務フロー整備の基礎資料</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>廃止・アーカイブ対象</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>旧サイト/フォルダ</th><th>アクション</th><th>理由</th></tr></thead>
+        <tbody>
+          <tr><td>MT1-GRANDPRIX</td><td>廃止</td><td>アクティビティなし</td></tr>
+          <tr><td>RELIGHT / CRM BPO PJ</td><td>アーカイブ</td><td>過去PJ。読取専用化</td></tr>
+          <tr><td>ManagedTrustClosed</td><td>アーカイブ</td><td>最新運用帳票のみ03へ移行</td></tr>
+          <tr><td>Re!Boot.事業協同組合</td><td>分散移行</td><td>健診→03、マニュアル→05</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══ 用語 ═══ -->
+  <section id="glossary">
+    <h2>用語定義表</h2>
+
+    <h3>SharePoint・情報基盤</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:180px">用語</th><th>定義</th></tr></thead>
+        <tbody>
+          <tr><td><strong>サイト</strong></td><td>SharePointの権限管理の最小境界。1サイト＝アクセスできる人の集合。本設計では5サイトに統合</td></tr>
+          <tr><td><strong>サイトコレクション管理者</strong></td><td>SharePointの最高権限。全社で2名に限定</td></tr>
+          <tr><td><strong>権限継承の破壊</strong></td><td>フォルダ単位で親サイトと異なる個別権限を設定すること。管理不能になるため原則禁止</td></tr>
+          <tr><td><strong>セキュリティグループ</strong></td><td>M365のグループ機能で権限を付与する単位。命名規則：SP_{No}_{Role}</td></tr>
+          <tr><td><strong>SSOT</strong></td><td>Single Source of Truth。唯一の正式な情報源。1つの情報に1つの原本保管場所を定義する原則</td></tr>
+          <tr><td><strong>SSOTラベル</strong></td><td>SharePointメタデータ列で原本に「SSOT: Yes」を付与し、検索・フィルタで一覧化する仕組み</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>2層構造</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:180px">用語</th><th>定義</th></tr></thead>
+        <tbody>
+          <tr><td><strong>第1層</strong></td><td>IPO・ISMSで最低限必要な構成。「これがないと監査で指摘される / 認証が取れない」が判断基準</td></tr>
+          <tr><td><strong>第2層</strong></td><td>業務上必要なもの。最終形態はワークフローから自動生成されるアウトプットの保存先</td></tr>
+          <tr><td><strong>WIP</strong></td><td>Work In Progress。SharePointには移行せずOneDrive/Teamsで管理</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>IPO・内部統制</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:180px">用語</th><th>定義</th></tr></thead>
+        <tbody>
+          <tr><td><strong>J-SOX</strong></td><td>金融商品取引法に基づく内部統制報告制度。財務報告の信頼性を確保するための仕組み</td></tr>
+          <tr><td><strong>3点セット</strong></td><td>業務記述書・業務フローチャート・RCMの3文書。J-SOXの内部統制評価に必須</td></tr>
+          <tr><td><strong>RCM</strong></td><td>Risk Control Matrix。リスクと統制活動の対応表</td></tr>
+          <tr><td><strong>職務分掌</strong></td><td>1つの業務を複数の担当者で分担し、不正・誤りを防止する統制</td></tr>
+          <tr><td><strong>ITGC</strong></td><td>IT全般統制。開発・運用・セキュリティ・委託先管理の4領域</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>ISMS</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:180px">用語</th><th>定義</th></tr></thead>
+        <tbody>
+          <tr><td><strong>ISMS</strong></td><td>ISO/IEC 27001に基づく情報セキュリティマネジメントシステム</td></tr>
+          <tr><td><strong>CIA</strong></td><td>機密性・完全性・可用性。情報セキュリティの3要素</td></tr>
+          <tr><td><strong>適用宣言書（SoA）</strong></td><td>附属書Aの各管理策について適用/非適用と理由を宣言する文書</td></tr>
+          <tr><td><strong>情報資産台帳</strong></td><td>組織が保有する情報資産の一覧。リスクアセスメントの基礎資料</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>事業・631関連</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th style="width:180px">用語</th><th>定義</th></tr></thead>
+        <tbody>
+          <tr><td><strong>631 OS</strong></td><td>Revise独自の事業推進フレームワーク。週次サイクルで回す事業OS</td></tr>
+          <tr><td><strong>7大統合マスタ</strong></td><td>車両・資産、部品・BOM、整備・レセプト、パートナー、物流・商圏、顧客・ID、商品・契約</td></tr>
+          <tr><td><strong>Human-in-the-Loop</strong></td><td>AIが収集・構造化・提案を自動化するが、SSOTの確定は必ず人間が行う設計原則</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <div class="footer">
+    Copyrights &copy; 2026 REVISE Co.Ltd., All Rights Reserved
+  </div>
+</main>
+
+<script>
+// Sidebar active link highlight
+const links = document.querySelectorAll('.nav-link');
+const sections = document.querySelectorAll('section');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.nav-link[href="#${e.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+sections.forEach(s => observer.observe(s));
+
+// Close sidebar on mobile when link clicked
+links.forEach(l => l.addEventListener('click', () => {
+  if (window.innerWidth <= 900) document.querySelector('.sidebar').classList.remove('open');
+}));
+</script>
+</body>
+</html>
