@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>REVISE IPO準備 ドキュメントポータル</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Noto Sans JP',sans-serif; background:#f7f8fa; color:#1a1a2e; min-height:100vh; }
+    .header { background:linear-gradient(135deg,#0B1222,#141E33); padding:32px 24px; text-align:center; border-bottom:3px solid #FFC107; }
+    .header h1 { font-size:20px; color:#fff; font-weight:500; letter-spacing:.5px; }
+    .header .sub { font-size:12px; color:#647488; margin-top:4px; }
+    .container { max-width:900px; margin:0 auto; padding:24px 16px; }
+    .section-title { font-size:14px; font-weight:500; color:#647488; text-transform:uppercase; letter-spacing:1px; margin:24px 0 12px; padding-bottom:6px; border-bottom:1px solid #e5e7eb; }
+    .card-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:12px; margin-bottom:16px; }
+    .card { background:#fff; border:1px solid rgba(0,0,0,0.08); border-radius:10px; padding:16px; text-decoration:none; color:inherit; transition:all .2s; display:block; }
+    .card:hover { border-color:rgba(37,99,235,0.3); box-shadow:0 4px 12px rgba(0,0,0,0.06); transform:translateY(-1px); }
+    .card .tag { display:inline-block; font-size:10px; padding:2px 8px; border-radius:4px; margin-bottom:8px; font-weight:500; }
+    .tag-governance { background:rgba(220,38,38,0.08); color:#dc2626; }
+    .tag-accounting { background:rgba(37,99,235,0.08); color:#2563eb; }
+    .tag-sharepoint { background:rgba(13,148,136,0.08); color:#0d9488; }
+    .tag-ipo { background:rgba(217,119,6,0.08); color:#d97706; }
+    .card .title { font-size:14px; font-weight:500; margin-bottom:4px; }
+    .card .desc { font-size:11px; color:#647488; line-height:1.6; }
+    .footer { text-align:center; padding:24px; font-size:11px; color:#9ca3af; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>REVISE IPO準備 ドキュメントポータル</h1>
+    <div class="sub">GitHub Pages — takutaku-maker/ipo-er-diagram</div>
+  </div>
+
+  <div class="container">
+
+    <div class="section-title">SharePoint・情報基盤</div>
+    <div class="card-grid">
+      <a class="card" href="sharepoint_restructure_proposal.html">
+        <span class="tag tag-sharepoint">SharePoint</span>
+        <div class="title">SharePoint統合 構成設計案</div>
+        <div class="desc">ISMS/J-SOX/IT統制準拠の5サイト統合設計。2層構造、SSOT方針、移行マッピング、AIエージェント構想を含む</div>
+      </a>
+      <a class="card" href="sharepoint-governance.html">
+        <span class="tag tag-sharepoint">SharePoint</span>
+        <div class="title">SharePoint ガバナンス</div>
+        <div class="desc">SharePoint統合のフォルダ構成設計・HTML版マッピング表</div>
+      </a>
+    </div>
+
+    <div class="section-title">IPO推進</div>
+    <div class="card-grid">
+      <a class="card" href="index.html">
+        <span class="tag tag-ipo">IPO</span>
+        <div class="title">IPO準備 統合ER図</div>
+        <div class="desc">時間軸付きのインタラクティブER図。システム間のデータフロー・エンティティ関係を視覚化</div>
+      </a>
+      <a class="card" href="IPO推進_ガントチャート_v3.html">
+        <span class="tag tag-ipo">IPO</span>
+        <div class="title">IPO推進 ガントチャート v3</div>
+        <div class="desc">担当者/期日列とフィルター付きのIPO推進スケジュール</div>
+      </a>
+      <a class="card" href="audit-agenda.html">
+        <span class="tag tag-governance">監査</span>
+        <div class="title">監査アジェンダ</div>
+        <div class="desc">監査法人向けアジェンダ・タイトルスライド</div>
+      </a>
+    </div>
+
+    <div class="section-title">会計システム</div>
+    <div class="card-grid">
+      <a class="card" href="accounting-overview.html">
+        <span class="tag tag-accounting">会計</span>
+        <div class="title">会計システム 概要フロー図</div>
+        <div class="desc">会計システム全体の処理フロー概要</div>
+      </a>
+      <a class="card" href="accounting-flows.html">
+        <span class="tag tag-accounting">会計</span>
+        <div class="title">会計システム フロー詳細</div>
+        <div class="desc">修理・給与等の個別会計フロー</div>
+      </a>
+      <a class="card" href="repair-flow.html">
+        <span class="tag tag-accounting">会計</span>
+        <div class="title">修理フロー</div>
+        <div class="desc">修理業務のサブシステム間フロー図</div>
+      </a>
+      <a class="card" href="salary-flow.html">
+        <span class="tag tag-accounting">会計</span>
+        <div class="title">給与フロー</div>
+        <div class="desc">給与計算・支払のフロー図</div>
+      </a>
+    </div>
+
+  </div>
+
+  <div class="footer">
+    REVISE株式会社 — IPO準備ドキュメント管理<br>
+    最終更新: 2026年4月
+  </div>
+</body>
+</html>
