@@ -5,58 +5,141 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>REVISE IPO準備 ドキュメントポータル</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:"Noto Sans JP","Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;background:#f5f6fa;color:#2d3436;min-height:100vh;display:flex;flex-direction:column}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Noto Sans JP","Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;background:#f5f6fa;color:#2d3436;line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+a{text-decoration:none;color:inherit}
 
 /* Header */
 .header{background:#1a1f36;color:#fff;padding:40px 40px 36px;text-align:center}
 .header h1{font-size:30px;font-weight:700;letter-spacing:1px}
-.header .sub{font-size:13px;color:#8b8fa3;margin-top:8px;font-weight:400}
+.header .sub{font-size:13px;color:#8b8fa3;margin-top:8px}
 
 /* Content */
 .content{max-width:1100px;margin:0 auto;padding:36px 40px 60px;flex:1;width:100%}
 
-/* Section */
-.section{margin-bottom:32px}
-.section-title{font-size:16px;font-weight:700;color:#2d3436;text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px;padding-bottom:8px;border-bottom:1px solid #e0e0e0}
+/* Sections */
+.section{margin-bottom:36px}
+.section-title{font-size:16px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid #e0e0e0;padding-bottom:10px;margin-bottom:18px;color:#1a1f36}
 
-/* Cards grid */
-.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+/* Card Grid */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
 
-/* Card */
-.card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:22px 24px;box-shadow:0 2px 8px rgba(0,0,0,.06);text-decoration:none;color:#2d3436;display:block;transition:box-shadow .15s,transform .15s}
+/* Cards */
+.card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:22px 24px;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:box-shadow .2s,transform .2s;cursor:pointer;display:block}
 .card:hover{box-shadow:0 4px 16px rgba(0,0,0,.12);transform:translateY(-2px)}
-.card-badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;margin-bottom:10px;color:#fff}
+.card-badges{margin-bottom:8px;display:flex;gap:6px;flex-wrap:wrap}
+
+/* Badges */
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:4px;color:#fff}
 .badge-sp{background:#3b82c4}
 .badge-ipo{background:#3b82c4}
 .badge-audit{background:#e74c3c}
 .badge-acct{background:#27ae60}
-.card-title{font-size:15px;font-weight:700;margin-bottom:6px;line-height:1.4;color:#1a1f36}
+.badge-es1{background:#8B5CF6}
+.badge-es2{background:#F59E0B}
+.badge-es3{background:#3B82F6}
+.badge-es4{background:#10B981}
+
+.card-title{font-size:15px;font-weight:700;color:#1a1f36;margin-bottom:4px}
 .card-desc{font-size:12.5px;color:#636e72;line-height:1.6}
 
+/* PAT Section */
+.pat-section{background:#f0f1f5;border-radius:12px;padding:28px 32px;margin-bottom:36px}
+.pat-section h3{font-size:14px;font-weight:700;color:#1a1f36;margin-bottom:12px}
+.pat-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.pat-input{flex:1;min-width:240px;padding:10px 14px;border:1px solid #d0d3db;border-radius:8px;font-size:13px;font-family:inherit;outline:none;transition:border-color .2s}
+.pat-input:focus{border-color:#3b82c4}
+.pat-btn{background:#3b82c4;color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .2s;white-space:nowrap}
+.pat-btn:hover{background:#2d6aa3}
+.pat-btn:disabled{opacity:.6;cursor:not-allowed}
+.pat-status{font-size:12px;margin-top:8px}
+.pat-status.ok{color:#27ae60}
+.pat-status.err{color:#e74c3c}
+.pat-connected{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.pat-connected .user-name{font-size:13px;font-weight:700;color:#1a1f36}
+.pat-disconnect{background:transparent;border:1px solid #d0d3db;padding:6px 16px;border-radius:6px;font-size:12px;font-family:inherit;cursor:pointer;color:#636e72;transition:all .2s}
+.pat-disconnect:hover{border-color:#e74c3c;color:#e74c3c}
+.pat-refresh{background:#3b82c4;color:#fff;border:none;padding:6px 16px;border-radius:6px;font-size:12px;font-weight:700;font-family:inherit;cursor:pointer;transition:background .2s}
+.pat-refresh:hover{background:#2d6aa3}
+
+/* Task Cards */
+.task-card{background:#fff;border:1px solid #e8e8e8;border-radius:12px;padding:22px 24px;box-shadow:0 2px 8px rgba(0,0,0,.06);transition:box-shadow .2s,transform .2s;position:relative}
+.task-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.12);transform:translateY(-2px)}
+.task-card-header{display:flex;justify-content:space-between;align-items:flex-start;gap:8px;margin-bottom:10px}
+.task-card .card-title{margin-bottom:0}
+.task-card .card-title a{color:#1a1f36;text-decoration:none;transition:color .2s}
+.task-card .card-title a:hover{color:#3b82c4}
+.task-status-icon{font-size:18px;flex-shrink:0;margin-top:1px}
+.task-meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12px;color:#636e72;margin-bottom:12px}
+.task-meta span{display:flex;align-items:center;gap:4px}
+.task-fields{display:flex;flex-direction:column;gap:8px;border-top:1px solid #f0f1f5;padding-top:12px}
+.task-field{display:flex;align-items:center;gap:8px;font-size:12px}
+.task-field label{color:#636e72;min-width:60px;font-weight:600}
+.task-field select,.task-field input[type="date"]{padding:4px 8px;border:1px solid #d0d3db;border-radius:6px;font-size:12px;font-family:inherit;outline:none;background:#fff}
+.task-field select{min-width:120px;max-width:180px}
+.task-field input[type="checkbox"]{width:16px;height:16px;accent-color:#3b82c4;cursor:pointer}
+.task-save-row{display:flex;justify-content:flex-end;margin-top:8px}
+.task-save{background:#3b82c4;color:#fff;border:none;padding:5px 16px;border-radius:6px;font-size:11px;font-weight:700;font-family:inherit;cursor:pointer;transition:all .2s}
+.task-save:hover{background:#2d6aa3}
+.task-save:disabled{opacity:.5;cursor:not-allowed}
+.task-custom-field{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;background:#f0f1f5;color:#636e72;margin-top:2px}
+
+/* Section Stats */
+.section-stats{display:flex;align-items:center;gap:12px;margin-bottom:12px;flex-wrap:wrap}
+.section-stats .stat{font-size:12px;color:#636e72;display:flex;align-items:center;gap:4px}
+.progress-bar{height:6px;background:#e8e8e8;border-radius:3px;flex:1;min-width:100px;max-width:200px;overflow:hidden}
+.progress-bar-fill{height:100%;border-radius:3px;transition:width .5s ease}
+
+/* Loading */
+.loading{text-align:center;padding:40px;color:#8b8fa3}
+.spinner{display:inline-block;width:28px;height:28px;border:3px solid #e8e8e8;border-top:3px solid #3b82c4;border-radius:50%;animation:spin .8s linear infinite;margin-bottom:8px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Toast */
+.toast-container{position:fixed;top:20px;right:20px;z-index:9999;display:flex;flex-direction:column;gap:8px}
+.toast{padding:12px 20px;border-radius:8px;font-size:13px;font-weight:600;color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.15);animation:toastIn .3s ease;max-width:360px}
+.toast.success{background:#27ae60}
+.toast.error{background:#e74c3c}
+.toast.fadeOut{animation:toastOut .3s ease forwards}
+@keyframes toastIn{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:translateX(0)}}
+@keyframes toastOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(40px)}}
+
 /* Footer */
-.footer{text-align:center;padding:20px 40px;font-size:13px;color:#8b8fa3;border-top:1px solid #e0e0e0;margin-top:auto}
+.footer{text-align:center;padding:20px 40px;font-size:13px;color:#8b8fa3;border-top:1px solid #e0e0e0;background:#fff}
+
+/* Responsive */
+@media(max-width:640px){
+  .header{padding:28px 20px 24px}
+  .header h1{font-size:22px}
+  .content{padding:24px 16px 40px}
+  .pat-section{padding:20px 16px}
+  .card-grid{grid-template-columns:1fr}
+  .footer{padding:16px 20px}
+}
 </style>
 </head>
 <body>
+
+<!-- Header -->
 <div class="header">
   <h1>REVISE IPO準備 ドキュメントポータル</h1>
   <div class="sub">GitHub Pages — takutaku-maker/ipo-er-diagram</div>
 </div>
 
+<!-- Content -->
 <div class="content">
 
   <!-- SharePoint・情報基盤 -->
   <div class="section">
     <div class="section-title">SharePoint・情報基盤</div>
-    <div class="cards">
+    <div class="card-grid">
       <a class="card" href="sharepoint_restructure_proposal.html">
-        <div class="card-badge badge-sp">SharePoint</div>
+        <div class="card-badges"><span class="badge badge-sp">SharePoint</span></div>
         <div class="card-title">SharePoint統合 構成設計案</div>
         <div class="card-desc">ISMS/J-SOX/IT統制準拠の5サイト統合設計。2層構造、SSOT方針、移行マッピング、AIエージェント構想を含む</div>
       </a>
       <a class="card" href="sharepoint-governance.html">
-        <div class="card-badge badge-sp">SharePoint</div>
+        <div class="card-badges"><span class="badge badge-sp">SharePoint</span></div>
         <div class="card-title">SharePoint ガバナンス</div>
         <div class="card-desc">SharePoint統合のフォルダ構成設計・HTML版マッピング表</div>
       </a>
@@ -66,19 +149,19 @@ body{font-family:"Noto Sans JP","Helvetica Neue",Arial,"Hiragino Kaku Gothic Pro
   <!-- IPO推進 -->
   <div class="section">
     <div class="section-title">IPO推進</div>
-    <div class="cards">
+    <div class="card-grid">
       <a class="card" href="index.html">
-        <div class="card-badge badge-ipo">IPO</div>
+        <div class="card-badges"><span class="badge badge-ipo">IPO</span></div>
         <div class="card-title">IPO準備 統合ER図</div>
         <div class="card-desc">時間軸付きのインタラクティブER図。システム間のデータフロー・エンティティ関係を視覚化</div>
       </a>
       <a class="card" href="IPO%E6%8E%A8%E9%80%B2_%E3%82%AC%E3%83%B3%E3%83%88%E3%83%81%E3%83%A3%E3%83%BC%E3%83%88_v4.html">
-        <div class="card-badge badge-ipo">IPO</div>
+        <div class="card-badges"><span class="badge badge-ipo">IPO</span></div>
         <div class="card-title">IPO推進 ガントチャート v4</div>
         <div class="card-desc">ポートフォリオ（8サブプロジェクト）構成で表示。担当者/期日列、監査法人定例・期日超過・仕掛中フィルター付き</div>
       </a>
       <a class="card" href="audit-agenda.html">
-        <div class="card-badge badge-audit">監査</div>
+        <div class="card-badges"><span class="badge badge-audit">監査</span></div>
         <div class="card-title">監査アジェンダ</div>
         <div class="card-desc">監査法人向けアジェンダ・タイトルスライド</div>
       </a>
@@ -88,34 +171,389 @@ body{font-family:"Noto Sans JP","Helvetica Neue",Arial,"Hiragino Kaku Gothic Pro
   <!-- 会計システム -->
   <div class="section">
     <div class="section-title">会計システム</div>
-    <div class="cards">
+    <div class="card-grid">
       <a class="card" href="accounting-overview.html">
-        <div class="card-badge badge-acct">会計</div>
+        <div class="card-badges"><span class="badge badge-acct">会計</span></div>
         <div class="card-title">会計システム 概要フロー図</div>
         <div class="card-desc">会計システム全体の処理フロー概要</div>
       </a>
       <a class="card" href="accounting-flows.html">
-        <div class="card-badge badge-acct">会計</div>
+        <div class="card-badges"><span class="badge badge-acct">会計</span></div>
         <div class="card-title">会計システム フロー詳細</div>
         <div class="card-desc">修理・給与等の個別会計フロー</div>
       </a>
       <a class="card" href="repair-flow.html">
-        <div class="card-badge badge-acct">会計</div>
+        <div class="card-badges"><span class="badge badge-acct">会計</span></div>
         <div class="card-title">修理フロー</div>
         <div class="card-desc">修理業務のサブシステム間フロー図</div>
       </a>
       <a class="card" href="salary-flow.html">
-        <div class="card-badge badge-acct">会計</div>
+        <div class="card-badges"><span class="badge badge-acct">会計</span></div>
         <div class="card-title">給与フロー</div>
         <div class="card-desc">給与計算・支払のフロー図</div>
       </a>
     </div>
   </div>
 
+  <!-- PAT Section -->
+  <div class="pat-section" id="patSection">
+    <h3>Asana タスクダッシュボード</h3>
+    <div id="patForm">
+      <div class="pat-row">
+        <input type="password" class="pat-input" id="patInput" placeholder="Asana Personal Access Token を入力..." autocomplete="off">
+        <button class="pat-btn" id="patBtn" onclick="connectAsana()">接続</button>
+      </div>
+      <div class="pat-status" id="patStatus"></div>
+    </div>
+    <div id="patConnected" style="display:none">
+      <div class="pat-connected">
+        <span style="color:#27ae60;font-size:16px">&#9679;</span>
+        <span class="user-name" id="userName"></span>
+        <button class="pat-refresh" onclick="refreshTasks()">&#8635; 更新</button>
+        <button class="pat-disconnect" onclick="disconnect()">切断</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ES Dashboard (hidden until connected) -->
+  <div id="esDashboard" style="display:none"></div>
+
 </div>
 
-<div class="footer">
-  REVISE株式会社 — IPO準備ドキュメント管理 ｜ 最終更新: 2026年5月
-</div>
+<!-- Footer -->
+<div class="footer">REVISE株式会社 — IPO準備ドキュメント管理 ｜ 最終更新: 2026年5月</div>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+/* ── ES Topic Config ── */
+const ES_TOPICS = {
+  'ES-01': {
+    name: 'ES-01 関連当事者整理',
+    desc: 'リブート事業協同組合・組合加盟法人との関係の整理',
+    badge: 'badge-es1',
+    taskGids: [
+      '1214629454071647','1214629250729857','1214629204635988','1214629250695729',
+      '1214629250997420','1214629250937601','1214629137605429',
+      '1214138129691617','1214110941333253','1213943998432899','1213541079865020',
+      '1213541079155116','1213541079865019','1214138129823641','1214057893983662',
+      '1214057741582773','1214057983923125'
+    ]
+  },
+  'ES-02': {
+    name: 'ES-02 売上証跡管理',
+    desc: '売上計上根拠資料の網羅的な入手及び管理',
+    badge: 'badge-es2',
+    taskGids: [
+      '1213528680128600','1214110941335856','1214628738581109','1214628738405278',
+      '1214628738156678','1214628661965020','1214110941332177','1214108313608049',
+      '1214057902087480'
+    ]
+  },
+  'ES-03': {
+    name: 'ES-03 収益認識',
+    desc: '収益認識に関する会計基準の適用',
+    badge: 'badge-es3',
+    taskGids: [
+      '1213528680128601','1214628969548690','1214628881675903','1214628661967833',
+      '1214628662014792','1214628881677222','1214153027269595','1214112877237873',
+      '1213541079155108','1214628738462511'
+    ]
+  },
+  'ES-04': {
+    name: 'ES-04 ソフトウェア',
+    desc: 'ソフトウェアの収益性判断プロセスとソフトウェア開発プロセスの構築',
+    badge: 'badge-es4',
+    taskGids: [
+      '1213528680128604','1213541079155113','1214643105076057','1214628738405261',
+      '1214628930570402','1214628661996707','1214628738462497','1214628738581273',
+      '1214108313608305','1214057902087199','1213941495745309'
+    ]
+  }
+};
+
+const ASANA_BASE = 'https://app.asana.com/api/1.0';
+const PROJECT_GID = '1214347783106959';
+let currentPat = '';
+let projectMembers = [];
+let taskData = {};
+
+/* ── Toast ── */
+function showToast(msg, type) {
+  const c = document.getElementById('toastContainer');
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(function() { t.classList.add('fadeOut'); setTimeout(function() { t.remove(); }, 300); }, 3000);
+}
+
+/* ── API Helper ── */
+async function asanaGet(path) {
+  const r = await fetch(ASANA_BASE + path, {
+    headers: { 'Authorization': 'Bearer ' + currentPat }
+  });
+  if (!r.ok) throw new Error('API Error: ' + r.status);
+  return (await r.json()).data;
+}
+
+async function asanaPut(path, body) {
+  const r = await fetch(ASANA_BASE + path, {
+    method: 'PUT',
+    headers: {
+      'Authorization': 'Bearer ' + currentPat,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ data: body })
+  });
+  if (!r.ok) throw new Error('API Error: ' + r.status);
+  return (await r.json()).data;
+}
+
+/* ── Connect ── */
+async function connectAsana() {
+  var pat = document.getElementById('patInput').value.trim();
+  if (!pat) return;
+  var btn = document.getElementById('patBtn');
+  var status = document.getElementById('patStatus');
+  btn.disabled = true;
+  btn.textContent = '接続中...';
+  status.className = 'pat-status';
+  status.textContent = '';
+
+  try {
+    currentPat = pat;
+    var me = await asanaGet('/users/me');
+    sessionStorage.setItem('asana_pat', pat);
+    document.getElementById('patForm').style.display = 'none';
+    document.getElementById('patConnected').style.display = 'block';
+    document.getElementById('userName').textContent = me.name + ' として接続中';
+    showToast('Asana に接続しました', 'success');
+    await loadMembers();
+    await loadAllTasks();
+  } catch (e) {
+    currentPat = '';
+    status.className = 'pat-status err';
+    status.textContent = '接続に失敗しました。トークンを確認してください。';
+    showToast('接続エラー: ' + e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '接続';
+  }
+}
+
+function disconnect() {
+  currentPat = '';
+  sessionStorage.removeItem('asana_pat');
+  document.getElementById('patForm').style.display = 'block';
+  document.getElementById('patConnected').style.display = 'none';
+  document.getElementById('patInput').value = '';
+  document.getElementById('patStatus').textContent = '';
+  document.getElementById('esDashboard').style.display = 'none';
+  document.getElementById('esDashboard').innerHTML = '';
+  taskData = {};
+  showToast('切断しました', 'success');
+}
+
+/* ── Load Members ── */
+async function loadMembers() {
+  try {
+    var members = await asanaGet('/projects/' + PROJECT_GID + '/members');
+    projectMembers = members.map(function(m) { return { gid: m.gid, name: m.name }; });
+  } catch (e) {
+    projectMembers = [];
+  }
+}
+
+/* ── Load Tasks ── */
+async function loadAllTasks() {
+  var dashboard = document.getElementById('esDashboard');
+  dashboard.style.display = 'block';
+  dashboard.innerHTML = '<div class="loading"><div class="spinner"></div><div>タスクを読み込み中...</div></div>';
+
+  var allGids = [];
+  for (var key of Object.keys(ES_TOPICS)) {
+    for (var gid of ES_TOPICS[key].taskGids) allGids.push(gid);
+  }
+
+  var fields = 'name,assignee.name,due_on,completed,custom_fields.name,custom_fields.display_value,permalink_url';
+  var batchSize = 6;
+  var results = {};
+
+  for (var i = 0; i < allGids.length; i += batchSize) {
+    var batch = allGids.slice(i, i + batchSize);
+    var promises = batch.map(function(gid) {
+      return asanaGet('/tasks/' + gid + '?opt_fields=' + fields)
+        .then(function(d) { results[d.gid] = d; })
+        .catch(function() { results[gid] = null; });
+    });
+    await Promise.all(promises);
+  }
+
+  taskData = results;
+  renderDashboard();
+}
+
+async function refreshTasks() {
+  showToast('更新中...', 'success');
+  await loadAllTasks();
+  showToast('タスクを更新しました', 'success');
+}
+
+/* ── Render Dashboard ── */
+function renderDashboard() {
+  var dashboard = document.getElementById('esDashboard');
+  var html = '';
+
+  var badgeColors = {
+    'badge-es1': '#8B5CF6',
+    'badge-es2': '#F59E0B',
+    'badge-es3': '#3B82F6',
+    'badge-es4': '#10B981'
+  };
+
+  for (var key of Object.keys(ES_TOPICS)) {
+    var topic = ES_TOPICS[key];
+    var tasks = topic.taskGids.map(function(gid) { return taskData[gid]; }).filter(Boolean);
+    var total = tasks.length;
+    var completed = tasks.filter(function(t) { return t.completed; }).length;
+    var pct = total ? Math.round((completed / total) * 100) : 0;
+    var color = badgeColors[topic.badge] || '#3b82c4';
+
+    html += '<div class="section">';
+    html += '<div class="section-title">' + escHtml(topic.name) + '</div>';
+    html += '<div class="section-stats">';
+    html += '<span class="stat">' + escHtml(topic.desc) + '</span>';
+    html += '</div>';
+    html += '<div class="section-stats">';
+    html += '<span class="stat">' + total + ' タスク</span>';
+    html += '<span class="stat">' + completed + ' 完了 (' + pct + '%)</span>';
+    html += '<div class="progress-bar"><div class="progress-bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>';
+    html += '</div>';
+    html += '<div class="card-grid">';
+
+    for (var ti = 0; ti < tasks.length; ti++) {
+      var task = tasks[ti];
+      var assigneeName = task.assignee ? task.assignee.name : '未割当';
+      var assigneeGid = task.assignee ? task.assignee.gid : '';
+      var dueOn = task.due_on || '';
+      var statusIcon = task.completed
+        ? '<span style="color:#27ae60">&#10003;</span>'
+        : '<span style="color:#d0d3db">&#9675;</span>';
+      var progressField = '';
+      if (task.custom_fields) {
+        for (var fi = 0; fi < task.custom_fields.length; fi++) {
+          var cf = task.custom_fields[fi];
+          if (cf.name === '進捗ステータス' && cf.display_value) {
+            progressField = '<span class="task-custom-field">' + escHtml(cf.display_value) + '</span>';
+            break;
+          }
+        }
+      }
+
+      var permalink = task.permalink_url || '#';
+
+      html += '<div class="task-card" data-gid="' + task.gid + '">';
+      html += '<div class="card-badges"><span class="badge ' + topic.badge + '">' + escHtml(key) + '</span></div>';
+      html += '<div class="task-card-header">';
+      html += '<div class="card-title"><a href="' + escHtml(permalink) + '" target="_blank" rel="noopener">' + escHtml(task.name) + '</a></div>';
+      html += '<div class="task-status-icon">' + statusIcon + '</div>';
+      html += '</div>';
+      html += '<div class="task-meta">';
+      html += '<span>&#128100; ' + escHtml(assigneeName) + '</span>';
+      html += '<span>&#128197; ' + (dueOn || '未設定') + '</span>';
+      if (progressField) html += progressField;
+      html += '</div>';
+      html += '<div class="task-fields">';
+
+      // Assignee dropdown
+      html += '<div class="task-field"><label>担当者</label><select id="assignee_' + task.gid + '">';
+      html += '<option value="">未割当</option>';
+      for (var mi = 0; mi < projectMembers.length; mi++) {
+        var m = projectMembers[mi];
+        var sel = m.gid === assigneeGid ? ' selected' : '';
+        html += '<option value="' + m.gid + '"' + sel + '>' + escHtml(m.name) + '</option>';
+      }
+      html += '</select></div>';
+
+      // Due date
+      html += '<div class="task-field"><label>期日</label><input type="date" id="due_' + task.gid + '" value="' + dueOn + '"></div>';
+
+      // Completed checkbox
+      html += '<div class="task-field"><label>完了</label><input type="checkbox" id="done_' + task.gid + '"' + (task.completed ? ' checked' : '') + '></div>';
+
+      html += '</div>';
+      html += '<div class="task-save-row"><button class="task-save" onclick="saveTask(\'' + task.gid + '\')">保存</button></div>';
+      html += '</div>';
+    }
+
+    if (tasks.length === 0) {
+      html += '<div style="color:#8b8fa3;font-size:13px;padding:12px 0;">タスクが見つかりませんでした</div>';
+    }
+
+    html += '</div></div>';
+  }
+
+  dashboard.innerHTML = html;
+}
+
+/* ── Save Task ── */
+async function saveTask(gid) {
+  var card = document.querySelector('.task-card[data-gid="' + gid + '"]');
+  var btn = card ? card.querySelector('.task-save') : null;
+  if (btn) { btn.disabled = true; btn.textContent = '保存中...'; }
+
+  var assigneeEl = document.getElementById('assignee_' + gid);
+  var dueEl = document.getElementById('due_' + gid);
+  var doneEl = document.getElementById('done_' + gid);
+
+  var assignee = assigneeEl ? (assigneeEl.value || null) : null;
+  var dueOn = dueEl ? (dueEl.value || null) : null;
+  var completed = doneEl ? doneEl.checked : false;
+
+  try {
+    await asanaPut('/tasks/' + gid, { assignee: assignee, due_on: dueOn, completed: completed });
+    // Update local cache
+    if (taskData[gid]) {
+      taskData[gid].completed = completed;
+      taskData[gid].due_on = dueOn;
+      if (assignee) {
+        var member = projectMembers.find(function(m) { return m.gid === assignee; });
+        taskData[gid].assignee = member ? { gid: member.gid, name: member.name } : null;
+      } else {
+        taskData[gid].assignee = null;
+      }
+    }
+    showToast('タスクを更新しました', 'success');
+    renderDashboard();
+  } catch (e) {
+    showToast('保存に失敗しました: ' + e.message, 'error');
+    if (btn) { btn.disabled = false; btn.textContent = '保存'; }
+  }
+}
+
+/* ── Utils ── */
+function escHtml(s) {
+  if (!s) return '';
+  var d = document.createElement('div');
+  d.appendChild(document.createTextNode(s));
+  return d.innerHTML;
+}
+
+/* ── Enter key on PAT input ── */
+document.getElementById('patInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') connectAsana();
+});
+
+/* ── Auto-reconnect from sessionStorage ── */
+(function() {
+  var saved = sessionStorage.getItem('asana_pat');
+  if (saved) {
+    document.getElementById('patInput').value = saved;
+    connectAsana();
+  }
+})();
+</script>
 </body>
 </html>
