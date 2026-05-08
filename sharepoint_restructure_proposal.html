@@ -157,47 +157,60 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
 
 <!-- Construction Priority -->
 <div class="section" style="margin-bottom:24px">
-  <div class="section-head"><span class="num">★</span><h2>構成設計の最上位方針：2層の優先順位</h2></div>
-  <div class="section-desc">SharePoint統合におけるフォルダ構成・移行対象の決定は、以下の2層の優先順位に従う。第1層で最低限の骨格を固め、第2層で業務実態に即した肉付けを行う。</div>
+  <div class="section-head"><span class="num">★</span><h2>構成設計の最上位方針：3本柱</h2></div>
+  <div class="section-desc">SharePoint統合におけるフォルダ構成・移行対象・知識集約の決定は、以下の3本柱に従う。柱①で統制基盤の骨格を固め、柱②で業務実態に即した肉付けを行い、柱③で各所に拡散するナレッジをMD化・SSOT集約してAI活用基盤を構築する。</div>
 </div>
 
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:24px;">
+<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px;">
   <div style="background:var(--bg2);border:2px solid var(--coral);border-radius:10px;padding:16px 20px;">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-      <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--coral);padding:2px 8px;border-radius:4px;">第1層</span>
-      <span style="font-size:14px;font-weight:500">IPO・ISMS準拠の最低限構成</span>
+      <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--coral);padding:2px 8px;border-radius:4px;">柱①</span>
+      <span style="font-size:14px;font-weight:500">統制基盤（第1層）</span>
     </div>
-    <p style="font-size:12px;color:var(--text2);margin-bottom:10px">複雑化・煩雑化を避け、監査法人・認証機関が求める最低限の要件を満たす骨格を構築する。</p>
-    <ul style="font-size:12px;color:var(--text2);padding-left:16px;margin:0">
-      <li style="margin-bottom:4px">サイト＝権限境界（5サイト分離）</li>
-      <li style="margin-bottom:4px">J-SOX職務分掌（作成者と評価者の物理分離）</li>
-      <li style="margin-bottom:4px">ISMS文書管理要件（箇条7.5：原本管理・版管理・配布管理）</li>
-      <li style="margin-bottom:4px">アクセス制御（最小権限・四半期棚卸）</li>
-      <li style="margin-bottom:4px">監査証跡（バージョン管理強制ON・変更ログ自動記録）</li>
+    <p style="font-size:11px;color:var(--text2);margin-bottom:8px">IPO・ISMS・J-SOXで必須の骨格を構築。</p>
+    <ul style="font-size:11px;color:var(--text2);padding-left:16px;margin:0">
+      <li style="margin-bottom:3px">サイト＝権限境界（5サイト分離）</li>
+      <li style="margin-bottom:3px">J-SOX職務分掌</li>
+      <li style="margin-bottom:3px">ISMS文書管理要件（箇条7.5）</li>
+      <li style="margin-bottom:3px">アクセス制御・四半期棚卸</li>
+      <li style="margin-bottom:3px">監査証跡・変更ログ自動記録</li>
     </ul>
-    <div style="margin-top:10px;padding:6px 10px;background:rgba(220,38,38,0.06);border-radius:6px;font-size:11px;color:var(--coral)">
-      判断基準：「これがないと監査で指摘される / 認証が取れない」
+    <div style="margin-top:8px;padding:5px 8px;background:rgba(220,38,38,0.06);border-radius:6px;font-size:10px;color:var(--coral)">
+      「これがないと監査で指摘される / 認証が取れない」
     </div>
   </div>
 
   <div style="background:var(--bg2);border:2px solid var(--accent);border-radius:10px;padding:16px 20px;">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-      <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--accent);padding:2px 8px;border-radius:4px;">第2層</span>
-      <span style="font-size:14px;font-weight:500">業務上必要なもの</span>
+      <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--accent);padding:2px 8px;border-radius:4px;">柱②</span>
+      <span style="font-size:14px;font-weight:500">業務オペレーション（第2層）</span>
     </div>
-    <p style="font-size:12px;color:var(--text2);margin-bottom:10px">第1層の骨格の上に、実際の業務プロセスから発生する成果物とSSOTにつながる資料を配置する。</p>
-    <ul style="font-size:12px;color:var(--text2);padding-left:16px;margin:0">
-      <li style="margin-bottom:4px">業務プロセスのアウトプット（成果物）の格納場所</li>
-      <li style="margin-bottom:4px">SSOTにつながる資料のハイライト・集約</li>
-      <li style="margin-bottom:4px">部門別の日常業務ドキュメント</li>
-      <li style="margin-bottom:4px">ナレッジ・研修資料の体系化</li>
-      <li style="margin-bottom:4px">プロセスが未確定の領域の暫定フォルダ</li>
+    <p style="font-size:11px;color:var(--text2);margin-bottom:8px">業務プロセスの成果物とSSOT資料を配置。</p>
+    <ul style="font-size:11px;color:var(--text2);padding-left:16px;margin:0">
+      <li style="margin-bottom:3px">業務プロセスのアウトプット格納</li>
+      <li style="margin-bottom:3px">SSOT資料のハイライト・集約</li>
+      <li style="margin-bottom:3px">部門別日常業務ドキュメント</li>
+      <li style="margin-bottom:3px">最終形態: ワークフロー自動格納</li>
     </ul>
-    <div style="margin-top:10px;padding:6px 10px;background:rgba(37,99,235,0.06);border-radius:6px;font-size:11px;color:var(--accent)">
-      判断基準：「業務を回すために必要 / SSOTとして正本管理すべき」
+    <div style="margin-top:8px;padding:5px 8px;background:rgba(37,99,235,0.06);border-radius:6px;font-size:10px;color:var(--accent)">
+      「業務を回すために必要 / 正本管理すべき」
     </div>
-    <div style="margin-top:8px;padding:6px 10px;background:rgba(124,58,237,0.06);border-radius:6px;font-size:11px;color:var(--purple)">
-      最終形態：システム制御ワークフロー（Asana等）から自動生成されるアウトプットの保存先となる
+  </div>
+
+  <div style="background:var(--bg2);border:2px solid var(--purple);border-radius:10px;padding:16px 20px;">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--purple);padding:2px 8px;border-radius:4px;">柱③</span>
+      <span style="font-size:14px;font-weight:500">ナレッジMD化→スキル化</span>
+    </div>
+    <p style="font-size:11px;color:var(--text2);margin-bottom:8px">各所に拡散するノウハウをMD化・SSOT集約し、AIエージェントの知識基盤を構築。</p>
+    <ul style="font-size:11px;color:var(--text2);padding-left:16px;margin:0">
+      <li style="margin-bottom:3px">過去の提案資料・戦略資料をMD化</li>
+      <li style="margin-bottom:3px">MDファイル＝SSOT正本（Claudeスキル）</li>
+      <li style="margin-bottom:3px">SharePoint移行を最小限にする戦略</li>
+      <li style="margin-bottom:3px">図・画像は素材としてSPに移行</li>
+    </ul>
+    <div style="margin-top:8px;padding:5px 8px;background:rgba(124,58,237,0.06);border-radius:6px;font-size:10px;color:var(--purple)">
+      「ナレッジの拡散を集約し、AIが活用できる形にする」
     </div>
   </div>
 </div>
@@ -213,8 +226,8 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
 </div>
 
 <div style="background:var(--bg2);border:1px solid rgba(13,148,136,0.15);border-left:3px solid var(--teal);border-radius:8px;padding:14px 18px;margin-bottom:24px;">
-  <h4 style="font-size:13px;font-weight:500;color:var(--teal);margin-bottom:6px;">この2層構造が意味すること</h4>
-  <p style="font-size:12px;color:var(--text2);line-height:1.7">フォルダ構成の設計・移行対象の選定・運用ルールの策定において、まず第1層（IPO・ISMS要件）で必要十分な最低限の構成を固める。その上で第2層（業務要件）として、プロセスのアウトプットやSSOT資料を追加していく。第1層だけでも監査・認証には耐えうる状態を保ちつつ、第2層で実務上の利便性を確保する。フォルダを「あったほうがいい」で増やすのではなく、「第1層か第2層のどちらかの基準を満たすか」で判断する。</p>
+  <h4 style="font-size:13px;font-weight:500;color:var(--teal);margin-bottom:6px;">3本柱の関係</h4>
+  <p style="font-size:12px;color:var(--text2);line-height:1.7">柱①（統制基盤）と柱②（業務OPS）はSharePointのフォルダ配置を決める軸。柱③（ナレッジMD化）はSharePointに入れない知識を集約・構造化する戦略。3つは独立した判断軸であり、移行対象のファイルは①②③のいずれかに分類される。柱③によりSharePointへの移行量を最小限に抑えつつ、AIエージェントが活用できるナレッジ基盤を構築する。フォルダを「あったほうがいい」で増やすのではなく、「①②③のどの基準を満たすか」で判断する。</p>
 </div>
 
 <!-- SSOT Orthogonal Axis -->
