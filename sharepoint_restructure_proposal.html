@@ -256,13 +256,122 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
   </ul>
 </div>
 
+<div style="background:var(--bg2);border:2px solid var(--amber);border-radius:10px;padding:16px 20px;margin-bottom:16px;">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+    <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--amber);padding:2px 8px;border-radius:4px;">基盤設計</span>
+    <span style="font-size:14px;font-weight:500">多層SSOTアーキテクチャ（5層モデル）</span>
+  </div>
+  <p style="font-size:12px;color:var(--text2);margin-bottom:12px">SSOTは単一DBではなく多層で捉えるべき基盤。SharePointの2層構造（IPO/ISMS＋業務必要）はフォルダ配置の判断軸であり、以下の5層モデルはデータの意味と役割の階層を定義する。</p>
+
+  <table class="migration-table" style="margin-bottom:12px">
+    <thead>
+      <tr><th style="width:15%">層</th><th style="width:25%">名称</th><th style="width:35%">役割</th><th style="width:25%">例</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-weight:500;color:var(--coral)">第0層</td>
+        <td style="font-size:11px">規範SSOT</td>
+        <td style="font-size:11px;color:var(--text2)">戦略・KPI定義・会計規則など「正の原則」</td>
+        <td style="font-size:11px;color:var(--text2)">631HB、事業計画、経理規程</td>
+      </tr>
+      <tr>
+        <td style="font-weight:500;color:var(--amber)">第1層</td>
+        <td style="font-size:11px">意味SSOT / MDM</td>
+        <td style="font-size:11px;color:var(--text2)">顧客・契約・用語など「言葉と意味の正本」。AIが事業構造を正しく理解するための環境基盤</td>
+        <td style="font-size:11px;color:var(--text2)">顧客定義、商品マスタ、KPI辞書、用語定義</td>
+      </tr>
+      <tr>
+        <td style="font-weight:500;color:var(--accent)">第2層</td>
+        <td style="font-size:11px">実行SSOT</td>
+        <td style="font-size:11px;color:var(--text2)">商談・受注・オンボーディングなど「業務実行の記録」</td>
+        <td style="font-size:11px;color:var(--text2)">議事録、契約書、決算書、稟議書</td>
+      </tr>
+      <tr>
+        <td style="font-weight:500;color:var(--teal)">第3層</td>
+        <td style="font-size:11px">AI整流層</td>
+        <td style="font-size:11px;color:var(--text2)">定義揺れ検知・重複候補抽出・統合提案。AIが自動的にデータ品質を維持する層</td>
+        <td style="font-size:11px;color:var(--text2)">名寄せ提案、表記ゆれ検知、スコアリング</td>
+      </tr>
+      <tr>
+        <td style="font-weight:500;color:var(--text3)">派生層</td>
+        <td style="font-size:11px">利用・AI層</td>
+        <td style="font-size:11px;color:var(--text2)">RAG・要約・検索インデックス。<b>正本ではない</b>。壊れてもSSOTから再生成可能な設計が鉄則</td>
+        <td style="font-size:11px;color:var(--text2)">BIダッシュボード、RAG、AIメモリ</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px">
+    <div style="background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.15);border-radius:6px;padding:10px;text-align:center">
+      <div style="font-size:11px;font-weight:500;color:var(--coral);margin-bottom:4px">SOR</div>
+      <div style="font-size:10px;color:var(--text2)">System of Record<br>各業務システム<br>CRM / 会計 / Excel</div>
+    </div>
+    <div style="background:rgba(217,119,6,0.04);border:1px solid rgba(217,119,6,0.15);border-radius:6px;padding:10px;text-align:center">
+      <div style="font-size:11px;font-weight:500;color:var(--amber);margin-bottom:4px">SSOT</div>
+      <div style="font-size:10px;color:var(--text2)">Golden Record<br>重複解消＋意味統一<br>唯一の正本</div>
+    </div>
+    <div style="background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:6px;padding:10px;text-align:center">
+      <div style="font-size:11px;font-weight:500;color:var(--text3);margin-bottom:4px">利用層</div>
+      <div style="font-size:10px;color:var(--text2)">Utilization Layer<br>BI / RAG / AIメモリ<br>再生成可能な設計</div>
+    </div>
+  </div>
+  <div style="padding:6px 10px;background:rgba(217,119,6,0.06);border-radius:6px;font-size:11px;color:var(--amber)">
+    「正本」と「派生利用」を明確に分離。派生データは壊れても再生成可能な設計にする
+  </div>
+</div>
+
+<!-- Definition 3-Layer + Governance -->
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px">
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px">
+    <div style="font-size:13px;font-weight:500;margin-bottom:10px">定義書3層モデル</div>
+    <div style="margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-family:var(--mono);font-size:10px;padding:1px 6px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2)">①</span><span style="font-size:12px;font-weight:500">テーブル定義書</span></div>
+      <div style="font-size:11px;color:var(--text2);padding-left:28px">実装・監査向け。物理名・データ型・PK/FK・制約</div>
+    </div>
+    <div style="margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-family:var(--mono);font-size:10px;padding:1px 6px;border-radius:3px;background:rgba(217,119,6,0.08);color:var(--amber);border:1px solid rgba(217,119,6,0.2)">②</span><span style="font-size:12px;font-weight:500">セマンティック定義書</span></div>
+      <div style="font-size:11px;color:var(--text2);padding-left:28px">AI・分析向け（中核）。意味・定義文・粒度・含む/含まない範囲・同義語・状態遷移・KPIとの関係</div>
+    </div>
+    <div>
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px"><span style="font-family:var(--mono);font-size:10px;padding:1px 6px;border-radius:3px;background:rgba(124,58,237,0.08);color:var(--purple);border:1px solid rgba(124,58,237,0.2)">③</span><span style="font-size:12px;font-weight:500">利用ポリシー定義</span></div>
+      <div style="font-size:11px;color:var(--text2);padding-left:28px">統制・ガバナンス向け。ロール別アクセス権限・変更承認フロー・AI利用許可範囲・PII取扱い</div>
+    </div>
+  </div>
+
+  <div style="background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:16px">
+    <div style="font-size:13px;font-weight:500;margin-bottom:10px">データガバナンス役割分担</div>
+    <div style="margin-bottom:8px">
+      <div style="font-size:12px;font-weight:500;color:var(--coral);margin-bottom:2px">データオーナー（事業責任者・部門長）</div>
+      <div style="font-size:11px;color:var(--text2)">「定義決定者」— 用語の意味や公式値の正本を最終承認</div>
+    </div>
+    <div style="margin-bottom:8px">
+      <div style="font-size:12px;font-weight:500;color:var(--amber);margin-bottom:2px">データスチュワード（実務管理者）</div>
+      <div style="font-size:11px;color:var(--text2)">「運用管理者」— AIの提案をレビューし、マスタの品質を維持</div>
+    </div>
+    <div style="margin-bottom:10px">
+      <div style="font-size:12px;font-weight:500;color:var(--accent);margin-bottom:2px">利用部門（営業・CS・分析者）</div>
+      <div style="font-size:11px;color:var(--text2)">ポリシーに準拠してデータを利用。修正が必要な場合は申請</div>
+    </div>
+    <div style="font-size:11px;font-weight:500;margin-bottom:6px">動的マスタ管理ライフサイクル（6ステップ）</div>
+    <div style="display:flex;gap:4px;flex-wrap:wrap">
+      <span style="font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(13,148,136,0.08);color:var(--teal);border:1px solid rgba(13,148,136,0.2)">①観測</span>
+      <span style="font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(13,148,136,0.08);color:var(--teal);border:1px solid rgba(13,148,136,0.2)">②候補生成</span>
+      <span style="font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(13,148,136,0.08);color:var(--teal);border:1px solid rgba(13,148,136,0.2)">③スコア</span>
+      <span style="font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2)">④承認</span>
+      <span style="font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2)">⑤昇格</span>
+      <span style="font-size:10px;padding:2px 6px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2)">⑥配信</span>
+    </div>
+    <div style="font-size:10px;color:var(--text3);margin-top:4px">①〜③: AI領域（提案まで） / ④〜⑤: 人間領域（決定） / ⑥: 自動配信</div>
+  </div>
+</div>
+
 <!-- AI Agent Vision -->
 <div style="background:var(--bg2);border:2px solid var(--purple);border-radius:10px;padding:16px 20px;margin-bottom:16px;">
   <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
     <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--purple);padding:2px 8px;border-radius:4px;">構想</span>
     <span style="font-size:14px;font-weight:500">AIエージェントによるSSOT活用ビジョン</span>
   </div>
-  <p style="font-size:12px;color:var(--text2);margin-bottom:12px">データ移行後、SSOTとマスタデータの「メタデータ＋サマリー」をMarkdown・図に構造化し、AIエージェント（Claude MCP連携）が問合せ・意思決定支援を行う基盤を構築する。</p>
+  <p style="font-size:12px;color:var(--text2);margin-bottom:12px">データ移行後、SSOTとマスタデータの「メタデータ＋サマリー＋セマンティック定義」をMarkdown・図に構造化し、AIエージェント（Claude MCP連携）が問合せ・意思決定支援を行う基盤を構築する。SSOTの構築は単なるIT導入ではなく、現場の記録をAIが読み解き共通言語に変換し、組織の意思決定プロセスを根本から自動化・高速化するプロジェクトである。</p>
 
   <div style="margin-bottom:12px">
     <div style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">ssot-knowledge-base/ の構成（8カテゴリ）</div>
@@ -329,26 +438,38 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
 
   <table class="migration-table" style="margin-bottom:8px">
     <thead>
-      <tr><th style="width:12%">段階</th><th style="width:20%">名称</th><th style="width:40%">内容</th><th style="width:15%">時期</th></tr>
+      <tr><th style="width:12%">段階</th><th style="width:18%">名称</th><th style="width:42%">内容</th><th style="width:15%">時期</th></tr>
     </thead>
     <tbody>
       <tr>
         <td><span class="action-tag move">Step 1</span></td>
-        <td style="font-size:11px;font-weight:500">SSOT問合せ</td>
-        <td style="font-size:11px;color:var(--text2)">「〇〇はどこにある？」にMDインデックスから即答。SSOT正本へのリンク提供</td>
+        <td style="font-size:11px;font-weight:500">棚卸し＋SSOT候補選定</td>
+        <td style="font-size:11px;color:var(--text2)">システム・業務の現状棚卸し。横断利用度×不一致コスト×責任の重さでスコアリング。顧客マスタ・契約マスタ・ステータス定義・KPI辞書を優先</td>
+        <td style="font-size:11px;color:var(--text2)">SP統合と並行</td>
+      </tr>
+      <tr>
+        <td><span class="action-tag move">Step 2</span></td>
+        <td style="font-size:11px;font-weight:500">定義書3層整備＋MD化</td>
+        <td style="font-size:11px;color:var(--text2)">テーブル定義/セマンティック定義/利用ポリシーの3層定義書を整備。MD化してssot-knowledge-baseに構造化保存</td>
         <td style="font-size:11px;color:var(--text2)">SP統合完了後</td>
       </tr>
       <tr>
-        <td><span class="action-tag new">Step 2</span></td>
-        <td style="font-size:11px;font-weight:500">コンテキスト付き回答</td>
-        <td style="font-size:11px;color:var(--text2)">SSOT原本をSharePoint MCPで読取→要約・比較して回答。「前期との差分は〇〇」</td>
+        <td><span class="action-tag new">Step 3</span></td>
+        <td style="font-size:11px;font-weight:500">SSOT問合せ＋コンテキスト回答</td>
+        <td style="font-size:11px;color:var(--text2)">MDインデックスから即答＋SharePoint MCPで原本読取→要約・比較して回答</td>
         <td style="font-size:11px;color:var(--text2)">2027 Q2</td>
       </tr>
       <tr>
-        <td><span style="display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;background:rgba(124,58,237,0.08);color:var(--purple);border:1px solid rgba(124,58,237,0.2);margin-right:4px">Step 3</span></td>
-        <td style="font-size:11px;font-weight:500">意思決定支援</td>
-        <td style="font-size:11px;color:var(--text2)">複数SSOTを横断分析→「この規程に基づくとこの判断が妥当」「類似案件の前例は〇〇」等の提案</td>
+        <td><span style="display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;background:rgba(124,58,237,0.08);color:var(--purple);border:1px solid rgba(124,58,237,0.2);margin-right:4px">Step 4</span></td>
+        <td style="font-size:11px;font-weight:500">AI整流層＋夜間自動正規化</td>
+        <td style="font-size:11px;color:var(--text2)">日中の入力→夜間AIエージェントが表記揺れ検知・重複候補スコアリング・正規化候補生成→翌朝レビュー待ちキュー登録→Golden Recordに統合</td>
         <td style="font-size:11px;color:var(--text2)">2027 Q3〜</td>
+      </tr>
+      <tr>
+        <td><span style="display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-right:4px">Step 5</span></td>
+        <td style="font-size:11px;font-weight:500">意思決定支援＋動的ライフサイクル</td>
+        <td style="font-size:11px;color:var(--text2)">複数SSOTを横断分析→提案。6ステップライフサイクル（観測→候補生成→スコア→承認→昇格→配信）が自動回転</td>
+        <td style="font-size:11px;color:var(--text2)">2027 Q4〜</td>
       </tr>
     </tbody>
   </table>
@@ -536,6 +657,77 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
     </tr>
   </tbody>
 </table>
+
+<!-- Knowledge MD化 Policy -->
+<div style="background:var(--bg2);border:2px solid var(--purple);border-radius:10px;padding:16px 20px;margin-bottom:16px;">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+    <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--purple);padding:2px 8px;border-radius:4px;">第4の移行パス</span>
+    <span style="font-size:14px;font-weight:500">ナレッジ・ノウハウのMD化→SSOT集約</span>
+  </div>
+  <p style="font-size:12px;color:var(--text2);margin-bottom:12px">上記①〜③のSharePoint移行に加え、各所に拡散しているナレッジ・ノウハウ系ファイル（提案資料・戦略資料・マニュアル等）はMD化してClaudeスキル（ssot-knowledge-base/）にSSOT集約する。元ファイル自体はSharePointに移行しない。図・画像は素材として移行。</p>
+
+  <table class="migration-table" style="margin-bottom:12px">
+    <thead>
+      <tr><th style="width:30%">ファイルの種類</th><th style="width:25%">移行先</th><th style="width:45%">理由</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td style="font-size:11px;font-weight:500">法的保管義務あり</td>
+        <td style="font-size:11px"><span class="action-tag move">SharePoint</span></td>
+        <td style="font-size:11px;color:var(--text2)">議事録・規程・契約書等。法令要件で原本保管が必須</td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;font-weight:500">業務プロセスの確定版</td>
+        <td style="font-size:11px"><span class="action-tag move">SharePoint</span></td>
+        <td style="font-size:11px;color:var(--text2)">決算書・稟議書・リリースノート等。運用上の成果物</td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;font-weight:500;color:var(--purple)">ナレッジ・ノウハウ系</td>
+        <td style="font-size:11px"><span style="display:inline-block;font-size:10px;padding:1px 6px;border-radius:3px;background:rgba(124,58,237,0.08);color:var(--purple);border:1px solid rgba(124,58,237,0.2)">MD化→スキル</span></td>
+        <td style="font-size:11px;color:var(--text2)">提案資料・戦略・FAQ・マニュアル等。各所に拡散→MD化してSSOT集約</td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;font-weight:500">元ファイル内の図・画像</td>
+        <td style="font-size:11px"><span class="action-tag new">素材SP</span></td>
+        <td style="font-size:11px;color:var(--text2)">02_業務共通/素材ライブラリに移行。MDから参照</td>
+      </tr>
+      <tr>
+        <td style="font-size:11px;font-weight:500;color:var(--text3)">個人メモ・旧版・WIP</td>
+        <td style="font-size:11px"><span class="action-tag archive">移行しない</span></td>
+        <td style="font-size:11px;color:var(--text2)">—</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+    <div style="background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:6px;padding:10px">
+      <div style="font-size:11px;font-weight:500;color:var(--purple);margin-bottom:6px">MD化の対象例</div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.7">
+        過去の提案資料・企画書<br>
+        事業戦略・競合分析資料<br>
+        業務マニュアル・SOP（暗黙知）<br>
+        顧客対応FAQ・トラブルシューティング<br>
+        技術知見・設計思想の資料<br>
+        研修資料・教育コンテンツ
+      </div>
+    </div>
+    <div style="background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:6px;padding:10px">
+      <div style="font-size:11px;font-weight:500;color:var(--purple);margin-bottom:6px">MD生成ワークフロー</div>
+      <div style="font-size:11px;color:var(--text2);line-height:1.7">
+        ① 部門内の拡散ファイルから対象選定<br>
+        ② PPT等をClaudeにアップロード<br>
+        ③ テキスト化→MD生成（ssot-knowledge-base/）<br>
+        ④ 図・画像を抽出→素材ライブラリに移行<br>
+        ⑤ データオーナーがレビュー・承認<br>
+        ⑥ Claudeスキルとして登録
+      </div>
+    </div>
+  </div>
+
+  <div style="padding:6px 10px;background:rgba(124,58,237,0.06);border-radius:6px;font-size:11px;color:var(--purple)">
+    MDファイルの正本保管場所はClaudeスキル。SharePointには保管しない。SSOTマスタインデックスに「原本: Claudeスキル ssot-knowledge-base/{category}/」と記録
+  </div>
+</div>
 
 <!-- Risk & Countermeasures -->
 <div class="section" style="margin-bottom:20px">
