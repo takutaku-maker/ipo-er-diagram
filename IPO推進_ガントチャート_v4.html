@@ -29,7 +29,6 @@
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var(--dark); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
-
 .header { position:sticky; top:0; z-index:100; background:var(--dark); color:var(--white); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
 .header h1 { font-size:18px; font-weight:700; }
 .header-right { display:flex; align-items:center; gap:14px; font-size:13px; }
@@ -44,7 +43,6 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .refresh-btn.loading .btn-text { display:none; }
 @keyframes spin { to { transform:rotate(360deg); } }
 .update-info { font-size:11px; color:#aaa; display:flex; flex-direction:column; align-items:flex-end; line-height:1.3; }
-
 .filter-bar { flex-shrink:0; background:#f8f8f8; border-bottom:1px solid var(--midGray); padding:8px 16px; display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
 .filter-bar label { font-size:11px; font-weight:700; color:var(--gray); }
 .filter-bar select, .filter-bar input[type="text"] { font-family:'Noto Sans JP',sans-serif; font-size:12px; padding:4px 8px; border:1px solid var(--midGray); border-radius:4px; background:var(--white); color:var(--dark); }
@@ -63,8 +61,11 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .preset-btn.active-tasks { background:#FFFDE7; color:#F57F17; border-color:var(--accent); }
 .preset-btn.active-tasks:hover { background:#FFF9C4; }
 .preset-btn.active-tasks.active { background:var(--accent); color:var(--dark); }
+.preset-btn.es-topic { background:#F3E8FF; color:#6D28D9; border-color:#8B5CF6; }
+.preset-btn.es-topic:hover { background:#EDE9FE; }
+.preset-btn.es-topic.active { background:#8B5CF6; color:#fff; }
 .filter-divider { width:1px; height:24px; background:var(--midGray); margin:0 4px; }
-
+.es-dot { display:inline-block; width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-right:3px; vertical-align:middle; }
 .timeline-header-wrapper { flex-shrink:0; overflow:hidden; border-bottom:2px solid var(--dark); background:var(--lightBg); }
 .timeline-header-inner { display:flex; min-width:max-content; }
 .timeline-header-info { position:sticky; left:0; z-index:10; width:var(--info-col-width); min-width:var(--info-col-width); background:var(--lightBg); display:flex; align-items:flex-end; border-right:1px solid var(--midGray); font-size:11px; font-weight:700; }
@@ -79,14 +80,11 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .month-row { display:flex; }
 .month-cell { width:var(--month-width); text-align:center; font-size:10px; padding:4px 0; border-right:1px solid #eee; }
 .month-cell.quarter-start { border-right:1px solid var(--midGray); }
-
 .gantt-body { flex:1; overflow:auto; position:relative; }
 .gantt-body-inner { position:relative; min-height:100%; }
-
 .gantt-row { display:flex; height:var(--row-height); border-bottom:1px solid #f0f0f0; align-items:center; }
 .gantt-row:hover { background:var(--lightBg); }
 .group-header { display:flex; height:var(--group-header-height); align-items:center; border-bottom:1px solid var(--midGray); }
-
 .row-info { position:sticky; left:0; z-index:5; width:var(--info-col-width); min-width:var(--info-col-width); display:flex; align-items:center; height:100%; background:var(--white); border-right:1px solid var(--midGray); }
 .gantt-row:hover .row-info { background:var(--lightBg); }
 .group-header .row-info { color:var(--white); }
@@ -106,46 +104,38 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .group-header .col-name { font-weight:700; font-size:12px; letter-spacing:0.5px; }
 .group-count { font-size:11px; opacity:0.8; margin-left:6px; }
 .group-progress { font-size:10px; opacity:0.7; margin-left:auto; margin-right:12px; }
-
 .status-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 .status-dot.in-progress { background:var(--accent); }
 .status-dot.not-started { background:var(--lightBg); border:1px solid var(--midGray); }
 .status-dot.completed { background:var(--midGray); }
 .status-dot.no-status { background:#ccc; }
-
 .toggle-arrow { cursor:pointer; font-size:10px; color:var(--gray); user-select:none; flex-shrink:0; }
 .toggle-arrow:hover { color:var(--dark); }
 .task-name-text { overflow:hidden; text-overflow:ellipsis; }
 .subtask-badge { font-size:10px; color:var(--gray); flex-shrink:0; }
 .ms-icon { flex-shrink:0; width:10px; height:10px; transform:rotate(45deg); border:1.5px solid var(--dark); background:var(--accent); display:inline-block; }
 .row-bars { flex:1; position:relative; height:100%; }
-
 .gantt-bar { position:absolute; height:14px; top:50%; transform:translateY(-50%); border-radius:3px; }
 .gantt-bar.in-progress { background:var(--accent); }
 .gantt-bar.not-started { background:var(--lightBg); border:1px solid var(--midGray); }
 .gantt-bar.completed { background:var(--midGray); }
 .gantt-bar.no-status { background:#e0e0e0; border:1px solid #ccc; }
-
 .milestone-marker { position:absolute; width:14px; height:14px; top:50%; transform:translateY(-50%) rotate(45deg); border:2px solid var(--dark); }
 .milestone-marker.in-progress { background:var(--accent); }
 .milestone-marker.not-started { background:var(--lightBg); }
 .milestone-marker.completed { background:var(--midGray); }
 .milestone-marker.no-status { background:#ddd; }
-
 .subtask-row { height:var(--subtask-row-height); display:none; background:#fafafa; }
 .subtask-row.visible { display:flex; }
 .subtask-row .row-info { background:#fafafa; }
 .subtask-row .col-name { padding-left:36px; font-size:11px; color:var(--gray); }
 .subtask-row:hover .row-info { background:var(--lightBg); }
 .subtask-line { position:absolute; height:6px; top:50%; transform:translateY(-50%); background:var(--midGray); border-radius:2px; opacity:0.5; }
-
 .quarter-line { position:absolute; top:0; bottom:0; width:1px; background:var(--midGray); opacity:0.4; z-index:1; }
 .today-line { position:absolute; top:0; bottom:0; width:2px; background:#E53935; z-index:3; }
 .today-label { position:absolute; top:0; left:-14px; background:#E53935; color:white; font-size:9px; font-weight:700; padding:1px 5px; border-radius:2px; opacity:0.5; }
-
 .tooltip { position:fixed; background:var(--dark); color:var(--white); padding:8px 12px; border-radius:4px; font-size:12px; line-height:1.5; z-index:200; pointer-events:none; display:none; max-width:360px; }
 .footer { flex-shrink:0; text-align:center; padding:6px; font-size:13px; color:var(--gray); border-top:1px solid var(--midGray); background:var(--white); }
-
 .overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; display:flex; align-items:center; justify-content:center; }
 .overlay.hidden { display:none; }
 .dialog { background:var(--white); border-radius:8px; padding:32px; max-width:480px; width:90%; box-shadow:0 8px 32px rgba(0,0,0,0.2); }
@@ -155,16 +145,13 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .dialog .btn-row { display:flex; gap:8px; justify-content:flex-end; }
 .dialog button { padding:8px 20px; font-size:13px; font-family:'Noto Sans JP',sans-serif; border:none; border-radius:4px; cursor:pointer; font-weight:700; }
 .dialog .btn-primary { background:var(--accent); color:var(--dark); }
-
 .loading-overlay { position:fixed; inset:0; background:rgba(255,255,255,0.9); z-index:500; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:16px; }
 .loading-overlay.hidden { display:none; }
 .loading-spinner { width:40px; height:40px; border:4px solid var(--midGray); border-top-color:var(--accent); border-radius:50%; animation:spin 0.8s linear infinite; }
 .loading-text { font-size:14px; color:var(--gray); }
-
 .error-banner { background:#FFEBEE; color:#C62828; padding:10px 24px; font-size:13px; display:none; align-items:center; gap:8px; flex-shrink:0; }
 .error-banner.visible { display:flex; }
 .error-banner .close-err { margin-left:auto; background:none; border:none; color:#C62828; font-size:16px; cursor:pointer; }
-
 .summary-bar { flex-shrink:0; background:#fafafa; border-bottom:1px solid var(--midGray); padding:6px 16px; display:flex; align-items:center; gap:16px; font-size:11px; }
 .summary-stat { display:flex; align-items:center; gap:4px; }
 .summary-stat .dot { width:10px; height:10px; border-radius:2px; }
@@ -222,6 +209,7 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
     <button class="preset-btn audit" id="presetAudit" title="期日30日以内+期日超過+仕掛中+MS">&#x1F4CB; 監査法人定例</button>
     <button class="preset-btn urgent" id="presetUrgent" title="期日超過タスクのみ">&#x1F534; 期日超過</button>
     <button class="preset-btn active-tasks" id="presetActive" title="仕掛中タスクのみ">&#x26A1; 仕掛中</button>
+    <button class="preset-btn es-topic" id="presetES" title="SR指摘ESトピック関連タスクのみ">&#x1F4CA; ESトピック</button>
   </div>
   <div class="filter-divider"></div>
   <div class="filter-group">
@@ -241,6 +229,10 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
     <select id="filterAssignee"><option value="all">すべて</option></select>
   </div>
   <div class="filter-group">
+    <label>ESトピック:</label>
+    <select id="filterES"><option value="all">すべて</option><option value="ES-01">ES-01 関連当事者整理</option><option value="ES-02">ES-02 売上証跡管理</option><option value="ES-03">ES-03 収益認識</option><option value="ES-04">ES-04 ソフトウェア</option></select>
+  </div>
+  <div class="filter-group">
     <label>検索:</label>
     <input type="text" id="filterSearch" placeholder="タスク名で検索...">
   </div>
@@ -249,13 +241,10 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 </div>
 
 <div class="summary-bar" id="summaryBar"><span>読み込み中...</span></div>
-
 <div class="timeline-header-wrapper" id="timelineHeader"></div>
-
 <div class="gantt-body" id="ganttBody">
   <div class="gantt-body-inner" id="ganttInner"></div>
 </div>
-
 <div class="tooltip" id="tooltip"></div>
 <div class="footer">Copyrights &copy; 2026 REVISE Co.Ltd., All Rights Reserved</div>
 
@@ -270,10 +259,73 @@ var PROJECTS = [
   { gid:'1214347783106959', name:'関連当事者・組織整理', color:'#EEC300', short:'関連当事者' },
   { gid:'1214628881129837', name:'規程整備', color:'#7A6FF0', short:'規程整備' }
 ];
+
+var ES_TOPICS = {
+  'ES-01': {
+    name: 'ES-01 関連当事者整理',
+    desc: 'リブート事業協同組合・組合加盟法人との関係の整理',
+    color: '#8B5CF6',
+    taskGids: [
+      '1214629454071647','1214629250729857','1214629204635988','1214629250695729',
+      '1214629250997420','1214629250937601','1214629137605429',
+      '1214138129691617','1214110941333253','1213943998432899','1213541079865020',
+      '1213541079155116','1213541079865019','1214138129823641','1214057893983662',
+      '1214057741582773','1214057983923125'
+    ]
+  },
+  'ES-02': {
+    name: 'ES-02 売上証跡管理',
+    desc: '売上計上根拠資料の網羅的な入手及び管理',
+    color: '#F59E0B',
+    taskGids: [
+      '1213528680128600','1214110941335856','1214628738581109','1214628738405278',
+      '1214628738156678','1214628661965020','1214110941332177','1214108313608049',
+      '1214057902087480'
+    ]
+  },
+  'ES-03': {
+    name: 'ES-03 収益認識',
+    desc: '収益認識に関する会計基準の適用',
+    color: '#3B82F6',
+    taskGids: [
+      '1213528680128601','1214628969548690','1214628881675903','1214628661967833',
+      '1214628662014792','1214628881677222','1214153027269595','1214112877237873',
+      '1213541079155108','1214628738462511'
+    ]
+  },
+  'ES-04': {
+    name: 'ES-04 ソフトウェア',
+    desc: 'ソフトウェアの収益性判断プロセスとソフトウェア開発プロセスの構築',
+    color: '#10B981',
+    taskGids: [
+      '1213528680128604','1213541079155113','1214643105076057','1214628738405261',
+      '1214628930570402','1214628661996707','1214628738462497','1214628738581273',
+      '1214108313608305','1214057902087199','1213941495745309'
+    ]
+  }
+};
+
+// Build reverse lookup: GID -> [ES topic keys]
+var _esGidMap = {};
+(function(){
+  var keys = Object.keys(ES_TOPICS);
+  for(var i=0; i<keys.length; i++){
+    var k = keys[i];
+    var gids = ES_TOPICS[k].taskGids;
+    for(var j=0; j<gids.length; j++){
+      if(!_esGidMap[gids[j]]) _esGidMap[gids[j]] = [];
+      _esGidMap[gids[j]].push(k);
+    }
+  }
+})();
+
+function getESTopics(gid) {
+  return _esGidMap[gid] || [];
+}
+
 var ASANA_BASE = 'https://app.asana.com/api/1.0';
 var DATA = [], SUBTASKS = {}, FILTERED = [], lastFetchTime = null, activePreset = null;
 var _pat = '';
-
 var TIMELINE_START = new Date(2026,0,1), TIMELINE_END = new Date(2029,5,30);
 var MONTH_WIDTH = 60, INFO_COL_WIDTH = 560;
 
@@ -283,15 +335,8 @@ var months = [];
 (function(){ var c=new Date(TIMELINE_START); while(c<=TIMELINE_END){ months.push({year:c.getFullYear(),month:c.getMonth()}); c.setMonth(c.getMonth()+1); } })();
 var TOTAL_WIDTH = months.length * MONTH_WIDTH;
 
-function getPAT() {
-  if (_pat) return _pat;
-  try { var v = localStorage.getItem('asana_pat'); if(v) { _pat=v; return v; } } catch(e){}
-  return '';
-}
-function savePAT(pat) {
-  _pat = pat;
-  try { localStorage.setItem('asana_pat', pat); } catch(e){}
-}
+function getPAT() { if (_pat) return _pat; try { var v = localStorage.getItem('asana_pat'); if(v) { _pat=v; return v; } } catch(e){} return ''; }
+function savePAT(pat) { _pat = pat; try { localStorage.setItem('asana_pat', pat); } catch(e){} }
 
 async function fetchProjectTasks(projectGid) {
   var fields='name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.display_value,custom_fields.name,num_subtasks,assignee.name,memberships.project.gid';
@@ -310,9 +355,30 @@ async function fetchProjectTasks(projectGid) {
 
 function parseTask(raw, projInfo) {
   var status='';
-  if(raw.custom_fields){ for(var i=0;i<raw.custom_fields.length;i++){ var cf=raw.custom_fields[i]; if(cf.name==='ステータス'||cf.name==='Status'){status=cf.display_value||'';break;} } }
+  if(raw.custom_fields){
+    for(var i=0;i<raw.custom_fields.length;i++){
+      var cf=raw.custom_fields[i];
+      if(cf.name==='ステータス'||cf.name==='Status'){status=cf.display_value||'';break;}
+    }
+  }
   var tags=(raw.tags||[]).map(function(t){return t.name}).join(', ');
-  return { gid:raw.gid, n:raw.name, s:raw.start_on||'', d:raw.due_on||'', c:raw.completed, t:raw.resource_subtype||'default_task', tag:tags, st:status, ns:raw.num_subtasks||0, assignee:raw.assignee?raw.assignee.name:'', proj:projInfo.name, projShort:projInfo.short, projColor:projInfo.color, projGid:projInfo.gid };
+  return {
+    gid:raw.gid,
+    n:raw.name,
+    s:raw.start_on||'',
+    d:raw.due_on||'',
+    c:raw.completed,
+    t:raw.resource_subtype||'default_task',
+    tag:tags,
+    st:status,
+    ns:raw.num_subtasks||0,
+    assignee:raw.assignee?raw.assignee.name:'',
+    proj:projInfo.name,
+    projShort:projInfo.short,
+    projColor:projInfo.color,
+    projGid:projInfo.gid,
+    es:getESTopics(raw.gid)
+  };
 }
 
 async function fetchSubtasks(gid) {
@@ -332,7 +398,10 @@ async function loadData() {
       lt.textContent=proj.name+' を取得中... ('+(i+1)+'/'+PROJECTS.length+')';
       var raw=await fetchProjectTasks(proj.gid);
       for(var j=0;j<raw.length;j++){
-        if(!seen[raw[j].gid]){ seen[raw[j].gid]=true; DATA.push(parseTask(raw[j],proj)); }
+        if(!seen[raw[j].gid]){
+          seen[raw[j].gid]=true;
+          DATA.push(parseTask(raw[j],proj));
+        }
       }
     }
     SUBTASKS={};
@@ -345,14 +414,21 @@ async function loadData() {
     populateFilters();
     applyFilters();
     hideError();
-  } catch(e){ showError(e.message); } finally { el.classList.add('hidden'); }
+  } catch(e){
+    showError(e.message);
+  } finally {
+    el.classList.add('hidden');
+  }
 }
 
 function populateFilters() {
   var psel=document.getElementById('filterProject');
   psel.innerHTML='<option value="all">すべて</option>';
-  PROJECTS.forEach(function(p){ var o=document.createElement('option'); o.value=p.gid; o.textContent=p.name; psel.appendChild(o); });
-  var assignees=[]; var seen={};
+  PROJECTS.forEach(function(p){
+    var o=document.createElement('option'); o.value=p.gid; o.textContent=p.name; psel.appendChild(o);
+  });
+  var assignees=[];
+  var seen={};
   DATA.forEach(function(t){ if(t.assignee&&!seen[t.assignee]){seen[t.assignee]=true;assignees.push(t.assignee);} });
   assignees.sort(function(a,b){return a.localeCompare(b,'ja')});
   var asel=document.getElementById('filterAssignee');
@@ -366,9 +442,11 @@ function applyFilters() {
   var assignee=document.getElementById('filterAssignee').value;
   var project=document.getElementById('filterProject').value;
   var search=document.getElementById('filterSearch').value.trim().toLowerCase();
+  var esFilter=document.getElementById('filterES').value;
   var now=new Date(); now.setHours(0,0,0,0);
 
   FILTERED=DATA.filter(function(t){
+    // Preset filters
     if(activePreset==='audit'){
       if(t.c||t.st==='完了') return false;
       var ip=t.st==='仕掛中';
@@ -381,7 +459,14 @@ function applyFilters() {
       if(t.c||t.st==='完了') return false;
       if(!t.d||new Date(t.d+'T00:00:00')>=now) return false;
     }
-    if(activePreset==='active'){ if(t.st!=='仕掛中') return false; }
+    if(activePreset==='active'){
+      if(t.st!=='仕掛中') return false;
+    }
+    if(activePreset==='es'){
+      if(!t.es||t.es.length===0) return false;
+    }
+
+    // Standard filters
     if(type==='milestone'&&t.t!=='milestone') return false;
     if(type==='task'&&t.t==='milestone') return false;
     if(status!=='all'){
@@ -393,8 +478,15 @@ function applyFilters() {
     else if(assignee!=='all'&&t.assignee!==assignee) return false;
     if(project!=='all'&&t.projGid!==project) return false;
     if(search&&!t.n.toLowerCase().includes(search)) return false;
+
+    // ES topic dropdown filter
+    if(esFilter!=='all'){
+      if(!t.es||t.es.indexOf(esFilter)===-1) return false;
+    }
+
     return true;
   });
+
   document.getElementById('filterCount').textContent=FILTERED.length+' / '+DATA.length+' 件表示';
   updateSummary();
   rebuildChart();
@@ -418,6 +510,7 @@ function updateSummary(){
 }
 
 function dateToX(ds){ if(!ds)return null; var d=new Date(ds+'T00:00:00'); return((d-TIMELINE_START)/(TIMELINE_END-TIMELINE_START))*TOTAL_WIDTH; }
+
 function getStatusClass(t){ if(t.c||t.st==='完了')return'completed'; if(t.st==='仕掛中')return'in-progress'; if(t.st==='未着手')return'not-started'; return'no-status'; }
 function getStatusLabel(t){ if(t.c||t.st==='完了')return'完了'; if(t.st==='仕掛中')return'仕掛中'; if(t.st==='未着手')return'未着手'; return'−'; }
 function formatDue(d){ if(!d)return''; return d.replace(/^\d{4}-/,'').replace('-','/'); }
@@ -430,7 +523,8 @@ function buildTimelineHeader(){
   info.innerHTML='<div class="th-name">タスク名</div><div class="th-proj">プロジェクト</div><div class="th-assignee">担当者</div><div class="th-due">期日</div><div class="th-status">状態</div>';
   inner.appendChild(info);
   var ma=document.createElement('div'); ma.className='timeline-months';
-  var yg={}; months.forEach(function(m){if(!yg[m.year])yg[m.year]=[];yg[m.year].push(m);});
+  var yg={};
+  months.forEach(function(m){if(!yg[m.year])yg[m.year]=[];yg[m.year].push(m);});
   Object.keys(yg).sort().forEach(function(year){
     var g=document.createElement('div');g.className='year-group';
     var yl=document.createElement('div');yl.className='year-label';yl.textContent=year;yl.style.width=(yg[year].length*MONTH_WIDTH)+'px';g.appendChild(yl);
@@ -442,12 +536,15 @@ function buildTimelineHeader(){
 }
 
 function buildBody(){
-  var container=document.getElementById('ganttInner'); container.innerHTML='';
+  var container=document.getElementById('ganttInner');
+  container.innerHTML='';
   container.style.width=(MONTH_WIDTH*months.length+INFO_COL_WIDTH)+'px';
-  var groups={}; FILTERED.forEach(function(t){var k=t.projGid;if(!groups[k])groups[k]=[];groups[k].push(t);});
+  var groups={};
+  FILTERED.forEach(function(t){var k=t.projGid;if(!groups[k])groups[k]=[];groups[k].push(t);});
   var sortedKeys=PROJECTS.map(function(p){return p.gid}).filter(function(g){return groups[g]});
 
   months.forEach(function(m,i){if(m.month%3===0){var ql=document.createElement('div');ql.className='quarter-line';ql.style.left=(INFO_COL_WIDTH+i*MONTH_WIDTH)+'px';container.appendChild(ql);}});
+
   var todayX=dateToX(getTodayStr());
   if(todayX!==null){var tl=document.createElement('div');tl.className='today-line';tl.style.left=(INFO_COL_WIDTH+todayX)+'px';var tlab=document.createElement('div');tlab.className='today-label';tlab.textContent='TODAY';tl.appendChild(tlab);container.appendChild(tl);}
 
@@ -471,6 +568,18 @@ function buildBody(){
       var nd=document.createElement('div');nd.className='col-name';
       var dot=document.createElement('div');dot.className='status-dot '+getStatusClass(task);nd.appendChild(dot);
       if(task.t==='milestone'){var msi=document.createElement('div');msi.className='ms-icon';nd.appendChild(msi);}
+
+      // ES topic colored dot(s)
+      if(task.es && task.es.length > 0){
+        for(var ei=0; ei<task.es.length; ei++){
+          var esDot=document.createElement('span');
+          esDot.className='es-dot';
+          esDot.style.background=ES_TOPICS[task.es[ei]].color;
+          esDot.title=ES_TOPICS[task.es[ei]].name;
+          nd.appendChild(esDot);
+        }
+      }
+
       var hasSub=task.ns>0&&SUBTASKS[task.gid]&&SUBTASKS[task.gid].length>0;
       if(hasSub){
         var arrow=document.createElement('span');arrow.className='toggle-arrow';arrow.textContent='▶';arrow.dataset.gid=task.gid;
@@ -501,7 +610,7 @@ function buildBody(){
         var sp=document.createElement('div');sp.className='col-proj';si.appendChild(sp);
         var sa=document.createElement('div');sa.className='col-assignee';si.appendChild(sa);
         var sdd=document.createElement('div');sdd.className='col-due';si.appendChild(sdd);
-        var sss=document.createElement('div');sss.className='col-status';si.appendChild(sss);
+        var sss=document.createElement('div');sdd.className='col-status';si.appendChild(sss);
         sr.appendChild(si);
         var sb=document.createElement('div');sb.className='row-bars';
         if(ps&&pe){var sx2=dateToX(ps),ex2=dateToX(pe);if(sx2!==null&&ex2!==null){var ln=document.createElement('div');ln.className='subtask-line';ln.style.left=sx2+'px';ln.style.width=Math.max(ex2-sx2,4)+'px';sb.appendChild(ln);}}
@@ -520,6 +629,13 @@ function showTooltip(task,e){
   lines.push('ステータス: '+getStatusLabel(task));
   if(task.t==='milestone')lines.push('種別: マイルストーン');
   if(task.tag)lines.push('タグ: '+task.tag);
+  // ES topic info in tooltip
+  if(task.es && task.es.length > 0){
+    var esLabels = task.es.map(function(k){
+      return '<span style="color:'+ES_TOPICS[k].color+';font-weight:700">●</span> '+ES_TOPICS[k].name;
+    });
+    lines.push('ESトピック: '+esLabels.join(', '));
+  }
   tooltipEl.innerHTML=lines.join('<br>');tooltipEl.style.display='block';positionTooltip(e);
 }
 function positionTooltip(e){tooltipEl.style.left=(e.clientX+12)+'px';tooltipEl.style.top=(e.clientY+12)+'px';}
@@ -530,6 +646,7 @@ function updateHeader(){
   document.getElementById('taskCount').textContent=DATA.length+' tasks (8 projects)';
   if(lastFetchTime){var h=String(lastFetchTime.getHours()).padStart(2,'0'),m=String(lastFetchTime.getMinutes()).padStart(2,'0');document.getElementById('lastUpdate').textContent='最終取得 '+h+':'+m;}
 }
+
 function rebuildChart(){updateHeader();buildTimelineHeader();buildBody();syncScroll();setTimeout(scrollToToday,100);}
 function showError(msg){document.getElementById('errorMsg').textContent=msg;document.getElementById('errorBanner').classList.add('visible');}
 function hideError(){document.getElementById('errorBanner').classList.remove('visible');}
@@ -539,12 +656,18 @@ function scrollToToday(){var b=document.getElementById('ganttBody'),tx=dateToX(g
 function setPreset(p){
   if(activePreset===p){activePreset=null;}else{activePreset=p;}
   document.querySelectorAll('.preset-btn').forEach(function(b){b.classList.remove('active');});
-  if(activePreset){var id=activePreset==='audit'?'presetAudit':activePreset==='urgent'?'presetUrgent':'presetActive';document.getElementById(id).classList.add('active');}
+  if(activePreset){
+    var idMap = {audit:'presetAudit', urgent:'presetUrgent', active:'presetActive', es:'presetES'};
+    var id = idMap[activePreset];
+    if(id) document.getElementById(id).classList.add('active');
+  }
   applyFilters();
 }
+
 document.getElementById('presetAudit').addEventListener('click',function(){setPreset('audit');});
 document.getElementById('presetUrgent').addEventListener('click',function(){setPreset('urgent');});
 document.getElementById('presetActive').addEventListener('click',function(){setPreset('active');});
+document.getElementById('presetES').addEventListener('click',function(){setPreset('es');});
 
 document.getElementById('refreshBtn').addEventListener('click',async function(){this.classList.add('loading');this.disabled=true;await loadData();this.classList.remove('loading');this.disabled=false;});
 document.getElementById('settingsBtn').addEventListener('click',function(){document.getElementById('patInput').value=getPAT();document.getElementById('patDialog').classList.remove('hidden');});
@@ -552,11 +675,12 @@ document.getElementById('patSave').addEventListener('click',function(){var pat=d
 document.getElementById('patInput').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('patSave').click();});
 document.getElementById('closeErr').addEventListener('click',hideError);
 
-['filterType','filterStatus','filterAssignee','filterProject'].forEach(function(id){document.getElementById(id).addEventListener('change',applyFilters);});
+['filterType','filterStatus','filterAssignee','filterProject','filterES'].forEach(function(id){document.getElementById(id).addEventListener('change',applyFilters);});
 document.getElementById('filterSearch').addEventListener('input',applyFilters);
 document.getElementById('filterReset').addEventListener('click',function(){
   document.getElementById('filterType').value='all';document.getElementById('filterStatus').value='all';
   document.getElementById('filterAssignee').value='all';document.getElementById('filterProject').value='all';
+  document.getElementById('filterES').value='all';
   document.getElementById('filterSearch').value='';activePreset=null;
   document.querySelectorAll('.preset-btn').forEach(function(b){b.classList.remove('active');});
   applyFilters();
