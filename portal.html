@@ -1,101 +1,161 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>REVISE IPO準備 ドキュメントポータル</title>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <style>
-    * { margin:0; padding:0; box-sizing:border-box; }
-    body { font-family:'Noto Sans JP',sans-serif; background:#f7f8fa; color:#1a1a2e; min-height:100vh; }
-    .header { background:linear-gradient(135deg,#0B1222,#141E33); padding:32px 24px; text-align:center; border-bottom:3px solid #FFC107; }
-    .header h1 { font-size:20px; color:#fff; font-weight:500; letter-spacing:.5px; }
-    .header .sub { font-size:12px; color:#647488; margin-top:4px; }
-    .container { max-width:900px; margin:0 auto; padding:24px 16px; }
-    .section-title { font-size:14px; font-weight:500; color:#647488; text-transform:uppercase; letter-spacing:1px; margin:24px 0 12px; padding-bottom:6px; border-bottom:1px solid #e5e7eb; }
-    .card-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(260px, 1fr)); gap:12px; margin-bottom:16px; }
-    .card { background:#fff; border:1px solid rgba(0,0,0,0.08); border-radius:10px; padding:16px; text-decoration:none; color:inherit; transition:all .2s; display:block; }
-    .card:hover { border-color:rgba(37,99,235,0.3); box-shadow:0 4px 12px rgba(0,0,0,0.06); transform:translateY(-1px); }
-    .card .tag { display:inline-block; font-size:10px; padding:2px 8px; border-radius:4px; margin-bottom:8px; font-weight:500; }
-    .tag-governance { background:rgba(220,38,38,0.08); color:#dc2626; }
-    .tag-accounting { background:rgba(37,99,235,0.08); color:#2563eb; }
-    .tag-sharepoint { background:rgba(13,148,136,0.08); color:#0d9488; }
-    .tag-ipo { background:rgba(217,119,6,0.08); color:#d97706; }
-    .card .title { font-size:14px; font-weight:500; margin-bottom:4px; }
-    .card .desc { font-size:11px; color:#647488; line-height:1.6; }
-    .footer { text-align:center; padding:24px; font-size:11px; color:#9ca3af; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REVISE IPO準備 ドキュメントポータル</title>
+<style>
+:root {
+  --accent: #FEDA3E;
+  --dark: #333333;
+  --gray: #626161;
+  --dark-gray: #4D4D4D;
+  --light-bg: #FFFBEC;
+  --mid-gray: #E0E0E0;
+  --white: #FFFFFF;
+  --light-yel: #FFFBEC;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:"Noto Sans JP","Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN",Meiryo,sans-serif;background:var(--white);color:var(--dark);min-height:100vh;display:flex;flex-direction:column}
+
+/* Header */
+.header{background:var(--dark);color:var(--white);padding:32px 40px 28px;position:relative;overflow:hidden}
+.header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:4px;background:var(--accent)}
+.header h1{font-size:28px;font-weight:700;letter-spacing:.5px}
+.header .sub{font-size:13px;color:#aaa;margin-top:6px;font-weight:400}
+
+/* Content */
+.content{max-width:1100px;margin:0 auto;padding:32px 40px 60px;flex:1;width:100%}
+
+/* Section */
+.section{margin-bottom:36px}
+.section-title{font-size:18px;font-weight:700;color:var(--dark);padding-bottom:8px;margin-bottom:16px;border-bottom:3px solid var(--accent);display:flex;align-items:center;gap:8px}
+.section-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:13px;color:var(--white);flex-shrink:0}
+
+/* Cards grid */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:14px}
+
+/* Card */
+.card{background:var(--white);border:1px solid var(--mid-gray);border-radius:12px;padding:20px 22px;box-shadow:0 2px 8px rgba(0,0,0,.08);text-decoration:none;color:var(--dark);display:flex;gap:14px;align-items:flex-start;transition:box-shadow .15s,transform .15s}
+.card:hover{box-shadow:0 4px 16px rgba(0,0,0,.14);transform:translateY(-2px)}
+.card-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;color:var(--white);flex-shrink:0;font-weight:700}
+.card-body{flex:1;min-width:0}
+.card-title{font-size:14px;font-weight:700;margin-bottom:4px;line-height:1.4}
+.card-desc{font-size:12px;color:var(--gray);line-height:1.5}
+.card-badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:10px;margin-top:6px;font-weight:700}
+.badge-new{background:#E8F5E9;color:#2E7D32}
+.badge-updated{background:#FFF3E0;color:#E65100}
+
+/* Footer */
+.footer{text-align:center;padding:16px 40px;font-size:13px;color:var(--gray);border-top:1px solid var(--mid-gray)}
+</style>
 </head>
 <body>
-  <div class="header">
-    <h1>REVISE IPO準備 ドキュメントポータル</h1>
-    <div class="sub">GitHub Pages — takutaku-maker/ipo-er-diagram</div>
-  </div>
+<div class="header">
+  <h1>REVISE IPO準備 ドキュメントポータル</h1>
+  <div class="sub">GitHub Pages — takutaku-maker/ipo-er-diagram</div>
+</div>
 
-  <div class="container">
+<div class="content">
 
-    <div class="section-title">SharePoint・情報基盤</div>
-    <div class="card-grid">
+  <!-- SharePoint・情報基盤 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-icon" style="background:#4186E0;">SP</div>
+      SharePoint・情報基盤
+    </div>
+    <div class="cards">
       <a class="card" href="sharepoint_restructure_proposal.html">
-        <span class="tag tag-sharepoint">SharePoint</span>
-        <div class="title">SharePoint統合 構成設計案</div>
-        <div class="desc">ISMS/J-SOX/IT統制準拠の5サイト統合設計。2層構造、SSOT方針、移行マッピング、AIエージェント構想を含む</div>
+        <div class="card-icon" style="background:#4186E0;">SP</div>
+        <div class="card-body">
+          <div class="card-title">SharePoint統合 構成設計案</div>
+          <div class="card-desc">ISMS/J-SOX/IT統制準拠の5サイト統合設計。2層構造、SSOT方針、移行マッピング、AIエージェント構想を含む</div>
+        </div>
       </a>
       <a class="card" href="sharepoint-governance.html">
-        <span class="tag tag-sharepoint">SharePoint</span>
-        <div class="title">SharePoint ガバナンス</div>
-        <div class="desc">SharePoint統合のフォルダ構成設計・HTML版マッピング表</div>
+        <div class="card-icon" style="background:#4186E0;">SP</div>
+        <div class="card-body">
+          <div class="card-title">SharePoint ガバナンス</div>
+          <div class="card-desc">SharePoint統合のフォルダ構成設計・HTML版マッピング表</div>
+        </div>
       </a>
     </div>
+  </div>
 
-    <div class="section-title">IPO推進</div>
-    <div class="card-grid">
+  <!-- IPO推進 -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-icon" style="background:var(--dark);">IPO</div>
+      IPO推進
+    </div>
+    <div class="cards">
       <a class="card" href="index.html">
-        <span class="tag tag-ipo">IPO</span>
-        <div class="title">IPO準備 統合ER図</div>
-        <div class="desc">時間軸付きのインタラクティブER図。システム間のデータフロー・エンティティ関係を視覚化</div>
+        <div class="card-icon" style="background:#7C3AED;">ER</div>
+        <div class="card-body">
+          <div class="card-title">IPO準備 統合ER図</div>
+          <div class="card-desc">時間軸付きのインタラクティブER図。システム間のデータフロー・エンティティ関係を視覚化</div>
+        </div>
       </a>
-      <a class="card" href="IPO推進_ガントチャート_v3.html">
-        <span class="tag tag-ipo">IPO</span>
-        <div class="title">IPO推進 ガントチャート v3</div>
-        <div class="desc">担当者/期日列とフィルター付きのIPO推進スケジュール</div>
+      <a class="card" href="IPO%E6%8E%A8%E9%80%B2_%E3%82%AC%E3%83%B3%E3%83%88%E3%83%81%E3%83%A3%E3%83%BC%E3%83%88_v4.html">
+        <div class="card-icon" style="background:var(--accent);color:var(--dark);">G4</div>
+        <div class="card-body">
+          <div class="card-title">IPO推進 ガントチャート v4</div>
+          <div class="card-desc">ポートフォリオ（8サブプロジェクト）構成で表示。担当者/期日列、監査法人定例・期日超過・仕掛中フィルター付き</div>
+          <span class="card-badge badge-updated">Updated</span>
+        </div>
       </a>
       <a class="card" href="audit-agenda.html">
-        <span class="tag tag-governance">監査</span>
-        <div class="title">監査アジェンダ</div>
-        <div class="desc">監査法人向けアジェンダ・タイトルスライド</div>
+        <div class="card-icon" style="background:#E8384F;">監査</div>
+        <div class="card-body">
+          <div class="card-title">監査アジェンダ</div>
+          <div class="card-desc">監査法人向けアジェンダ・タイトルスライド</div>
+        </div>
       </a>
     </div>
+  </div>
 
-    <div class="section-title">会計システム</div>
-    <div class="card-grid">
+  <!-- 会計システム -->
+  <div class="section">
+    <div class="section-title">
+      <div class="section-icon" style="background:#59CB59;">会計</div>
+      会計システム
+    </div>
+    <div class="cards">
       <a class="card" href="accounting-overview.html">
-        <span class="tag tag-accounting">会計</span>
-        <div class="title">会計システム 概要フロー図</div>
-        <div class="desc">会計システム全体の処理フロー概要</div>
+        <div class="card-icon" style="background:#59CB59;">概</div>
+        <div class="card-body">
+          <div class="card-title">会計システム 概要フロー図</div>
+          <div class="card-desc">会計システム全体の処理フロー概要</div>
+        </div>
       </a>
       <a class="card" href="accounting-flows.html">
-        <span class="tag tag-accounting">会計</span>
-        <div class="title">会計システム フロー詳細</div>
-        <div class="desc">修理・給与等の個別会計フロー</div>
+        <div class="card-icon" style="background:#59CB59;">詳</div>
+        <div class="card-body">
+          <div class="card-title">会計システム フロー詳細</div>
+          <div class="card-desc">修理・給与等の個別会計フロー</div>
+        </div>
       </a>
       <a class="card" href="repair-flow.html">
-        <span class="tag tag-accounting">会計</span>
-        <div class="title">修理フロー</div>
-        <div class="desc">修理業務のサブシステム間フロー図</div>
+        <div class="card-icon" style="background:#EC8D3B;">修</div>
+        <div class="card-body">
+          <div class="card-title">修理フロー</div>
+          <div class="card-desc">修理業務のサブシステム間フロー図</div>
+        </div>
       </a>
       <a class="card" href="salary-flow.html">
-        <span class="tag tag-accounting">会計</span>
-        <div class="title">給与フロー</div>
-        <div class="desc">給与計算・支払のフロー図</div>
+        <div class="card-icon" style="background:#4BC9CA;">給</div>
+        <div class="card-body">
+          <div class="card-title">給与フロー</div>
+          <div class="card-desc">給与計算・支払のフロー図</div>
+        </div>
       </a>
     </div>
-
   </div>
 
-  <div class="footer">
-    REVISE株式会社 — IPO準備ドキュメント管理<br>
-    最終更新: 2026年4月
-  </div>
+</div>
+
+<div class="footer">
+  REVISE株式会社 — IPO準備ドキュメント管理 ｜ 最終更新: 2026年5月
+</div>
 </body>
 </html>
