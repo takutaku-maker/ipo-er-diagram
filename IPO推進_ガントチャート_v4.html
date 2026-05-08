@@ -16,12 +16,13 @@
   --lightBg: #FFFBEC;
   --midGray: #E0E0E0;
   --white: #FFFFFF;
-  --info-col-width: 560px;
-  --name-w: 260px;
-  --proj-w: 100px;
-  --assignee-w: 80px;
-  --due-w: 80px;
+  --info-col-width: 640px;
+  --name-w: 240px;
+  --proj-w: 90px;
+  --assignee-w: 70px;
+  --due-w: 75px;
   --status-w: 40px;
+  --es-w: 125px;
   --row-height: 32px;
   --subtask-row-height: 28px;
   --group-header-height: 35px;
@@ -96,6 +97,9 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .col-due.overdue { color:#C62828; font-weight:700; }
 .col-due.soon { color:#E65100; }
 .col-status { width:var(--status-w); text-align:center; padding:0 2px; }
+.col-es { width:var(--es-w); display:flex; align-items:center; gap:3px; padding:0 4px; overflow:hidden; flex-wrap:nowrap; }
+.es-tag { display:inline-block; font-size:8px; font-weight:700; padding:1px 5px; border-radius:3px; white-space:nowrap; line-height:1.3; }
+.th-es { width:var(--es-w); padding:8px 4px; text-align:center; }
 .status-chip { display:inline-block; font-size:9px; font-weight:700; padding:1px 6px; border-radius:3px; white-space:nowrap; }
 .status-chip.in-progress { background:var(--accent); color:var(--dark); }
 .status-chip.not-started { background:#f0f0f0; color:var(--gray); }
@@ -201,6 +205,10 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
       <input type="date" id="editDue">
     </div>
     <div class="edit-field">
+      <label>ステータス</label>
+      <select id="editStatus"><option value="">未設定</option></select>
+    </div>
+    <div class="edit-field">
       <label>完了</label>
       <input type="checkbox" id="editDone">
       <span id="editDoneLabel">未完了</span>
@@ -228,10 +236,16 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
   <h1>IPO推進 ガントチャート <span style="font-size:12px;color:var(--accent);font-weight:400">v4 PORTFOLIO</span></h1>
   <div class="header-right">
     <div class="legend">
-      <div class="legend-item"><div class="legend-swatch" style="background:var(--accent)"></div>仕掛中</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:var(--lightBg);border:1px solid var(--midGray)"></div>未着手</div>
-      <div class="legend-item"><div class="legend-swatch" style="background:var(--midGray)"></div>完了</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:var(--accent)"></div>仕掛中</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:var(--lightBg);border:1px solid var(--midGray)"></div>未着手</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:var(--midGray)"></div>完了</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#ccc"></div>未設定</div>
       <div class="legend-item"><div style="width:11px;height:11px;transform:rotate(45deg);border:2px solid var(--dark);background:var(--accent)"></div>MS</div>
+      <div style="width:1px;height:16px;background:#666;margin:0 6px"></div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#8B5CF6"></div>ES-01 関連当事者</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#F59E0B"></div>ES-02 売上証跡</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#3B82F6"></div>ES-03 収益認識</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#10B981"></div>ES-04 ソフトウェア</div>
     </div>
     <div class="update-info">
       <span id="taskCount">-- tasks</span>
@@ -383,6 +397,20 @@ var TOTAL_WIDTH = months.length * MONTH_WIDTH;
 function getPAT() { if (_pat) return _pat; try { var v = localStorage.getItem('asana_pat'); if(v) { _pat=v; return v; } } catch(e){} return ''; }
 function savePAT(pat) { _pat = pat; try { localStorage.setItem('asana_pat', pat); } catch(e){} }
 
+var _statusFieldGid = '';
+var _statusOptions = []; // [{gid, name}, ...]
+
+async function loadStatusOptions() {
+  if(!_statusFieldGid) return;
+  try {
+    var res = await fetch(ASANA_BASE+'/custom_fields/'+_statusFieldGid+'?opt_fields=enum_options.gid,enum_options.name,enum_options.enabled',
+      {headers:{'Authorization':'Bearer '+getPAT()}});
+    if(!res.ok) return;
+    var json = await res.json();
+    _statusOptions = (json.data.enum_options||[]).filter(function(o){return o.enabled!==false;}).map(function(o){return{gid:o.gid,name:o.name};});
+  } catch(e){ _statusOptions = []; }
+}
+
 var _members = [];
 async function loadMembers() {
   var seen = {};
@@ -415,6 +443,17 @@ function openEditModal(task) {
     sel.appendChild(o);
   });
 
+  // Populate status dropdown
+  var stSel = document.getElementById('editStatus');
+  stSel.innerHTML = '<option value="">未設定</option>';
+  _statusOptions.forEach(function(opt){
+    var o = document.createElement('option');
+    o.value = opt.gid;
+    o.textContent = opt.name;
+    if(task.stEnumGid === opt.gid) o.selected = true;
+    stSel.appendChild(o);
+  });
+
   document.getElementById('editDue').value = task.d || '';
   document.getElementById('editDone').checked = task.c || task.st === '完了';
   document.getElementById('editDoneLabel').textContent = (task.c || task.st === '完了') ? '完了' : '未完了';
@@ -438,6 +477,14 @@ async function saveEdit() {
   var assignee = document.getElementById('editAssignee').value || null;
   var dueOn = document.getElementById('editDue').value || null;
   var completed = document.getElementById('editDone').checked;
+  var statusEnumGid = document.getElementById('editStatus').value || null;
+
+  // Build request body
+  var body = { assignee: assignee, due_on: dueOn, completed: completed };
+  if(_statusFieldGid){
+    body.custom_fields = {};
+    body.custom_fields[_statusFieldGid] = statusEnumGid;
+  }
 
   try {
     var res = await fetch(ASANA_BASE+'/tasks/'+_editGid, {
@@ -446,15 +493,24 @@ async function saveEdit() {
         'Authorization': 'Bearer '+getPAT(),
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ data: { assignee: assignee, due_on: dueOn, completed: completed } })
+      body: JSON.stringify({ data: body })
     });
     if(!res.ok) throw new Error('API Error: '+res.status);
 
+    // Update local DATA
     for(var i=0; i<DATA.length; i++){
       if(DATA[i].gid === _editGid){
         DATA[i].d = dueOn || '';
         DATA[i].c = completed;
-        if(completed) DATA[i].st = '完了';
+        // Update status display value
+        if(statusEnumGid){
+          var opt = _statusOptions.find(function(o){return o.gid===statusEnumGid;});
+          DATA[i].st = opt ? opt.name : '';
+          DATA[i].stEnumGid = statusEnumGid;
+        } else {
+          DATA[i].st = '';
+          DATA[i].stEnumGid = '';
+        }
         if(assignee){
           var member = _members.find(function(m){return m.gid===assignee;});
           DATA[i].assignee = member ? member.name : '';
@@ -495,7 +551,7 @@ document.getElementById('editOverlay').addEventListener('click', function(e){
 });
 
 async function fetchProjectTasks(projectGid) {
-  var fields='name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.display_value,custom_fields.name,num_subtasks,assignee.name,memberships.project.gid';
+  var fields='name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.gid,custom_fields.display_value,custom_fields.name,custom_fields.type,custom_fields.enum_value.gid,custom_fields.enum_value.name,num_subtasks,assignee.name,memberships.project.gid';
   var all=[], offset=null;
   do {
     var url='/tasks?project='+projectGid+'&opt_fields='+fields+'&limit=100';
@@ -510,11 +566,18 @@ async function fetchProjectTasks(projectGid) {
 }
 
 function parseTask(raw, projInfo) {
-  var status='';
+  var status='', statusFieldGid='', statusEnumGid='';
   if(raw.custom_fields){
     for(var i=0;i<raw.custom_fields.length;i++){
       var cf=raw.custom_fields[i];
-      if(cf.name==='ステータス'||cf.name==='Status'){status=cf.display_value||'';break;}
+      if(cf.name==='ステータス'||cf.name==='Status'){
+        status=cf.display_value||'';
+        statusFieldGid=cf.gid||'';
+        if(cf.enum_value) statusEnumGid=cf.enum_value.gid||'';
+        // Capture the field GID for later use
+        if(cf.gid && !_statusFieldGid) _statusFieldGid=cf.gid;
+        break;
+      }
     }
   }
   var tags=(raw.tags||[]).map(function(t){return t.name}).join(', ');
@@ -527,6 +590,8 @@ function parseTask(raw, projInfo) {
     t:raw.resource_subtype||'default_task',
     tag:tags,
     st:status,
+    stFieldGid:statusFieldGid,
+    stEnumGid:statusEnumGid,
     ns:raw.num_subtasks||0,
     assignee:raw.assignee?raw.assignee.name:'',
     proj:projInfo.name,
@@ -561,6 +626,11 @@ async function loadData() {
           DATA.push(parseTask(raw[j],proj));
         }
       }
+    }
+    // Fetch status enum options after we know the field GID
+    if(_statusFieldGid && _statusOptions.length===0){
+      lt.textContent='ステータス選択肢を取得中...';
+      await loadStatusOptions();
     }
     SUBTASKS={};
     var withSubs=DATA.filter(function(t){return t.ns>0});
@@ -678,7 +748,7 @@ function buildTimelineHeader(){
   var w=document.getElementById('timelineHeader'); w.innerHTML='';
   var inner=document.createElement('div'); inner.className='timeline-header-inner';
   var info=document.createElement('div'); info.className='timeline-header-info';
-  info.innerHTML='<div class="th-name">タスク名</div><div class="th-proj">プロジェクト</div><div class="th-assignee">担当者</div><div class="th-due">期日</div><div class="th-status">状態</div>';
+  info.innerHTML='<div class="th-name">タスク名</div><div class="th-proj">プロジェクト</div><div class="th-assignee">担当者</div><div class="th-due">期日</div><div class="th-status">状態</div><div class="th-es">ES</div>';
   inner.appendChild(info);
   var ma=document.createElement('div'); ma.className='timeline-months';
   var yg={};
@@ -754,6 +824,24 @@ function buildBody(){
       var ad=document.createElement('div');ad.className='col-assignee';ad.textContent=task.assignee||'−';ad.title=task.assignee||'';info.appendChild(ad);
       var dd=document.createElement('div');dd.className='col-due '+getDueClass(task);dd.textContent=formatDue(task.d);info.appendChild(dd);
       var sd=document.createElement('div');sd.className='col-status';var chip=document.createElement('span');chip.className='status-chip '+getStatusClass(task);chip.textContent=getStatusLabel(task);sd.appendChild(chip);info.appendChild(sd);
+
+      // ES topic column
+      var esCol=document.createElement('div');esCol.className='col-es';
+      if(task.es && task.es.length > 0){
+        for(var ei=0; ei<task.es.length; ei++){
+          var etag=document.createElement('span');etag.className='es-tag';
+          var ek=task.es[ei];
+          etag.textContent=ek.replace('ES-0','ES');
+          etag.style.background=ES_TOPICS[ek].color+'22';
+          etag.style.color=ES_TOPICS[ek].color;
+          etag.style.border='1px solid '+ES_TOPICS[ek].color+'55';
+          etag.title=ES_TOPICS[ek].name;
+          esCol.appendChild(etag);
+        }
+      } else {
+        esCol.innerHTML='<span style="color:#ccc;font-size:9px">−</span>';
+      }
+      info.appendChild(esCol);
       row.appendChild(info);
 
       var ba=document.createElement('div');ba.className='row-bars';
@@ -777,6 +865,7 @@ function buildBody(){
         var sa=document.createElement('div');sa.className='col-assignee';si.appendChild(sa);
         var sdd=document.createElement('div');sdd.className='col-due';si.appendChild(sdd);
         var sss=document.createElement('div');sdd.className='col-status';si.appendChild(sss);
+        var ses=document.createElement('div');ses.className='col-es';si.appendChild(ses);
         sr.appendChild(si);
         var sb=document.createElement('div');sb.className='row-bars';
         if(ps&&pe){var sx2=dateToX(ps),ex2=dateToX(pe);if(sx2!==null&&ex2!==null){var ln=document.createElement('div');ln.className='subtask-line';ln.style.left=sx2+'px';ln.style.width=Math.max(ex2-sx2,4)+'px';sb.appendChild(ln);}}
