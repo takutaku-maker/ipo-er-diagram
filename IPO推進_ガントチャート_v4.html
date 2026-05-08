@@ -157,6 +157,25 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .summary-stat .dot { width:10px; height:10px; border-radius:2px; }
 .summary-bar .progress-bar-bg { flex:1; max-width:200px; height:8px; background:#eee; border-radius:4px; overflow:hidden; }
 .summary-bar .progress-bar-fill { height:100%; background:var(--accent); border-radius:4px; transition:width 0.3s; }
+.edit-dialog { background:var(--white); border-radius:8px; padding:32px; max-width:540px; width:90%; box-shadow:0 8px 32px rgba(0,0,0,0.2); }
+.edit-dialog h2 { font-size:16px; margin-bottom:20px; padding-bottom:10px; border-bottom:2px solid var(--accent); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.edit-field { margin-bottom:16px; }
+.edit-field label { display:block; font-size:11px; font-weight:700; color:var(--gray); margin-bottom:4px; }
+.edit-field select, .edit-field input[type="date"] { width:100%; font-family:'Noto Sans JP',sans-serif; font-size:13px; padding:6px 10px; border:1px solid var(--midGray); border-radius:4px; background:var(--white); color:var(--dark); }
+.edit-field input[type="checkbox"] { vertical-align:middle; margin-right:6px; width:16px; height:16px; cursor:pointer; }
+.edit-field #editDoneLabel { font-size:13px; color:var(--gray); }
+.edit-actions { display:flex; align-items:center; gap:10px; margin-top:24px; padding-top:16px; border-top:1px solid var(--midGray); }
+.btn-save { padding:8px 24px; font-size:13px; font-family:'Noto Sans JP',sans-serif; border:none; border-radius:4px; cursor:pointer; font-weight:700; background:var(--accent); color:var(--dark); transition:opacity 0.2s; }
+.btn-save:hover { opacity:0.85; }
+.btn-save:disabled { opacity:0.5; cursor:not-allowed; }
+.btn-cancel { padding:8px 20px; font-size:13px; font-family:'Noto Sans JP',sans-serif; border:1px solid var(--midGray); border-radius:4px; cursor:pointer; font-weight:700; background:#f5f5f5; color:var(--gray); transition:opacity 0.2s; }
+.btn-cancel:hover { opacity:0.85; }
+.btn-asana-link { font-size:12px; color:#1565C0; text-decoration:none; margin-right:auto; }
+.btn-asana-link:hover { text-decoration:underline; }
+.toast-container { position:fixed; bottom:20px; right:20px; z-index:2000; display:flex; flex-direction:column; gap:8px; }
+.toast { padding:10px 20px; border-radius:6px; color:var(--white); font-size:13px; font-weight:500; box-shadow:0 4px 12px rgba(0,0,0,0.15); transition:opacity 0.3s; }
+.toast.success { background:#2E7D32; }
+.toast.error { background:#C62828; }
 </style>
 </head>
 <body>
@@ -169,6 +188,31 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
     <div class="btn-row"><button class="btn-primary" id="patSave">接続</button></div>
   </div>
 </div>
+
+<div class="overlay hidden" id="editOverlay">
+  <div class="edit-dialog">
+    <h2 id="editTitle">タスク編集</h2>
+    <div class="edit-field">
+      <label>担当者</label>
+      <select id="editAssignee"><option value="">未割当</option></select>
+    </div>
+    <div class="edit-field">
+      <label>期日</label>
+      <input type="date" id="editDue">
+    </div>
+    <div class="edit-field">
+      <label>完了</label>
+      <input type="checkbox" id="editDone">
+      <span id="editDoneLabel">未完了</span>
+    </div>
+    <div class="edit-actions">
+      <a id="editAsanaLink" href="#" target="_blank" rel="noopener" class="btn-asana-link">Asanaで開く ↗</a>
+      <button class="btn-cancel" id="editCancel">キャンセル</button>
+      <button class="btn-save" id="editSave">保存</button>
+    </div>
+  </div>
+</div>
+<div class="toast-container" id="toastContainer"></div>
 
 <div class="loading-overlay hidden" id="loadingOverlay">
   <div class="loading-spinner"></div>
@@ -267,7 +311,7 @@ var ES_TOPICS = {
     color: '#8B5CF6',
     taskGids: [
       '1214629454071647','1214629250729857','1214629204635988','1214629250695729',
-      '1214629250997420','1214629250937601','1214629137605429',
+      '1214629250937601','1214629137605429',
       '1214138129691617','1214110941333253','1213943998432899','1213541079865020',
       '1213541079155116','1213541079865019','1214138129823641','1214057893983662',
       '1214057741582773','1214057983923125'
@@ -290,7 +334,7 @@ var ES_TOPICS = {
     taskGids: [
       '1213528680128601','1214628969548690','1214628881675903','1214628661967833',
       '1214628662014792','1214628881677222','1214153027269595','1214112877237873',
-      '1213541079155108','1214628738462511'
+      '1213541079155108'
     ]
   },
   'ES-04': {
@@ -300,7 +344,8 @@ var ES_TOPICS = {
     taskGids: [
       '1213528680128604','1213541079155113','1214643105076057','1214628738405261',
       '1214628930570402','1214628661996707','1214628738462497','1214628738581273',
-      '1214108313608305','1214057902087199','1213941495745309'
+      '1214108313608305','1214057902087199','1213941495745309',
+      '1214629250997420'
     ]
   }
 };
@@ -337,6 +382,117 @@ var TOTAL_WIDTH = months.length * MONTH_WIDTH;
 
 function getPAT() { if (_pat) return _pat; try { var v = localStorage.getItem('asana_pat'); if(v) { _pat=v; return v; } } catch(e){} return ''; }
 function savePAT(pat) { _pat = pat; try { localStorage.setItem('asana_pat', pat); } catch(e){} }
+
+var _members = [];
+async function loadMembers() {
+  var seen = {};
+  _members = [];
+  for(var i=0; i<PROJECTS.length; i++){
+    try {
+      var res = await fetch(ASANA_BASE+'/projects/'+PROJECTS[i].gid+'/members',{headers:{'Authorization':'Bearer '+getPAT()}});
+      if(res.ok){
+        var json = await res.json();
+        json.data.forEach(function(m){ if(!seen[m.gid]){seen[m.gid]=true; _members.push({gid:m.gid, name:m.name});} });
+      }
+    } catch(e){}
+  }
+  _members.sort(function(a,b){ return a.name.localeCompare(b.name,'ja'); });
+}
+
+var _editGid = null;
+
+function openEditModal(task) {
+  _editGid = task.gid;
+  document.getElementById('editTitle').textContent = task.n;
+
+  var sel = document.getElementById('editAssignee');
+  sel.innerHTML = '<option value="">未割当</option>';
+  _members.forEach(function(m){
+    var o = document.createElement('option');
+    o.value = m.gid;
+    o.textContent = m.name;
+    if(task.assignee === m.name) o.selected = true;
+    sel.appendChild(o);
+  });
+
+  document.getElementById('editDue').value = task.d || '';
+  document.getElementById('editDone').checked = task.c || task.st === '完了';
+  document.getElementById('editDoneLabel').textContent = (task.c || task.st === '完了') ? '完了' : '未完了';
+
+  document.getElementById('editAsanaLink').href = 'https://app.asana.com/0/0/' + task.gid;
+
+  document.getElementById('editOverlay').classList.remove('hidden');
+}
+
+function closeEditModal() {
+  document.getElementById('editOverlay').classList.add('hidden');
+  _editGid = null;
+}
+
+async function saveEdit() {
+  if(!_editGid) return;
+  var btn = document.getElementById('editSave');
+  btn.disabled = true;
+  btn.textContent = '保存中...';
+
+  var assignee = document.getElementById('editAssignee').value || null;
+  var dueOn = document.getElementById('editDue').value || null;
+  var completed = document.getElementById('editDone').checked;
+
+  try {
+    var res = await fetch(ASANA_BASE+'/tasks/'+_editGid, {
+      method: 'PUT',
+      headers: {
+        'Authorization': 'Bearer '+getPAT(),
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ data: { assignee: assignee, due_on: dueOn, completed: completed } })
+    });
+    if(!res.ok) throw new Error('API Error: '+res.status);
+
+    for(var i=0; i<DATA.length; i++){
+      if(DATA[i].gid === _editGid){
+        DATA[i].d = dueOn || '';
+        DATA[i].c = completed;
+        if(completed) DATA[i].st = '完了';
+        if(assignee){
+          var member = _members.find(function(m){return m.gid===assignee;});
+          DATA[i].assignee = member ? member.name : '';
+        } else {
+          DATA[i].assignee = '';
+        }
+        break;
+      }
+    }
+
+    showGanttToast('タスクを更新しました', 'success');
+    closeEditModal();
+    applyFilters();
+  } catch(e) {
+    showGanttToast('保存に失敗しました: '+e.message, 'error');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '保存';
+  }
+}
+
+function showGanttToast(msg, type) {
+  var c = document.getElementById('toastContainer');
+  var t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  c.appendChild(t);
+  setTimeout(function(){ t.style.opacity='0'; setTimeout(function(){ t.remove(); }, 300); }, 3000);
+}
+
+document.getElementById('editDone').addEventListener('change', function(){
+  document.getElementById('editDoneLabel').textContent = this.checked ? '完了' : '未完了';
+});
+document.getElementById('editCancel').addEventListener('click', closeEditModal);
+document.getElementById('editSave').addEventListener('click', saveEdit);
+document.getElementById('editOverlay').addEventListener('click', function(e){
+  if(e.target === this) closeEditModal();
+});
 
 async function fetchProjectTasks(projectGid) {
   var fields='name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.display_value,custom_fields.name,num_subtasks,assignee.name,memberships.project.gid';
@@ -391,6 +547,8 @@ async function loadData() {
   var el=document.getElementById('loadingOverlay'), lt=document.getElementById('loadingText');
   el.classList.remove('hidden');
   try {
+    lt.textContent='メンバー情報を取得中...';
+    await loadMembers();
     var seen={};
     DATA=[];
     for(var i=0;i<PROJECTS.length;i++){
@@ -601,7 +759,15 @@ function buildBody(){
       var ba=document.createElement('div');ba.className='row-bars';
       if(task.t==='milestone'){var dx=dateToX(task.d);if(dx!==null){var dm=document.createElement('div');dm.className='milestone-marker '+getStatusClass(task);dm.style.left=(dx-7)+'px';dm.addEventListener('mouseenter',showTooltip.bind(null,task));dm.addEventListener('mouseleave',hideTooltip);ba.appendChild(dm);}}
       else{var s0=task.s||task.d,e0=task.d;if(s0&&e0){var sx=dateToX(s0),ex=dateToX(e0);if(sx!==null&&ex!==null){var bar=document.createElement('div');bar.className='gantt-bar '+getStatusClass(task);bar.style.left=sx+'px';bar.style.width=Math.max(ex-sx,4)+'px';bar.addEventListener('mouseenter',showTooltip.bind(null,task));bar.addEventListener('mouseleave',hideTooltip);ba.appendChild(bar);}}}
-      row.appendChild(ba);container.appendChild(row);
+      row.appendChild(ba);
+      (function(t){
+        row.style.cursor='pointer';
+        row.addEventListener('click', function(e){
+          if(e.target.classList.contains('toggle-arrow')) return;
+          openEditModal(t);
+        });
+      })(task);
+      container.appendChild(row);
 
       if(hasSub){var ps=task.s||task.d,pe=task.d;SUBTASKS[task.gid].forEach(function(st){
         var sr=document.createElement('div');sr.className='gantt-row subtask-row';sr.dataset.parent=task.gid;
