@@ -527,11 +527,15 @@ async function saveEdit() {
   var completed = document.getElementById('editDone').checked;
   var statusEnumGid = document.getElementById('editStatus').value || null;
 
+  // Find the task's own status field GID
+  var taskData = DATA.find(function(t){return t.gid===_editGid;});
+  var taskStatusFieldGid = taskData ? taskData.stFieldGid : _statusFieldGid;
+
   // Build request body
   var body = { assignee: assignee, due_on: dueOn, completed: completed };
-  if(_statusFieldGid){
+  if(taskStatusFieldGid && statusEnumGid){
     body.custom_fields = {};
-    body.custom_fields[_statusFieldGid] = statusEnumGid;
+    body.custom_fields[taskStatusFieldGid] = statusEnumGid;
   }
 
   try {
@@ -543,7 +547,10 @@ async function saveEdit() {
       },
       body: JSON.stringify({ data: body })
     });
-    if(!res.ok) throw new Error('API Error: '+res.status);
+    if(!res.ok){
+      var errBody=''; try{errBody=(await res.json()).errors.map(function(e){return e.message}).join('; ');}catch(ex){}
+      throw new Error('API '+res.status+(errBody?': '+errBody:''));
+    }
 
     // Update local DATA
     for(var i=0; i<DATA.length; i++){
