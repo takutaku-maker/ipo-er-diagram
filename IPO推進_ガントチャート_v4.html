@@ -467,17 +467,27 @@ async function loadMembers() {
 
 var _editGid = null;
 
+function getAllAssignees(){
+  var seen={}, list=[];
+  // Merge project members and task assignees
+  _members.forEach(function(m){ if(!seen[m.gid]){seen[m.gid]=true; list.push({gid:m.gid,name:m.name});} });
+  DATA.forEach(function(t){ if(t.assigneeGid&&!seen[t.assigneeGid]){seen[t.assigneeGid]=true; list.push({gid:t.assigneeGid,name:t.assignee});} });
+  list.sort(function(a,b){return a.name.localeCompare(b.name,'ja');});
+  return list;
+}
+
 function openEditModal(task) {
   _editGid = task.gid;
   document.getElementById('editTitle').textContent = task.n;
 
+  var allAssignees = getAllAssignees();
   var sel = document.getElementById('editAssignee');
   sel.innerHTML = '<option value="">未割当</option>';
-  _members.forEach(function(m){
+  allAssignees.forEach(function(m){
     var o = document.createElement('option');
     o.value = m.gid;
     o.textContent = m.name;
-    if(task.assignee === m.name) o.selected = true;
+    if(task.assigneeGid === m.gid) o.selected = true;
     sel.appendChild(o);
   });
 
@@ -550,10 +560,13 @@ async function saveEdit() {
           DATA[i].stEnumGid = '';
         }
         if(assignee){
-          var member = _members.find(function(m){return m.gid===assignee;});
+          var allA = getAllAssignees();
+          var member = allA.find(function(m){return m.gid===assignee;});
           DATA[i].assignee = member ? member.name : '';
+          DATA[i].assigneeGid = assignee;
         } else {
           DATA[i].assignee = '';
+          DATA[i].assigneeGid = '';
         }
         break;
       }
@@ -589,7 +602,7 @@ document.getElementById('editOverlay').addEventListener('click', function(e){
 });
 
 async function fetchProjectTasks(projectGid) {
-  var fields='name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.gid,custom_fields.display_value,custom_fields.name,custom_fields.type,custom_fields.enum_value.gid,custom_fields.enum_value.name,num_subtasks,assignee.name,memberships.project.gid';
+  var fields='name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.gid,custom_fields.display_value,custom_fields.name,custom_fields.type,custom_fields.enum_value.gid,custom_fields.enum_value.name,num_subtasks,assignee.gid,assignee.name,memberships.project.gid';
   var all=[], offset=null;
   do {
     var url='/tasks?project='+projectGid+'&opt_fields='+fields+'&limit=100';
@@ -632,6 +645,7 @@ function parseTask(raw, projInfo) {
     stEnumGid:statusEnumGid,
     ns:raw.num_subtasks||0,
     assignee:raw.assignee?raw.assignee.name:'',
+    assigneeGid:raw.assignee?raw.assignee.gid:'',
     proj:projInfo.name,
     projShort:projInfo.short,
     projColor:projInfo.color,
