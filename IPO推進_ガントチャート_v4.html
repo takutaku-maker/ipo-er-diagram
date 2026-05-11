@@ -30,11 +30,14 @@
 }
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var(--dark); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
-.header { position:sticky; top:0; z-index:100; background:var(--dark); color:var(--white); padding:10px 24px; display:flex; align-items:center; justify-content:space-between; flex-shrink:0; }
+.header { position:sticky; top:0; z-index:100; background:var(--dark); color:var(--white); padding:8px 24px; display:flex; flex-direction:column; gap:4px; flex-shrink:0; }
+.header-top { display:flex; align-items:center; justify-content:space-between; }
 .header h1 { font-size:18px; font-weight:700; }
 .header-right { display:flex; align-items:center; gap:14px; font-size:13px; }
+.legend-rows { display:flex; flex-wrap:wrap; gap:6px 16px; padding:2px 0; }
 .legend { display:flex; gap:10px; align-items:center; }
 .legend-item { display:flex; align-items:center; gap:4px; font-size:11px; }
+.legend-label { font-size:10px; color:#aaa; font-weight:700; margin-right:2px; }
 .legend-swatch { width:13px; height:13px; border-radius:2px; border:1px solid var(--midGray); }
 .refresh-btn { background:var(--accent); color:var(--dark); border:none; border-radius:4px; padding:5px 12px; font-size:12px; font-weight:700; font-family:'Noto Sans JP',sans-serif; cursor:pointer; display:flex; align-items:center; gap:6px; transition:opacity 0.2s; }
 .refresh-btn:hover { opacity:0.85; }
@@ -66,6 +69,14 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .preset-btn.es-topic:hover { background:#EDE9FE; }
 .preset-btn.es-topic.active { background:#8B5CF6; color:#fff; }
 .filter-divider { width:1px; height:24px; background:var(--midGray); margin:0 4px; }
+.multi-select-wrap { position:relative; display:inline-block; }
+.multi-select-btn { font-family:'Noto Sans JP',sans-serif; font-size:12px; padding:4px 24px 4px 8px; border:1px solid var(--midGray); border-radius:4px; background:var(--white); color:var(--dark); cursor:pointer; min-width:120px; text-align:left; position:relative; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px; }
+.multi-select-btn::after { content:'▾'; position:absolute; right:6px; top:50%; transform:translateY(-50%); font-size:10px; color:var(--gray); }
+.multi-select-dropdown { display:none; position:absolute; top:100%; left:0; z-index:200; background:var(--white); border:1px solid var(--midGray); border-radius:4px; box-shadow:0 4px 12px rgba(0,0,0,0.15); max-height:240px; overflow-y:auto; min-width:160px; padding:4px 0; }
+.multi-select-dropdown.open { display:block; }
+.multi-select-dropdown label { display:flex; align-items:center; gap:6px; padding:4px 10px; font-size:12px; cursor:pointer; white-space:nowrap; }
+.multi-select-dropdown label:hover { background:#f0f0f0; }
+.multi-select-dropdown input[type="checkbox"] { accent-color:var(--accent); }
 .es-dot { display:inline-block; width:8px; height:8px; border-radius:50%; flex-shrink:0; margin-right:3px; vertical-align:middle; }
 .timeline-header-wrapper { flex-shrink:0; overflow:hidden; border-bottom:2px solid var(--dark); background:var(--lightBg); }
 .timeline-header-inner { display:flex; min-width:max-content; }
@@ -233,31 +244,51 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 </div>
 
 <div class="header">
-  <h1>IPO推進 ガントチャート <span style="font-size:12px;color:var(--accent);font-weight:400">v4 PORTFOLIO</span></h1>
-  <div class="header-right">
+  <div class="header-top">
+    <h1>IPO推進 ガントチャート <span style="font-size:12px;color:var(--accent);font-weight:400">v4 PORTFOLIO</span></h1>
+    <div class="header-right">
+      <div class="update-info">
+        <span id="taskCount">-- tasks</span>
+        <span id="lastUpdate">--</span>
+      </div>
+      <button class="refresh-btn" id="refreshBtn" title="最新データを取得">
+        <div class="spinner"></div>
+        <span class="btn-text">&#x21bb; 更新</span>
+      </button>
+      <button class="refresh-btn" id="settingsBtn" title="PAT設定" style="background:#555;color:#fff;padding:5px 10px;">
+        <span>&#x2699;</span>
+      </button>
+    </div>
+  </div>
+  <div class="legend-rows">
     <div class="legend">
+      <span class="legend-label">ステータス:</span>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:var(--accent)"></div>仕掛中</div>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:var(--lightBg);border:1px solid var(--midGray)"></div>未着手</div>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:var(--midGray)"></div>完了</div>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#ccc"></div>未設定</div>
       <div class="legend-item"><div style="width:11px;height:11px;transform:rotate(45deg);border:2px solid var(--dark);background:var(--accent)"></div>MS</div>
-      <div style="width:1px;height:16px;background:#666;margin:0 6px"></div>
+    </div>
+    <div style="width:1px;height:16px;background:#555"></div>
+    <div class="legend">
+      <span class="legend-label">ポートフォリオ:</span>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:2px;background:#4186E0"></div>機関設計</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:2px;background:#59CB59"></div>財務</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:2px;background:#EC8D3B"></div>人事労務</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:2px;background:#4BC9CA"></div>ISMS</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:2px;background:#E8384F"></div>コンプラ</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:2px;background:#8D8D8D"></div>資本政策</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:2px;background:#EEC300"></div>関連当事者</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:2px;background:#7A6FF0"></div>規程整備</div>
+    </div>
+    <div style="width:1px;height:16px;background:#555"></div>
+    <div class="legend">
+      <span class="legend-label">ESトピック:</span>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#8B5CF6"></div>ES-01 関連当事者</div>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#F59E0B"></div>ES-02 売上証跡</div>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#3B82F6"></div>ES-03 収益認識</div>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#10B981"></div>ES-04 ソフトウェア</div>
     </div>
-    <div class="update-info">
-      <span id="taskCount">-- tasks</span>
-      <span id="lastUpdate">--</span>
-    </div>
-    <button class="refresh-btn" id="refreshBtn" title="最新データを取得">
-      <div class="spinner"></div>
-      <span class="btn-text">&#x21bb; 更新</span>
-    </button>
-    <button class="refresh-btn" id="settingsBtn" title="PAT設定" style="background:#555;color:#fff;padding:5px 10px;">
-      <span>&#x2699;</span>
-    </button>
   </div>
 </div>
 
@@ -284,7 +315,10 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
   </div>
   <div class="filter-group">
     <label>担当者:</label>
-    <select id="filterAssignee"><option value="all">すべて</option></select>
+    <div class="multi-select-wrap" id="assigneeWrap">
+      <div class="multi-select-btn" id="assigneeBtn">すべて</div>
+      <div class="multi-select-dropdown" id="assigneeDropdown"></div>
+    </div>
   </div>
   <div class="filter-group">
     <label>ESトピック:</label>
@@ -328,7 +362,8 @@ var ES_TOPICS = {
       '1214629250937601','1214629137605429',
       '1214138129691617','1214110941333253','1213943998432899','1213541079865020',
       '1213541079155116','1213541079865019','1214138129823641','1214057893983662',
-      '1214057741582773','1214057983923125'
+      '1214057741582773','1214057983923125',
+      '1214635066837831','1214635019264425','1214635019379988'
     ]
   },
   'ES-02': {
@@ -338,7 +373,8 @@ var ES_TOPICS = {
     taskGids: [
       '1213528680128600','1214110941335856','1214628738581109','1214628738405278',
       '1214628738156678','1214628661965020','1214110941332177','1214108313608049',
-      '1214057902087480'
+      '1214057902087480',
+      '1214635066837831','1214635019264425','1214635019379988'
     ]
   },
   'ES-03': {
@@ -348,7 +384,8 @@ var ES_TOPICS = {
     taskGids: [
       '1213528680128601','1214628969548690','1214628881675903','1214628661967833',
       '1214628662014792','1214628881677222','1214153027269595','1214112877237873',
-      '1213541079155108'
+      '1213541079155108',
+      '1214635066837831','1214635019264425','1214635019379988'
     ]
   },
   'ES-04': {
@@ -359,7 +396,8 @@ var ES_TOPICS = {
       '1213528680128604','1213541079155113','1214643105076057','1214628738405261',
       '1214628930570402','1214628661996707','1214628738462497','1214628738581273',
       '1214108313608305','1214057902087199','1213941495745309',
-      '1214629250997420'
+      '1214629250997420',
+      '1214635066837831','1214635019264425','1214635019379988'
     ]
   }
 };
@@ -383,7 +421,7 @@ function getESTopics(gid) {
 }
 
 var ASANA_BASE = 'https://app.asana.com/api/1.0';
-var DATA = [], SUBTASKS = {}, FILTERED = [], lastFetchTime = null, activePreset = null;
+var DATA = [], SUBTASKS = {}, FILTERED = [], lastFetchTime = null, activePresets = {};
 var _pat = '';
 var TIMELINE_START = new Date(2026,0,1), TIMELINE_END = new Date(2029,5,30);
 var MONTH_WIDTH = 60, INFO_COL_WIDTH = 560;
@@ -659,23 +697,46 @@ function populateFilters() {
   var seen={};
   DATA.forEach(function(t){ if(t.assignee&&!seen[t.assignee]){seen[t.assignee]=true;assignees.push(t.assignee);} });
   assignees.sort(function(a,b){return a.localeCompare(b,'ja')});
-  var asel=document.getElementById('filterAssignee');
-  asel.innerHTML='<option value="all">すべて</option><option value="none">未割当</option>';
-  assignees.forEach(function(a){ var o=document.createElement('option'); o.value=a; o.textContent=a; asel.appendChild(o); });
+  var dd=document.getElementById('assigneeDropdown');
+  dd.innerHTML='';
+  var items=[{value:'none',label:'未割当'}].concat(assignees.map(function(a){return{value:a,label:a};}));
+  items.forEach(function(item){
+    var lbl=document.createElement('label');
+    var cb=document.createElement('input');cb.type='checkbox';cb.value=item.value;cb.dataset.assignee='1';
+    cb.addEventListener('change',function(){updateAssigneeBtn();applyFilters();});
+    lbl.appendChild(cb);lbl.appendChild(document.createTextNode(item.label));
+    dd.appendChild(lbl);
+  });
+  updateAssigneeBtn();
+}
+
+function getSelectedAssignees(){
+  var cbs=document.querySelectorAll('#assigneeDropdown input[type="checkbox"]');
+  var sel=[];cbs.forEach(function(c){if(c.checked)sel.push(c.value);});
+  return sel;
+}
+
+function updateAssigneeBtn(){
+  var sel=getSelectedAssignees();
+  var btn=document.getElementById('assigneeBtn');
+  if(sel.length===0) btn.textContent='すべて';
+  else if(sel.length===1) btn.textContent=sel[0]==='none'?'未割当':sel[0];
+  else btn.textContent=sel.length+'名選択';
 }
 
 function applyFilters() {
   var type=document.getElementById('filterType').value;
   var status=document.getElementById('filterStatus').value;
-  var assignee=document.getElementById('filterAssignee').value;
+  var selAssignees=getSelectedAssignees();
   var project=document.getElementById('filterProject').value;
   var search=document.getElementById('filterSearch').value.trim().toLowerCase();
   var esFilter=document.getElementById('filterES').value;
   var now=new Date(); now.setHours(0,0,0,0);
+  var hasPreset=Object.keys(activePresets).length>0;
 
   FILTERED=DATA.filter(function(t){
-    // Preset filters
-    if(activePreset==='audit'){
+    // Preset filters (AND logic: must pass ALL active presets)
+    if(activePresets.audit){
       if(t.c||t.st==='完了') return false;
       var ip=t.st==='仕掛中';
       var od=t.d&&new Date(t.d+'T00:00:00')<now;
@@ -683,14 +744,14 @@ function applyFilters() {
       var ms=t.t==='milestone';
       if(!ip&&!od&&!ds&&!ms) return false;
     }
-    if(activePreset==='urgent'){
+    if(activePresets.urgent){
       if(t.c||t.st==='完了') return false;
       if(!t.d||new Date(t.d+'T00:00:00')>=now) return false;
     }
-    if(activePreset==='active'){
+    if(activePresets.active){
       if(t.st!=='仕掛中') return false;
     }
-    if(activePreset==='es'){
+    if(activePresets.es){
       if(!t.es||t.es.length===0) return false;
     }
 
@@ -702,8 +763,15 @@ function applyFilters() {
       else if(status==='完了'){if(!t.c&&t.st!=='完了') return false;}
       else if(t.st!==status) return false;
     }
-    if(assignee==='none'){if(t.assignee) return false;}
-    else if(assignee!=='all'&&t.assignee!==assignee) return false;
+    // Multi-select assignee filter
+    if(selAssignees.length>0){
+      var hasNone=selAssignees.indexOf('none')!==-1;
+      var names=selAssignees.filter(function(v){return v!=='none';});
+      var match=false;
+      if(hasNone&&!t.assignee) match=true;
+      if(names.length>0&&names.indexOf(t.assignee)!==-1) match=true;
+      if(!match) return false;
+    }
     if(project!=='all'&&t.projGid!==project) return false;
     if(search&&!t.n.toLowerCase().includes(search)) return false;
 
@@ -909,13 +977,12 @@ function syncScroll(){var b=document.getElementById('ganttBody'),h=document.getE
 function scrollToToday(){var b=document.getElementById('ganttBody'),tx=dateToX(getTodayStr());if(tx!==null)b.scrollLeft=Math.max(0,tx-200);}
 
 function setPreset(p){
-  if(activePreset===p){activePreset=null;}else{activePreset=p;}
-  document.querySelectorAll('.preset-btn').forEach(function(b){b.classList.remove('active');});
-  if(activePreset){
-    var idMap = {audit:'presetAudit', urgent:'presetUrgent', active:'presetActive', es:'presetES'};
-    var id = idMap[activePreset];
-    if(id) document.getElementById(id).classList.add('active');
-  }
+  if(activePresets[p]){delete activePresets[p];}else{activePresets[p]=true;}
+  var idMap={audit:'presetAudit',urgent:'presetUrgent',active:'presetActive',es:'presetES'};
+  Object.keys(idMap).forEach(function(k){
+    var el=document.getElementById(idMap[k]);
+    if(activePresets[k]) el.classList.add('active'); else el.classList.remove('active');
+  });
   applyFilters();
 }
 
@@ -930,14 +997,27 @@ document.getElementById('patSave').addEventListener('click',function(){var pat=d
 document.getElementById('patInput').addEventListener('keydown',function(e){if(e.key==='Enter')document.getElementById('patSave').click();});
 document.getElementById('closeErr').addEventListener('click',hideError);
 
-['filterType','filterStatus','filterAssignee','filterProject','filterES'].forEach(function(id){document.getElementById(id).addEventListener('change',applyFilters);});
+['filterType','filterStatus','filterProject','filterES'].forEach(function(id){document.getElementById(id).addEventListener('change',applyFilters);});
 document.getElementById('filterSearch').addEventListener('input',applyFilters);
+
+// Assignee multi-select dropdown toggle
+document.getElementById('assigneeBtn').addEventListener('click',function(e){
+  e.stopPropagation();
+  document.getElementById('assigneeDropdown').classList.toggle('open');
+});
+document.addEventListener('click',function(e){
+  var wrap=document.getElementById('assigneeWrap');
+  if(!wrap.contains(e.target)) document.getElementById('assigneeDropdown').classList.remove('open');
+});
+
 document.getElementById('filterReset').addEventListener('click',function(){
   document.getElementById('filterType').value='all';document.getElementById('filterStatus').value='all';
-  document.getElementById('filterAssignee').value='all';document.getElementById('filterProject').value='all';
+  document.getElementById('filterProject').value='all';
   document.getElementById('filterES').value='all';
-  document.getElementById('filterSearch').value='';activePreset=null;
+  document.getElementById('filterSearch').value='';activePresets={};
   document.querySelectorAll('.preset-btn').forEach(function(b){b.classList.remove('active');});
+  document.querySelectorAll('#assigneeDropdown input[type="checkbox"]').forEach(function(c){c.checked=false;});
+  updateAssigneeBtn();
   applyFilters();
 });
 
