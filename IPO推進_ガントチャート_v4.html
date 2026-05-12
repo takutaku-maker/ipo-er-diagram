@@ -68,6 +68,9 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .preset-btn.es-topic { background:#F3E8FF; color:#6D28D9; border-color:#8B5CF6; }
 .preset-btn.es-topic:hover { background:#EDE9FE; }
 .preset-btn.es-topic.active { background:#8B5CF6; color:#fff; }
+.preset-btn.kitei { background:#EDE7F6; color:#4527A0; border-color:#7A6FF0; }
+.preset-btn.kitei:hover { background:#D1C4E9; }
+.preset-btn.kitei.active { background:#7A6FF0; color:#fff; }
 .filter-divider { width:1px; height:24px; background:var(--midGray); margin:0 4px; }
 .multi-select-wrap { position:relative; display:inline-block; }
 .multi-select-btn { font-family:'Noto Sans JP',sans-serif; font-size:12px; padding:4px 24px 4px 8px; border:1px solid var(--midGray); border-radius:4px; background:var(--white); color:var(--dark); cursor:pointer; min-width:120px; text-align:left; position:relative; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px; }
@@ -299,6 +302,7 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
     <button class="preset-btn urgent" id="presetUrgent" title="期日超過タスクのみ">&#x1F534; 期日超過</button>
     <button class="preset-btn active-tasks" id="presetActive" title="仕掛中タスクのみ">&#x26A1; 仕掛中</button>
     <button class="preset-btn es-topic" id="presetES" title="SR指摘ESトピック関連タスクのみ">&#x1F4CA; ESトピック</button>
+    <button class="preset-btn kitei" id="presetKitei" title="【規程】タスクのみ表示">&#x1F4DC; 規程</button>
   </div>
   <div class="filter-divider"></div>
   <div class="filter-group">
@@ -783,6 +787,9 @@ function applyFilters() {
     if(activePresets.es){
       if(!t.es||t.es.length===0) return false;
     }
+    if(activePresets.kitei){
+      if(t.n.indexOf('【規程】')===-1) return false;
+    }
 
     // Standard filters
     if(type==='milestone'&&t.t!=='milestone') return false;
@@ -1007,7 +1014,7 @@ function scrollToToday(){var b=document.getElementById('ganttBody'),tx=dateToX(g
 
 function setPreset(p){
   if(activePresets[p]){delete activePresets[p];}else{activePresets[p]=true;}
-  var idMap={audit:'presetAudit',urgent:'presetUrgent',active:'presetActive',es:'presetES'};
+  var idMap={audit:'presetAudit',urgent:'presetUrgent',active:'presetActive',es:'presetES',kitei:'presetKitei'};
   Object.keys(idMap).forEach(function(k){
     var el=document.getElementById(idMap[k]);
     if(activePresets[k]) el.classList.add('active'); else el.classList.remove('active');
@@ -1019,6 +1026,7 @@ document.getElementById('presetAudit').addEventListener('click',function(){setPr
 document.getElementById('presetUrgent').addEventListener('click',function(){setPreset('urgent');});
 document.getElementById('presetActive').addEventListener('click',function(){setPreset('active');});
 document.getElementById('presetES').addEventListener('click',function(){setPreset('es');});
+document.getElementById('presetKitei').addEventListener('click',function(){setPreset('kitei');});
 
 document.getElementById('refreshBtn').addEventListener('click',async function(){this.classList.add('loading');this.disabled=true;await loadData();this.classList.remove('loading');this.disabled=false;});
 document.getElementById('settingsBtn').addEventListener('click',function(){document.getElementById('patInput').value=getPAT();document.getElementById('patDialog').classList.remove('hidden');});
