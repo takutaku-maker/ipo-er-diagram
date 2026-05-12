@@ -675,10 +675,46 @@ function parseTask(raw, projInfo) {
   };
 }
 
-async function fetchSubtasks(gid) {
-  var res=await fetch(ASANA_BASE+'/tasks/'+gid+'/subtasks?opt_fields=name',{headers:{'Authorization':'Bearer '+getPAT()}});
+async function fetchSubtasks(gid, parentProjInfo) {
+  var fields='name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.gid,custom_fields.display_value,custom_fields.name,custom_fields.type,custom_fields.enum_value.gid,custom_fields.enum_value.name,assignee.gid,assignee.name';
+  var res=await fetch(ASANA_BASE+'/tasks/'+gid+'/subtasks?opt_fields='+fields,{headers:{'Authorization':'Bearer '+getPAT()}});
   if(!res.ok) return [];
-  return (await res.json()).data.map(function(s){return{n:s.name}});
+  var data=(await res.json()).data;
+  return data.map(function(raw){
+    var status='', statusFieldGid='', statusEnumGid='';
+    if(raw.custom_fields){
+      for(var i=0;i<raw.custom_fields.length;i++){
+        var cf=raw.custom_fields[i];
+        if(cf.name==='ステータス'||cf.name==='Status'){
+          status=cf.display_value||'';
+          statusFieldGid=cf.gid||'';
+          if(cf.enum_value) statusEnumGid=cf.enum_value.gid||'';
+          break;
+        }
+      }
+    }
+    var tags=(raw.tags||[]).map(function(t){return t.name}).join(', ');
+    return {
+      gid:raw.gid,
+      n:raw.name,
+      s:raw.start_on||'',
+      d:raw.due_on||'',
+      c:raw.completed,
+      t:raw.resource_subtype||'default_task',
+      tag:tags,
+      st:status,
+      stFieldGid:statusFieldGid,
+      stEnumGid:statusEnumGid,
+      ns:0,
+      assignee:raw.assignee?raw.assignee.name:'',
+      assigneeGid:raw.assignee?raw.assignee.gid:'',
+      proj:parentProjInfo?parentProjInfo.name:'',
+      projShort:parentProjInfo?parentProjInfo.short:'',
+      projColor:parentProjInfo?parentProjInfo.color:'',
+      projGid:parentProjInfo?parentProjInfo.gid:'',
+      es:getESTopics(raw.gid)
+    };
+  });
 }
 
 async function loadData() {
@@ -709,7 +745,15 @@ async function loadData() {
     var withSubs=DATA.filter(function(t){return t.ns>0});
     for(var i=0;i<withSubs.length;i++){
       lt.textContent='サブタスクを取得中 ('+(i+1)+'/'+withSubs.length+')...';
-      try{SUBTASKS[withSubs[i].gid]=await fetchSubtasks(withSubs[i].gid);}catch(e){}
+      try{
+        var parentProjInfo={
+          name:withSubs[i].proj,
+          short:withSubs[i].projShort,
+          color:withSubs[i].projColor,
+          gid:withSubs[i].projGid
+        };
+        SUBTASKS[withSubs[i].gid]=await fetchSubtasks(withSubs[i].gid, parentProjInfo);
+      }catch(e){}
     }
     lastFetchTime=new Date();
     populateFilters();
@@ -965,18 +1009,67 @@ function buildBody(){
       })(task);
       container.appendChild(row);
 
-      if(hasSub){var ps=task.s||task.d,pe=task.d;SUBTASKS[task.gid].forEach(function(st){
+      if(hasSub){SUBTASKS[task.gid].forEach(function(st){
         var sr=document.createElement('div');sr.className='gantt-row subtask-row';sr.dataset.parent=task.gid;
         var si=document.createElement('div');si.className='row-info';
-        var sn=document.createElement('div');sn.className='col-name';var stx=document.createElement('span');stx.className='task-name-text';stx.textContent=st.n;sn.appendChild(stx);si.appendChild(sn);
-        var sp=document.createElement('div');sp.className='col-proj';si.appendChild(sp);
-        var sa=document.createElement('div');sa.className='col-assignee';si.appendChild(sa);
-        var sdd=document.createElement('div');sdd.className='col-due';si.appendChild(sdd);
-        var sss=document.createElement('div');sdd.className='col-status';si.appendChild(sss);
-        var ses=document.createElement('div');ses.className='col-es';si.appendChild(ses);
+        // Name
+        var sn=document.createElement('div');sn.className='col-name';
+        var stx=document.createElement('span');stx.className='task-name-text';stx.textContent=st.n;
+        sn.appendChild(stx);si.appendChild(sn);
+        // Project (inherits parent)
+        var sp=document.createElement('div');sp.className='col-proj';
+        if(st.projShort){var pb=document.createElement('span');pb.className='proj-badge';pb.style.background=st.projColor+'22';pb.style.color=st.projColor;pb.style.border='1px solid '+st.projColor+'44';pb.textContent=st.projShort;sp.appendChild(pb);}
+        si.appendChild(sp);
+        // Assignee
+        var sa=document.createElement('div');sa.className='col-assignee';sa.textContent=st.assignee||'−';sa.title=st.assignee||'';si.appendChild(sa);
+        // Due
+        var sdd=document.createElement('div');sdd.className='col-due '+getDueClass(st);sdd.textContent=formatDue(st.d);si.appendChild(sdd);
+        // Status
+        var sss=document.createElement('div');sss.className='col-status';
+        var sChip=document.createElement('span');sChip.className='status-chip '+getStatusClass(st);sChip.textContent=getStatusLabel(st);sss.appendChild(sChip);
+        si.appendChild(sss);
+        // ES topic
+        var ses=document.createElement('div');ses.className='col-es';
+        if(st.es && st.es.length>0){
+          for(var ei=0; ei<st.es.length; ei++){
+            var etag=document.createElement('span');etag.className='es-tag';
+            var ek=st.es[ei];
+            etag.textContent=ek.replace('ES-0','ES');
+            etag.style.background=ES_TOPICS[ek].color+'22';
+            etag.style.color=ES_TOPICS[ek].color;
+            etag.style.border='1px solid '+ES_TOPICS[ek].color+'55';
+            etag.title=ES_TOPICS[ek].name;
+            ses.appendChild(etag);
+          }
+        } else {
+          ses.innerHTML='<span style="color:#ccc;font-size:9px">−</span>';
+        }
+        si.appendChild(ses);
         sr.appendChild(si);
+        // Gantt bars
         var sb=document.createElement('div');sb.className='row-bars';
-        if(ps&&pe){var sx2=dateToX(ps),ex2=dateToX(pe);if(sx2!==null&&ex2!==null){var ln=document.createElement('div');ln.className='subtask-line';ln.style.left=sx2+'px';ln.style.width=Math.max(ex2-sx2,4)+'px';sb.appendChild(ln);}}
+        if(st.t==='milestone'){
+          var dx=dateToX(st.d);
+          if(dx!==null){
+            var dm=document.createElement('div');dm.className='milestone-marker '+getStatusClass(st);
+            dm.style.left=(dx-7)+'px';
+            dm.addEventListener('mouseenter',showTooltip.bind(null,st));
+            dm.addEventListener('mouseleave',hideTooltip);
+            sb.appendChild(dm);
+          }
+        } else {
+          var s0=st.s||st.d,e0=st.d;
+          if(s0&&e0){
+            var sx2=dateToX(s0),ex2=dateToX(e0);
+            if(sx2!==null&&ex2!==null){
+              var bar=document.createElement('div');bar.className='gantt-bar '+getStatusClass(st);
+              bar.style.left=sx2+'px';bar.style.width=Math.max(ex2-sx2,4)+'px';
+              bar.addEventListener('mouseenter',showTooltip.bind(null,st));
+              bar.addEventListener('mouseleave',hideTooltip);
+              sb.appendChild(bar);
+            }
+          }
+        }
         sr.appendChild(sb);container.appendChild(sr);
       });}
     });
