@@ -541,8 +541,15 @@ async function saveEdit() {
   var completed = document.getElementById('editDone').checked;
   var statusEnumGid = document.getElementById('editStatus').value || null;
 
-  // Find the task's own status field GID
+  // Find the task in DATA or SUBTASKS
   var taskData = DATA.find(function(t){return t.gid===_editGid;});
+  var subParentGid = null;
+  if(!taskData){
+    for(var pg in SUBTASKS){
+      var found = SUBTASKS[pg].find(function(s){return s.gid===_editGid;});
+      if(found){ taskData = found; subParentGid = pg; break; }
+    }
+  }
   var taskStatusFieldGid = taskData ? taskData.stFieldGid : _statusFieldGid;
 
   // Build request body
@@ -566,30 +573,36 @@ async function saveEdit() {
       throw new Error('API '+res.status+(errBody?': '+errBody:''));
     }
 
-    // Update local DATA
+    // Update local DATA or SUBTASKS
+    function applyLocalUpdate(t){
+      t.d = dueOn || '';
+      t.c = completed;
+      if(statusEnumGid){
+        var opt = _statusOptions.find(function(o){return o.gid===statusEnumGid;});
+        t.st = opt ? opt.name : '';
+        t.stEnumGid = statusEnumGid;
+      } else {
+        t.st = '';
+        t.stEnumGid = '';
+      }
+      if(assignee){
+        var allA = getAllAssignees();
+        var member = allA.find(function(m){return m.gid===assignee;});
+        t.assignee = member ? member.name : '';
+        t.assigneeGid = assignee;
+      } else {
+        t.assignee = '';
+        t.assigneeGid = '';
+      }
+    }
+    var updated = false;
     for(var i=0; i<DATA.length; i++){
-      if(DATA[i].gid === _editGid){
-        DATA[i].d = dueOn || '';
-        DATA[i].c = completed;
-        // Update status display value
-        if(statusEnumGid){
-          var opt = _statusOptions.find(function(o){return o.gid===statusEnumGid;});
-          DATA[i].st = opt ? opt.name : '';
-          DATA[i].stEnumGid = statusEnumGid;
-        } else {
-          DATA[i].st = '';
-          DATA[i].stEnumGid = '';
-        }
-        if(assignee){
-          var allA = getAllAssignees();
-          var member = allA.find(function(m){return m.gid===assignee;});
-          DATA[i].assignee = member ? member.name : '';
-          DATA[i].assigneeGid = assignee;
-        } else {
-          DATA[i].assignee = '';
-          DATA[i].assigneeGid = '';
-        }
-        break;
+      if(DATA[i].gid === _editGid){ applyLocalUpdate(DATA[i]); updated=true; break; }
+    }
+    if(!updated){
+      for(var pg in SUBTASKS){
+        var st = SUBTASKS[pg].find(function(s){return s.gid===_editGid;});
+        if(st){ applyLocalUpdate(st); updated=true; break; }
       }
     }
 
@@ -1070,7 +1083,18 @@ function buildBody(){
             }
           }
         }
-        sr.appendChild(sb);container.appendChild(sr);
+        sr.appendChild(sb);
+        // Click handler for subtask editing
+        (function(subTask){
+          sr.style.cursor='pointer';
+          sr.title='クリックで編集';
+          sr.addEventListener('click', function(e){
+            console.log('[Subtask click]', subTask.gid, subTask.n);
+            try { openEditModal(subTask); }
+            catch(err) { console.error('[openEditModal error]', err); alert('編集モーダルを開けませんでした: '+err.message); }
+          });
+        })(st);
+        container.appendChild(sr);
       });}
     });
   });
