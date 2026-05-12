@@ -721,6 +721,8 @@ function populateFilters() {
   });
   var assignees=[];
   var seen={};
+  // Include all project members (from _members) + task assignees
+  _members.forEach(function(m){ if(m.name&&!seen[m.name]){seen[m.name]=true;assignees.push(m.name);} });
   DATA.forEach(function(t){ if(t.assignee&&!seen[t.assignee]){seen[t.assignee]=true;assignees.push(t.assignee);} });
   assignees.sort(function(a,b){return a.localeCompare(b,'ja')});
   var dd=document.getElementById('assigneeDropdown');
