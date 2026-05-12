@@ -455,12 +455,13 @@ async function loadStatusOptions() {
 }
 
 var _members = [];
+var MEMBER_PROJECTS = ['1213287000499922'].concat(PROJECTS.map(function(p){return p.gid;}));
 async function loadMembers() {
   var seen = {};
   _members = [];
-  for(var i=0; i<PROJECTS.length; i++){
+  for(var i=0; i<MEMBER_PROJECTS.length; i++){
     try {
-      var res = await fetch(ASANA_BASE+'/projects/'+PROJECTS[i].gid+'/members',{headers:{'Authorization':'Bearer '+getPAT()}});
+      var res = await fetch(ASANA_BASE+'/projects/'+MEMBER_PROJECTS[i]+'/members',{headers:{'Authorization':'Bearer '+getPAT()}});
       if(res.ok){
         var json = await res.json();
         json.data.forEach(function(m){ if(!seen[m.gid]){seen[m.gid]=true; _members.push({gid:m.gid, name:m.name});} });
