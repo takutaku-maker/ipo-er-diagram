@@ -353,105 +353,11 @@ var PROJECTS = [
 ];
 
 var ES_TOPICS = {
-  'ES-01': {
-    name: 'ES-01 関連当事者整理',
-    desc: 'リブート事業協同組合・組合加盟法人との関係の整理',
-    color: '#8B5CF6',
-    taskGids: [
-      '1214629454071647','1214629250729857','1214629204635988','1214629250695729',
-      '1214629250937601','1214629137605429',
-      '1214138129691617','1214110941333253','1213943998432899','1213541079865020',
-      '1213541079155116','1213541079865019','1214138129823641','1214057893983662',
-      '1214057741582773','1214057983923125',
-      '1214635066837831','1214635019264425','1214635019379988',
-      '1214691712986402','1214669736742474','1214691713097963','1214695377105357','1214696931131519',
-      '1214696931026577','1214669736915591',
-      '1215508945739878','1215509000544083','1215508969825488'
-    ,
-      '1215509246860095','1215509247201557','1215509239344664','1215509493565667','1215509494149155','1215508968999140','1215508999920105','1215508913174322','1215508945664398','1215508945739910']
-  },
-  'ES-02': {
-    name: 'ES-02 売上証跡管理',
-    desc: '売上計上根拠資料の網羅的な入手及び管理',
-    color: '#F59E0B',
-    taskGids: [
-      '1213528680128600','1214110941335856','1214628738581109','1214628738405278',
-      '1214628738156678','1214628661965020','1214110941332177','1214108313608049',
-      '1214057902087480',
-      '1214635066837831','1214635019264425','1214635019379988',
-      '1214669736916713','1214696931026577','1214669736915591',
-      '1215508996695535','1215508946530133','1215508914042311','1215508946548249'
-    ,
-      '1215509246860095','1215509247201557','1215509239344664','1215509493565667','1215509494149155','1215508968999140','1215508999920105','1215508913174322','1215508945664398','1215508945739910']
-  },
-  'ES-03': {
-    name: 'ES-03 収益認識',
-    desc: '収益認識に関する会計基準の適用',
-    color: '#3B82F6',
-    taskGids: [
-      '1213528680128601','1214628969548690','1214628881675903','1214628661967833',
-      '1214628662014792','1214628881677222','1214153027269595','1214112877237873',
-      '1213541079155108',
-      '1214635066837831','1214635019264425','1214635019379988',
-      '1214669736638184','1214696931026577','1214669736915591',
-      '1215508912365895','1215508997961925','1215508995774614','1215508946444480'
-    ,
-      '1215509246860095','1215509247201557','1215509239344664','1215509493565667','1215509494149155','1215508968999140','1215508999920105','1215508913174322','1215508945664398','1215508945739910']
-  },
-  'ES-04': {
-    name: 'ES-04 ソフトウェア',
-    desc: 'ソフトウェアの収益性判断プロセスとソフトウェア開発プロセスの構築',
-    color: '#10B981',
-    taskGids: [
-      '1213528680128604','1213541079155113','1214643105076057','1214628738405261',
-      '1214628930570402','1214628661996707','1214628738462497','1214628738581273',
-      '1214108313608305','1214057902087199','1213941495745309',
-      '1214629250997420',
-      '1214635066837831','1214635019264425','1214635019379988',
-      '1214696931026577','1214669736915591',
-      '1215508967859788','1215508914211812'
-    ,
-      '1215509246860095','1215509247201557','1215509239344664','1215509493565667','1215509494149155','1215508968999140','1215508999920105','1215508913174322','1215508945664398','1215508945739910']
-  }
+  'ES-01': { name: 'ES-01 関連当事者整理', desc: 'リブート事業協同組合・組合加盟法人との関係の整理', color: '#8B5CF6' },
+  'ES-02': { name: 'ES-02 売上証跡管理', desc: '売上計上根拠資料の網羅的な入手及び管理', color: '#F59E0B' },
+  'ES-03': { name: 'ES-03 収益認識', desc: '収益認識に関する会計基準の適用', color: '#3B82F6' },
+  'ES-04': { name: 'ES-04 ソフトウェア', desc: 'ソフトウェアの収益性判断プロセスとソフトウェア開発プロセスの構築', color: '#10B981' }
 };
-
-// Build reverse lookup: GID -> [ES topic keys]
-var _esGidMap = {};
-(function(){
-  var keys = Object.keys(ES_TOPICS);
-  for(var i=0; i<keys.length; i++){
-    var k = keys[i];
-    var gids = ES_TOPICS[k].taskGids;
-    for(var j=0; j<gids.length; j++){
-      if(!_esGidMap[gids[j]]) _esGidMap[gids[j]] = [];
-      _esGidMap[gids[j]].push(k);
-    }
-  }
-})();
-
-function getESTopics(gid) {
-  return _esGidMap[gid] || [];
-}
-
-// Display override: which ES topics to show as dots/tags for each meeting MS
-// (taskGids above is for filtering — all meetings appear under any ES filter)
-var MEETING_ES_DISPLAY = {
-  '1215509246860095': ['ES-01','ES-03','ES-04'],  // 第4回: ES-1クローズ, ES-3具体化, ES-4具体化
-  '1215509247201557': ['ES-02','ES-03','ES-04'],  // 第5回: ES-2具体化, ES-3エビデンス, ES-4エビデンス
-  '1215509239344664': ['ES-02','ES-03','ES-04'],  // 第6回: ES-2エビデンス, ES-3クローズ判定, ES-4クローズ判定
-  '1215509493565667': ['ES-03','ES-04'],           // 第7回: ES-3クローズ, ES-4クローズ判定
-  '1215509494149155': ['ES-02','ES-04'],           // 第8回: ES-2最終検証, ES-4クローズ
-  '1215508968999140': ['ES-01','ES-03','ES-04'],  // 第4回 prep
-  '1215508999920105': ['ES-02','ES-03','ES-04'],  // 第5回 prep
-  '1215508913174322': ['ES-02','ES-03','ES-04'],  // 第6回 prep
-  '1215508945664398': ['ES-03','ES-04'],           // 第7回 prep
-  '1215508945739910': ['ES-02','ES-04']            // 第8回 prep
-};
-
-function getESDisplay(gid) {
-  return MEETING_ES_DISPLAY[gid] || getESTopics(gid);
-}
-
 var ASANA_BASE = 'https://app.asana.com/api/1.0';
 var DATA = [], SUBTASKS = {}, FILTERED = [], lastFetchTime = null, activePresets = {};
 var _pat = '';
@@ -670,7 +576,21 @@ function parseTask(raw, projInfo) {
       }
     }
   }
-  var tags=(raw.tags||[]).map(function(t){return t.name}).join(', ');
+  var tagNames=(raw.tags||[]).map(function(t){return t.name});
+  // Detect ES topics dynamically from Asana tags (no hardcoding)
+  var esKeys=Object.keys(ES_TOPICS);
+  var esFromTags=[];
+  for(var ti=0;ti<tagNames.length;ti++){
+    for(var ei=0;ei<esKeys.length;ei++){
+      if(tagNames[ti].indexOf(esKeys[ei])===0 && esFromTags.indexOf(esKeys[ei])===-1){
+        esFromTags.push(esKeys[ei]);
+      }
+    }
+  }
+  // Non-ES tags for display
+  var otherTags=tagNames.filter(function(t){return !/^ES-0/.test(t);}).join(', ');
+  // Detect meeting/prep milestones for cross-ES filtering
+  var isMtg=/定例会|資料準備/.test(raw.name);
   return {
     gid:raw.gid,
     n:raw.name,
@@ -678,7 +598,7 @@ function parseTask(raw, projInfo) {
     d:raw.due_on||'',
     c:raw.completed,
     t:raw.resource_subtype||'default_task',
-    tag:tags,
+    tag:otherTags,
     st:status,
     stFieldGid:statusFieldGid,
     stEnumGid:statusEnumGid,
@@ -689,8 +609,9 @@ function parseTask(raw, projInfo) {
     projShort:projInfo.short,
     projColor:projInfo.color,
     projGid:projInfo.gid,
-    es:getESTopics(raw.gid),
-    esDisplay:getESDisplay(raw.gid)
+    es:esFromTags,
+    esDisplay:esFromTags,
+    isMeeting:isMtg
   };
 }
 
@@ -831,9 +752,9 @@ function applyFilters() {
     if(project!=='all'&&t.projGid!==project) return false;
     if(search&&!t.n.toLowerCase().includes(search)) return false;
 
-    // ES topic dropdown filter
+    // ES topic dropdown filter — meetings always visible (cross-ES)
     if(esFilter!=='all'){
-      if(!t.es||t.es.indexOf(esFilter)===-1) return false;
+      if(!t.isMeeting && (!t.es||t.es.indexOf(esFilter)===-1)) return false;
     }
 
     return true;
