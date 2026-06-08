@@ -157,83 +157,76 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
 
 <!-- Construction Priority -->
 <div class="section" style="margin-bottom:24px">
-  <div class="section-head"><span class="num">★</span><h2>構成設計の最上位方針：3本柱</h2></div>
-  <div class="section-desc">SharePoint統合におけるフォルダ構成・移行対象・知識集約の決定は、以下の3本柱に従う。柱①で統制基盤の骨格を固め、柱②で業務実態に即した肉付けを行い、柱③で各所に拡散するナレッジをMD化・SSOT集約してAI活用基盤を構築する。</div>
+  <div class="section-head"><span class="num">★</span><h2>構成設計の最上位方針：2つの判断軸</h2></div>
+  <div class="section-desc">全てのファイルは業務プロセスのアウトプットである。そのアウトプットを「どこに保管するか（判断軸A）」「正本として管理するか（判断軸B）」の2つの判断軸で整理する。</div>
 </div>
 
-<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px;">
-  <div style="background:var(--bg2);border:2px solid var(--coral);border-radius:10px;padding:16px 20px;">
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:16px;">
+  <div style="background:var(--bg2);border:2px solid var(--teal);border-radius:10px;padding:16px 20px;">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-      <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--coral);padding:2px 8px;border-radius:4px;">柱①</span>
-      <span style="font-size:14px;font-weight:500">統制基盤（第1層）</span>
+      <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--teal);padding:2px 8px;border-radius:4px;">判断軸A</span>
+      <span style="font-size:14px;font-weight:500">保管先の選択</span>
     </div>
-    <p style="font-size:11px;color:var(--text2);margin-bottom:8px">IPO・ISMS・J-SOXで必須の骨格を構築。</p>
-    <ul style="font-size:11px;color:var(--text2);padding-left:16px;margin:0">
-      <li style="margin-bottom:3px">サイト＝権限境界（5サイト分離）</li>
-      <li style="margin-bottom:3px">J-SOX職務分掌</li>
-      <li style="margin-bottom:3px">ISMS文書管理要件（箇条7.5）</li>
-      <li style="margin-bottom:3px">アクセス制御・四半期棚卸</li>
-      <li style="margin-bottom:3px">監査証跡・変更ログ自動記録</li>
-    </ul>
-    <div style="margin-top:8px;padding:5px 8px;background:rgba(220,38,38,0.06);border-radius:6px;font-size:10px;color:var(--coral)">
-      「これがないと監査で指摘される / 認証が取れない」
+    <p style="font-size:11px;color:var(--text2);margin-bottom:10px">業務プロセスのアウトプットを、その性質に応じて適切な保管先に振り分ける。</p>
+    <div style="margin-bottom:8px;padding:8px 10px;background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.15);border-radius:6px">
+      <div style="font-size:11px;font-weight:500;color:var(--coral);margin-bottom:2px">SharePointに保管</div>
+      <div style="font-size:10px;color:var(--text2)">原本ファイルとして保管すべきもの（議事録・決算書・規程・契約書・設計書等）</div>
+      <div style="display:flex;gap:6px;margin-top:4px">
+        <span style="font-size:9px;padding:1px 6px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2)">[統制] 外部要件</span>
+        <span style="font-size:9px;padding:1px 6px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2)">[OPS] 内部要件</span>
+        <span style="font-size:9px;color:var(--text3)">← 併存可能</span>
+      </div>
+    </div>
+    <div style="margin-bottom:8px;padding:8px 10px;background:rgba(124,58,237,0.04);border:1px solid rgba(124,58,237,0.15);border-radius:6px">
+      <div style="font-size:11px;font-weight:500;color:var(--purple);margin-bottom:2px">Claudeスキルに保管（MD化）</div>
+      <div style="font-size:10px;color:var(--text2)">ナレッジ・ノウハウとして集約すべきもの（提案資料・戦略・マニュアル・FAQ等）。図は素材としてSPに移行</div>
+    </div>
+    <div style="padding:8px 10px;background:rgba(0,0,0,0.02);border:1px solid var(--border);border-radius:6px">
+      <div style="font-size:11px;font-weight:500;color:var(--text3);margin-bottom:2px">移行しない</div>
+      <div style="font-size:10px;color:var(--text2)">個人メモ・旧版・WIP・下書き</div>
     </div>
   </div>
 
-  <div style="background:var(--bg2);border:2px solid var(--accent);border-radius:10px;padding:16px 20px;">
+  <div style="background:var(--bg2);border:2px solid var(--green);border-radius:10px;padding:16px 20px;">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-      <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--accent);padding:2px 8px;border-radius:4px;">柱②</span>
-      <span style="font-size:14px;font-weight:500">業務オペレーション（第2層）</span>
+      <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--green);padding:2px 8px;border-radius:4px;">判断軸B</span>
+      <span style="font-size:14px;font-weight:500">正本管理（SSOT属性）</span>
     </div>
-    <p style="font-size:11px;color:var(--text2);margin-bottom:8px">業務プロセスの成果物とSSOT資料を配置。</p>
-    <ul style="font-size:11px;color:var(--text2);padding-left:16px;margin:0">
-      <li style="margin-bottom:3px">業務プロセスのアウトプット格納</li>
-      <li style="margin-bottom:3px">SSOT資料のハイライト・集約</li>
-      <li style="margin-bottom:3px">部門別日常業務ドキュメント</li>
-      <li style="margin-bottom:3px">最終形態: ワークフロー自動格納</li>
-    </ul>
-    <div style="margin-top:8px;padding:5px 8px;background:rgba(37,99,235,0.06);border-radius:6px;font-size:10px;color:var(--accent)">
-      「業務を回すために必要 / 正本管理すべき」
+    <p style="font-size:11px;color:var(--text2);margin-bottom:10px">どの保管先であっても、正本（Single Source of Truth）には[SSOT]タグを付与する。</p>
+    <div style="margin-bottom:8px;padding:8px 10px;background:rgba(22,163,74,0.04);border:1px solid rgba(22,163,74,0.15);border-radius:6px">
+      <div style="font-size:11px;font-weight:500;color:var(--green);margin-bottom:2px">SharePointのSSOT</div>
+      <div style="font-size:10px;color:var(--text2)">メタデータ列「SSOT: はい」を設定。SSOTビューで一覧表示</div>
     </div>
-  </div>
-
-  <div style="background:var(--bg2);border:2px solid var(--purple);border-radius:10px;padding:16px 20px;">
-    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
-      <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--purple);padding:2px 8px;border-radius:4px;">柱③</span>
-      <span style="font-size:14px;font-weight:500">ナレッジMD化→スキル化</span>
+    <div style="margin-bottom:8px;padding:8px 10px;background:rgba(22,163,74,0.04);border:1px solid rgba(22,163,74,0.15);border-radius:6px">
+      <div style="font-size:11px;font-weight:500;color:var(--green);margin-bottom:2px">ClaudeスキルのSSOT</div>
+      <div style="font-size:10px;color:var(--text2)">SSOTマスタインデックスに「原本: Claudeスキル」と記録</div>
     </div>
-    <p style="font-size:11px;color:var(--text2);margin-bottom:8px">各所に拡散するノウハウをMD化・SSOT集約し、AIエージェントの知識基盤を構築。</p>
-    <ul style="font-size:11px;color:var(--text2);padding-left:16px;margin:0">
-      <li style="margin-bottom:3px">過去の提案資料・戦略資料をMD化</li>
-      <li style="margin-bottom:3px">MDファイル＝SSOT正本（Claudeスキル）</li>
-      <li style="margin-bottom:3px">SharePoint移行を最小限にする戦略</li>
-      <li style="margin-bottom:3px">図・画像は素材としてSPに移行</li>
-    </ul>
-    <div style="margin-top:8px;padding:5px 8px;background:rgba(124,58,237,0.06);border-radius:6px;font-size:10px;color:var(--purple)">
-      「ナレッジの拡散を集約し、AIが活用できる形にする」
+    <div style="padding:8px 10px;background:rgba(22,163,74,0.04);border:1px solid rgba(22,163,74,0.15);border-radius:6px">
+      <div style="font-size:11px;font-weight:500;color:var(--green);margin-bottom:2px">SSOTマスタインデックス</div>
+      <div style="font-size:10px;color:var(--text2)">04_IT統制/01_ISMS/に配置。全SSOTを横断管理する台帳</div>
     </div>
   </div>
 </div>
 
-<div style="background:var(--bg2);border:1px solid rgba(124,58,237,0.15);border-left:3px solid var(--purple);border-radius:8px;padding:14px 18px;margin-bottom:12px;">
-  <h4 style="font-size:13px;font-weight:500;color:var(--purple);margin-bottom:6px;">第2層の最終形態：ワークフロー駆動のフォルダ</h4>
-  <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:8px">第2層のフォルダは最終的には「人が手動でファイルを置く場所」ではなく、システムで制御されたワークフロー（Asana等）が業務プロセスを実行した結果、アウトプットが自動的に保存される場所となる。フォルダ構成はワークフローのプロセス定義と1:1で対応し、フォルダ名はワークフローのステップ名と一致させる。</p>
+<div style="background:var(--bg2);border:1px solid rgba(217,119,6,0.15);border-left:3px solid var(--amber);border-radius:8px;padding:14px 18px;margin-bottom:10px;">
+  <h4 style="font-size:13px;font-weight:500;color:var(--amber);margin-bottom:6px">[OPS]フォルダの最終形態：ワークフロー駆動</h4>
+  <p style="font-size:12px;color:var(--text2);line-height:1.7;margin-bottom:8px">[OPS]タグのフォルダは最終的にはワークフロー（Asana等）が業務プロセスを実行した結果、アウトプットが自動的に保存される場所となる。</p>
   <ul style="font-size:12px;color:var(--text2);padding-left:16px;margin:0">
-    <li style="margin-bottom:4px"><b>現在</b>：プロセス定義中のため手動配置を許容。フォルダ構成は「想定されるアウトプットの置き場」として設計</li>
-    <li style="margin-bottom:4px"><b>中期</b>：Asana等のワークフローが確定次第、ワークフロー経由での自動格納に切り替え</li>
-    <li style="margin-bottom:4px"><b>最終形態</b>：ワークフロー経由でないファイル追加は「例外」として承認フローを経由。フォルダ＝プロセスのアウトプット受け皿として完全に機能</li>
+    <li style="margin-bottom:4px"><b>現在</b>：プロセス定義中のため手動配置を許容</li>
+    <li style="margin-bottom:4px"><b>中期</b>：ワークフロー確定後、自動格納に切り替え</li>
+    <li style="margin-bottom:4px"><b>最終形態</b>：ワークフロー経由でないファイル追加は「例外」（承認フロー経由）</li>
   </ul>
 </div>
 
 <div style="background:var(--bg2);border:1px solid rgba(13,148,136,0.15);border-left:3px solid var(--teal);border-radius:8px;padding:14px 18px;margin-bottom:24px;">
-  <h4 style="font-size:13px;font-weight:500;color:var(--teal);margin-bottom:6px;">3本柱の関係</h4>
-  <p style="font-size:12px;color:var(--text2);line-height:1.7">柱①（統制基盤）と柱②（業務OPS）はSharePointのフォルダ配置を決める軸。柱③（ナレッジMD化）はSharePointに入れない知識を集約・構造化する戦略。3つは独立した判断軸であり、移行対象のファイルは①②③のいずれかに分類される。柱③によりSharePointへの移行量を最小限に抑えつつ、AIエージェントが活用できるナレッジ基盤を構築する。フォルダを「あったほうがいい」で増やすのではなく、「①②③のどの基準を満たすか」で判断する。</p>
+  <h4 style="font-size:13px;font-weight:500;color:var(--teal);margin-bottom:6px;">2つの判断軸の関係</h4>
+  <p style="font-size:12px;color:var(--text2);line-height:1.7">判断軸A（保管先）は「SharePointか、Claudeスキルか、移行しないか」を決める。判断軸B（正本管理）は「どの保管先であっても、正本には[SSOT]タグを付ける」という横断的な管理。[統制]と[OPS]は排他的ではなく併存する（例：決算書=[統制]+[OPS]+[SSOT]）。フォルダを「あったほうがいい」で増やすのではなく、「判断軸A・Bのどの基準を満たすか」で判断する。</p>
 </div>
 
 <!-- SSOT Orthogonal Axis -->
 <div class="section" style="margin-bottom:24px">
-  <div class="section-head"><span class="num">★+</span><h2>SSOT属性：2層に直交する第3の軸</h2></div>
-  <div class="section-desc">SSOTは第2層に内包される概念ではなく、2層構造に対して直交する独立属性として設計する。第1層にもSSOT（議事録・情報資産台帳）が存在し、第2層にもSSOT（631HB・マニュアル）が存在するため、「どの層か」と「SSOTか」は別の判断軸である。</div>
+  <div class="section-head"><span class="num">★+</span><h2>判断軸B：正本管理（SSOT属性）</h2></div>
+  <div class="section-desc">SSOTはSharePoint保管かClaudeスキル保管かに関係なく、正本であれば付与される属性。[統制]ファイルにもSSOT（議事録）、[OPS]ファイルにもSSOT（マニュアル）、ClaudeスキルにもSSOT（ナレッジMD）が存在する。</div>
 </div>
 
 <div style="background:var(--bg2);border:2px solid var(--green);border-radius:10px;padding:16px 20px;margin-bottom:16px;">
@@ -247,12 +240,12 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
     </thead>
     <tbody>
       <tr>
-        <td style="font-weight:500;color:var(--coral)">第1層<br><span style="font-size:10px;font-weight:400">IPO/ISMS必須</span></td>
+        <td style="font-weight:500;color:var(--coral)">[統制]<br><span style="font-size:10px;font-weight:400">外部要件</span></td>
         <td style="font-size:11px;color:var(--text2)">監査作業ワークペーパー、一時的な証跡ログ、レビュー用ドラフト</td>
         <td style="font-size:11px;color:var(--green)"><b>取締役会議事録</b>、<b>情報資産台帳</b>、<b>J-SOX 3点セット</b>、<b>IT統制規程</b>、<b>全社規程原本</b>、<b>SOCレポート</b></td>
       </tr>
       <tr>
-        <td style="font-weight:500;color:var(--accent)">第2層<br><span style="font-size:10px;font-weight:400">業務必要</span></td>
+        <td style="font-weight:500;color:var(--accent)">[OPS]<br><span style="font-size:10px;font-weight:400">内部要件</span></td>
         <td style="font-size:11px;color:var(--text2)">日常業務メモ、打合せメモ、部門内共有資料、暫定フォルダ内ファイル</td>
         <td style="font-size:11px;color:var(--green)"><b>631ハンドブック</b>、<b>事業計画</b>、<b>決算書類</b>、<b>加盟店契約書</b>、<b>SW工数確定版</b></td>
       </tr>
@@ -285,16 +278,16 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
         <td style="font-weight:500;color:var(--coral)">第0層</td>
         <td style="font-size:11px">規範SSOT</td>
         <td style="font-size:11px;color:var(--text2)">戦略・KPI定義・会計規則など「正の原則」</td>
-        <td style="font-size:11px;color:var(--text2)">631HB、事業計画、経理規程</td>
+        <td style="font-size:11px;color:var(--text2)">631ハンドブック、事業計画、経理規程</td>
       </tr>
       <tr>
-        <td style="font-weight:500;color:var(--amber)">第1層</td>
+        <td style="font-weight:500;color:var(--amber)">[統制]</td>
         <td style="font-size:11px">意味SSOT / MDM</td>
         <td style="font-size:11px;color:var(--text2)">顧客・契約・用語など「言葉と意味の正本」。AIが事業構造を正しく理解するための環境基盤</td>
         <td style="font-size:11px;color:var(--text2)">顧客定義、商品マスタ、KPI辞書、用語定義</td>
       </tr>
       <tr>
-        <td style="font-weight:500;color:var(--accent)">第2層</td>
+        <td style="font-weight:500;color:var(--accent)">[OPS]</td>
         <td style="font-size:11px">実行SSOT</td>
         <td style="font-size:11px;color:var(--text2)">商談・受注・オンボーディングなど「業務実行の記録」</td>
         <td style="font-size:11px;color:var(--text2)">議事録、契約書、決算書、稟議書</td>
@@ -606,6 +599,63 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
     </tr>
   </tbody>
 </table>
+
+<!-- Section: Phase 0 Security -->
+<div class="section" style="margin-bottom:24px">
+  <div class="section-head"><span class="num">1.4+</span><h2>Phase 0：現行環境セキュリティ暫定措置</h2></div>
+  <div class="section-desc">現行Managed Trustサイトは1サイトに全ファイルが集約されており、経営機密と一般資料が同一権限。移行を待たずに即座に対応する。</div>
+</div>
+
+<div style="background:var(--bg2);border:2px solid var(--coral);border-radius:10px;padding:16px 20px;margin-bottom:16px;">
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+    <span style="font-family:var(--mono);font-size:12px;font-weight:500;color:var(--bg2);background:var(--coral);padding:2px 8px;border-radius:4px;">緊急</span>
+    <span style="font-size:14px;font-weight:500">現行環境のセキュリティ問題</span>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px">
+    <div style="padding:8px 10px;background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.15);border-radius:6px">
+      <div style="font-size:11px;font-weight:500;color:var(--coral);margin-bottom:2px">1サイトに全ファイル集約</div>
+      <div style="font-size:10px;color:var(--text2)">権限分離なし。全社員が経営機密にアクセス可能な状態</div>
+    </div>
+    <div style="padding:8px 10px;background:rgba(220,38,38,0.04);border:1px solid rgba(220,38,38,0.15);border-radius:6px">
+      <div style="font-size:11px;font-weight:500;color:var(--coral);margin-bottom:2px">セキュリティグループ未整備</div>
+      <div style="font-size:10px;color:var(--text2)">個人アカウント直接付与。退職者アクセスが残存している可能性</div>
+    </div>
+  </div>
+  <table class="migration-table" style="margin-bottom:10px">
+    <thead>
+      <tr><th style="width:8%">#</th><th style="width:25%">対応</th><th style="width:50%">内容</th><th style="width:17%">時期</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>0-1</td>
+        <td style="font-size:11px;font-weight:500">アクセス権限の棚卸し</td>
+        <td style="font-size:11px;color:var(--text2)">サイトコレクション管理者・メンバー一覧取得。HR在籍者リストと照合</td>
+        <td style="font-size:11px;color:var(--text2)">6/9</td>
+      </tr>
+      <tr>
+        <td>0-2</td>
+        <td style="font-size:11px;font-weight:500">経営機密フォルダのアクセス制限</td>
+        <td style="font-size:11px;color:var(--text2)">取締役会・IPO・執行役員会議フォルダの権限継承を破壊し、経営層＋管理部門長のみに制限</td>
+        <td style="font-size:11px;color:var(--text2)">6/10</td>
+      </tr>
+      <tr>
+        <td>0-3</td>
+        <td style="font-size:11px;font-weight:500">外部共有リンクの無効化</td>
+        <td style="font-size:11px;color:var(--text2)">不要な外部共有を無効化。業務上必要なもの以外は削除</td>
+        <td style="font-size:11px;color:var(--text2)">6/11</td>
+      </tr>
+      <tr>
+        <td>0-4</td>
+        <td style="font-size:11px;font-weight:500">サイトコレクション管理者を2名に限定</td>
+        <td style="font-size:11px;color:var(--text2)">管理部長＋IT管理責任者の2名のみ。ISMS A.8.2準拠</td>
+        <td style="font-size:11px;color:var(--text2)">6/11</td>
+      </tr>
+    </tbody>
+  </table>
+  <div style="padding:6px 10px;background:rgba(220,38,38,0.06);border-radius:6px;font-size:11px;color:var(--coral)">
+    Phase 0は暫定措置。01_経営管理サイト構築後にサイト分離による恒久的な権限分離に移行
+  </div>
+</div>
 
 <!-- Section: Data Migration Policy -->
 <div class="section" style="margin-bottom:20px">
@@ -1330,13 +1380,13 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
     <tr>
       <td style="font-size:11px;font-weight:500">SSOT本体（確定版）</td>
       <td style="font-size:11px;color:var(--text2)">631ハンドブックV5、事業計画書、IT統制規程、全社規程</td>
-      <td><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2)">第1層</span></td>
+      <td><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2)">[統制]</span></td>
       <td style="font-size:11px;color:var(--teal)">各サイトの所定フォルダ（01_経営管理/21_631戦略、03_管理部門/法務総務、04_IT統制/規程 等）</td>
     </tr>
     <tr>
       <td style="font-size:11px;font-weight:500">インプット（ナレッジ）</td>
       <td style="font-size:11px;color:var(--text2)">MBA書籍PDF、業界調査、参考文献、研修資料、外部セミナー資料</td>
-      <td><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2)">第2層</span></td>
+      <td><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2)">[OPS]</span></td>
       <td style="font-size:11px;color:var(--teal)">05_全社共通/04_ナレッジライブラリ（カテゴリ別：経営戦略/人事/マーケ/IT等）</td>
     </tr>
     <tr>
@@ -1365,7 +1415,7 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
 
 <div style="background:var(--bg2);border:1px solid rgba(220,38,38,0.15);border-left:3px solid var(--coral);border-radius:8px;padding:14px 18px;margin-bottom:10px;">
   <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
-    <span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2)">第1層</span>
+    <span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2)">[統制]</span>
     <span style="font-size:13px;font-weight:500">SSOT本体 → 各サイトの正式な場所</span>
   </div>
   <p style="font-size:12px;color:var(--text2);line-height:1.7">
@@ -1379,7 +1429,7 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
 
 <div style="background:var(--bg2);border:1px solid rgba(37,99,235,0.15);border-left:3px solid var(--accent);border-radius:8px;padding:14px 18px;margin-bottom:10px;">
   <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">
-    <span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2)">第2層</span>
+    <span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2)">[OPS]</span>
     <span style="font-size:13px;font-weight:500">ナレッジ → 05_全社共通/ナレッジライブラリ</span>
   </div>
   <p style="font-size:12px;color:var(--text2);line-height:1.7">
@@ -1598,27 +1648,27 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
     <div class="folder-group">
       <div class="fg-label">取締役会・株主総会</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_取締役会</b> / {YYYY}年{MM}月{DD}日_取締役会</span><span class="f-tag perm-owner">取締役限定</span><span class="f-tag migrate">← 99_REVISE取締役会</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_株主総会</b> / 定時 / 臨時</span><span class="f-tag perm-owner">取締役限定</span><span class="f-tag migrate">← 77_株主総会</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_執行役員会議</b> / {YYYYMMDD}</span><span class="f-tag perm-owner">執行役員以上</span><span class="f-tag migrate">← 98_REVISE執行役員会議</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_取締役会</b> / {YYYY}年{MM}月{DD}日_取締役会</span><span class="f-tag perm-owner">取締役限定</span><span class="f-tag migrate">← 99_REVISE取締役会</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_株主総会</b> / 定時 / 臨時</span><span class="f-tag perm-owner">取締役限定</span><span class="f-tag migrate">← 77_株主総会</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_執行役員会議</b> / {YYYYMMDD}</span><span class="f-tag perm-owner">執行役員以上</span><span class="f-tag migrate">← 98_REVISE執行役員会議</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
       </div>
     </div>
 
     <div class="folder-group">
       <div class="fg-label">IPO準備（一過性のプロジェクト活動記録のみ。規程・統制文書は会社の恒久資産として別管理。IPO完了後はアーカイブ対象）</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>10_IPO推進</b> / 00_週次打合せ / {YYYYMMDD}</span><span class="f-tag perm-owner">IPO推進メンバー</span><span class="f-tag migrate">← IPO_PJ全体</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>10_IPO推進</b> / 01_ショートレビュー</span><span class="f-tag perm-owner">IPO推進メンバー</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>10_IPO推進</b> / 02_吸収合併</span><span class="f-tag perm-owner">IPO推進メンバー</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>10_IPO推進</b> / 03_監査法人提出資料</span><span class="f-tag perm-owner">IPO推進メンバー</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>10_IPO推進</b> / 00_週次打合せ / {YYYYMMDD}</span><span class="f-tag perm-owner">IPO推進メンバー</span><span class="f-tag migrate">← IPO_PJ全体</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>10_IPO推進</b> / 01_ショートレビュー</span><span class="f-tag perm-owner">IPO推進メンバー</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>10_IPO推進</b> / 02_吸収合併</span><span class="f-tag perm-owner">IPO推進メンバー</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>10_IPO推進</b> / 03_監査法人提出資料</span><span class="f-tag perm-owner">IPO推進メンバー</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
       </div>
     </div>
 
     <div class="folder-group">
       <div class="fg-label">事業計画・経営戦略</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>20_事業計画</b> / {N}期事業計画</span><span class="f-tag perm-owner">経営層限定</span><span class="f-tag migrate">← 01_事業計画</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>21_631戦略</b> / SSOT成果物 / ハンドブック</span><span class="f-tag perm-owner">経営層＋631推進</span><span class="f-tag migrate">← 09_631関連</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>20_事業計画</b> / {N}期事業計画</span><span class="f-tag perm-owner">経営層限定</span><span class="f-tag migrate">← 01_事業計画</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>21_631戦略</b> / SSOT成果物 / ハンドブック</span><span class="f-tag perm-owner">経営層＋631推進</span><span class="f-tag migrate">← 09_631関連</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
       </div>
     </div>
   </div>
@@ -1644,15 +1694,15 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
     <div class="folder-group">
       <div class="fg-label">部門別ドキュメント（各部門長がオーナー）</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>BPO運営部</b> / 加盟店個別 / {店舗コード}_{店舗名}</span><span class="f-tag perm-dept">BPO運営部</span><span class="f-tag migrate">← REVISE/3.加盟店個別</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>BPO運営部</b> / プール金管理</span><span class="f-tag perm-dept">BPO運営部</span><span class="f-tag migrate">← REQUEST/修理関連</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>BPO運営部</b> / メール対応管理</span><span class="f-tag perm-dept">BPO運営部</span><span class="f-tag migrate">← REQUEST</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>営業推進部</b> / 01_提案資料（共通テンプレート）</span><span class="f-tag perm-dept">営業推進部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>営業推進部</b> / 02_案件管理 / {案件名 or パートナー名}</span><span class="f-tag perm-dept">営業推進部</span><span class="f-tag migrate">← 41_ヤマダデンキ, 63_インターゾーン, 106.カーセンサー等</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>営業推進部</b> / 03_契約書管理</span><span class="f-tag perm-dept">営業推進部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / mobicon / 開発関連資料</span><span class="f-tag perm-dept">開発部</span><span class="f-tag migrate">← 01_mobicon</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / BI / データ取込 / ウォレット明細</span><span class="f-tag perm-dept">開発部</span><span class="f-tag migrate">← 03_BI</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>データ分析</b> / セグメント分析 / Mobiconローデータ</span><span class="f-tag perm-dept">分析担当</span><span class="f-tag migrate">← Retool</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>BPO運営部</b> / 加盟店個別 / {店舗コード}_{店舗名}</span><span class="f-tag perm-dept">BPO運営部</span><span class="f-tag migrate">← REVISE/3.加盟店個別</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>BPO運営部</b> / プール金管理</span><span class="f-tag perm-dept">BPO運営部</span><span class="f-tag migrate">← REQUEST/修理関連</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>BPO運営部</b> / メール対応管理</span><span class="f-tag perm-dept">BPO運営部</span><span class="f-tag migrate">← REQUEST</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>営業推進部</b> / 01_提案資料（共通テンプレート）</span><span class="f-tag perm-dept">営業推進部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>営業推進部</b> / 02_案件管理 / {案件名 or パートナー名}</span><span class="f-tag perm-dept">営業推進部</span><span class="f-tag migrate">← 41_ヤマダデンキ, 63_インターゾーン, 106.カーセンサー等</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>営業推進部</b> / 03_契約書管理</span><span class="f-tag perm-dept">営業推進部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / mobicon / 開発関連資料</span><span class="f-tag perm-dept">開発部</span><span class="f-tag migrate">← 01_mobicon</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / BI / データ取込 / ウォレット明細</span><span class="f-tag perm-dept">開発部</span><span class="f-tag migrate">← 03_BI</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>データ分析</b> / セグメント分析 / Mobiconローデータ</span><span class="f-tag perm-dept">分析担当</span><span class="f-tag migrate">← Retool</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
       </div>
 
       <div style="background:var(--bg2);border:1px solid rgba(124,58,237,0.15);border-left:3px solid var(--purple);border-radius:8px;padding:14px 18px;margin:12px 0 16px;">
@@ -1661,8 +1711,8 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
         <ul style="font-size:12px;color:var(--text2);padding-left:16px;margin:0">
           <li style="margin-bottom:4px"><b>番号体系を廃止</b>：「41_」「63_」「106.」等の連番はSharePoint上では無意味。案件名またはパートナー名で統一</li>
           <li style="margin-bottom:4px"><b>プロセスのアウトプットのみ移行</b>：契約書・提案書・月次報告・MTG議事録等の成果物を移行対象とし、車両画像・作業ファイル・個人メモは移行しない</li>
-          <li style="margin-bottom:4px"><b>契約書は営業推進部/03_契約書管理に集約</b><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span>：J-SOX取引証憑管理の要求。パートナー別フォルダには参照リンクのみ</li>
-          <li style="margin-bottom:4px"><b>案件管理は営業推進部/02_案件管理に統合</b><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span>：商談・提案・PJ資料はプロセスのアウトプットとして管理</li>
+          <li style="margin-bottom:4px"><b>契約書は営業推進部/03_契約書管理に集約</b><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span>：J-SOX取引証憑管理の要求。パートナー別フォルダには参照リンクのみ</li>
+          <li style="margin-bottom:4px"><b>案件管理は営業推進部/02_案件管理に統合</b><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span>：商談・提案・PJ資料はプロセスのアウトプットとして管理</li>
         </ul>
       </div>
     </div>
@@ -1670,27 +1720,27 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
     <div class="folder-group">
       <div class="fg-label">システム開発資料（「作る過程」のドキュメント ― 開発チームが管理）</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 01_要件定義 / {プロジェクト名} / 要件定義書</span><span class="f-tag perm-dept">開発部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 02_設計 / 基本設計書 / 詳細設計書 / DB設計書</span><span class="f-tag perm-dept">開発部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 03_テスト / テスト仕様書 / テスト結果報告書</span><span class="f-tag perm-dept">開発部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 04_リリース / リリースノート / 変更管理記録</span><span class="f-tag perm-dept">開発部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 05_運用 / 障害対応記録 / 監視設定</span><span class="f-tag perm-dept">開発部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 06_MTG議事録 / {YYYYMMDD}</span><span class="f-tag perm-dept">開発部</span><span class="f-tag migrate">← 03_BI/MTG議事録</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 07_開発工数記録 / {YYYYMM}_工数実績</span><span class="f-tag perm-dept">開発部</span><span class="f-desc">※ 元データ。確定版は03_管理部門へ</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 01_要件定義 / {プロジェクト名} / 要件定義書</span><span class="f-tag perm-dept">開発部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 02_設計 / 基本設計書 / 詳細設計書 / DB設計書</span><span class="f-tag perm-dept">開発部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 03_テスト / テスト仕様書 / テスト結果報告書</span><span class="f-tag perm-dept">開発部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 04_リリース / リリースノート / 変更管理記録</span><span class="f-tag perm-dept">開発部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 05_運用 / 障害対応記録 / 監視設定</span><span class="f-tag perm-dept">開発部</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 06_MTG議事録 / {YYYYMMDD}</span><span class="f-tag perm-dept">開発部</span><span class="f-tag migrate">← 03_BI/MTG議事録</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>プロダクト開発部</b> / 07_開発工数記録 / {YYYYMM}_工数実績</span><span class="f-tag perm-dept">開発部</span><span class="f-desc">※ 元データ。確定版は03_管理部門へ</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
       </div>
     </div>
 
     <div class="folder-group">
       <div class="fg-label">パートナー・金融機関</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>パートナー</b> / 三菱UFJ / AD損保 / アプラス</span><span class="f-tag perm-dept">関連部門</span><span class="f-tag migrate">← 66_三菱UFJ, 18_AD損保</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>パートナー</b> / 三菱UFJ / AD損保 / アプラス</span><span class="f-tag perm-dept">関連部門</span><span class="f-tag migrate">← 66_三菱UFJ, 18_AD損保</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
       </div>
     </div>
 
     <div class="folder-group">
       <div class="fg-label">補助金・助成金</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>補助金</b> / {補助金名}_{YYYYMM} / 受領資料 / 成果物 / 申請書類</span><span class="f-tag perm-dept">管理部門</span><span class="f-tag migrate">← 109.補助金</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>補助金</b> / {補助金名}_{YYYYMM} / 受領資料 / 成果物 / 申請書類</span><span class="f-tag perm-dept">管理部門</span><span class="f-tag migrate">← 109.補助金</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
       </div>
     </div>
   </div>
@@ -1717,13 +1767,13 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
     <div class="folder-group">
       <div class="fg-label">財務・経理</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / 決算書類 / {期}</span><span class="f-tag perm-owner">経理担当＋CFO</span><span class="f-tag migrate">← BACKOFFICE/財務・経理</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / 銀行借入 / {金融機関名}</span><span class="f-tag perm-owner">経理担当＋CFO</span><span class="f-tag migrate">← クレディセゾン等</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / 会計データ / MF資料 / {YYYYMM}</span><span class="f-tag perm-owner">経理担当</span><span class="f-tag migrate">← 12_会計関連</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / 支払処理 / {YYYYMM}</span><span class="f-tag perm-owner">経理担当</span><span class="f-tag migrate">← 松尾さん支払処理用</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / BPO費内訳</span><span class="f-tag perm-owner">経理＋BPO運営</span><span class="f-tag migrate">← REVISE/事業計画</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / ファクタリング</span><span class="f-tag perm-owner">経理担当＋CFO</span><span class="f-tag migrate">← ManagedTrustClosed</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / 収納代行 / バーチャル口座</span><span class="f-tag perm-owner">経理担当</span><span class="f-tag migrate">← リバイス合同会社</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / 決算書類 / {期}</span><span class="f-tag perm-owner">経理担当＋CFO</span><span class="f-tag migrate">← BACKOFFICE/財務・経理</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / 銀行借入 / {金融機関名}</span><span class="f-tag perm-owner">経理担当＋CFO</span><span class="f-tag migrate">← クレディセゾン等</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / 会計データ / MF資料 / {YYYYMM}</span><span class="f-tag perm-owner">経理担当</span><span class="f-tag migrate">← 12_会計関連</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / 支払処理 / {YYYYMM}</span><span class="f-tag perm-owner">経理担当</span><span class="f-tag migrate">← 松尾さん支払処理用</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / BPO費内訳</span><span class="f-tag perm-owner">経理＋BPO運営</span><span class="f-tag migrate">← REVISE/事業計画</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / ファクタリング</span><span class="f-tag perm-owner">経理担当＋CFO</span><span class="f-tag migrate">← ManagedTrustClosed</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_財務経理</b> / 収納代行 / バーチャル口座</span><span class="f-tag perm-owner">経理担当</span><span class="f-tag migrate">← リバイス合同会社</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
       </div>
     </div>
 
@@ -1740,35 +1790,35 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
     <div class="folder-group">
       <div class="fg-label">ソフトウェア資産管理（「評価する」ドキュメント ― 経理部門が管理）</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_ソフトウェア資産</b> / 資産台帳 / SW資産台帳_{YYYY}</span><span class="f-tag perm-owner">経理担当＋CFO</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_ソフトウェア資産</b> / 資産計上判断 / {案件名}_稟議書・承認記録</span><span class="f-tag perm-owner">経理担当＋CFO</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_ソフトウェア資産</b> / 開発工数集計（確定版） / {YYYYMM}_確定工数</span><span class="f-tag perm-owner">経理担当</span><span class="f-desc">※ 02側の元データを経理承認後に格納</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_ソフトウェア資産</b> / 原価按分計算書 / {期}_{案件名}</span><span class="f-tag perm-owner">経理担当＋CFO</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_ソフトウェア資産</b> / 減価償却スケジュール</span><span class="f-tag perm-owner">経理担当＋CFO</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_ソフトウェア資産</b> / 外注費根拠 / {外注先名}_{YYYYMM}</span><span class="f-tag perm-owner">経理担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_ソフトウェア資産</b> / 資産台帳 / SW資産台帳_{YYYY}</span><span class="f-tag perm-owner">経理担当＋CFO</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_ソフトウェア資産</b> / 資産計上判断 / {案件名}_稟議書・承認記録</span><span class="f-tag perm-owner">経理担当＋CFO</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_ソフトウェア資産</b> / 開発工数集計（確定版） / {YYYYMM}_確定工数</span><span class="f-tag perm-owner">経理担当</span><span class="f-desc">※ 02側の元データを経理承認後に格納</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_ソフトウェア資産</b> / 原価按分計算書 / {期}_{案件名}</span><span class="f-tag perm-owner">経理担当＋CFO</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_ソフトウェア資産</b> / 減価償却スケジュール</span><span class="f-tag perm-owner">経理担当＋CFO</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_ソフトウェア資産</b> / 外注費根拠 / {外注先名}_{YYYYMM}</span><span class="f-tag perm-owner">経理担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
       </div>
     </div>
 
     <div class="folder-group">
       <div class="fg-label">人事・採用</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_人事労務</b> / 採用 / 応募者管理 / {候補者名}</span><span class="f-tag perm-owner">人事担当</span><span class="f-tag migrate">← RebootTower/採用</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_人事労務</b> / 健康診断 / {YYYY}年</span><span class="f-tag perm-owner">人事担当</span><span class="f-tag migrate">← Re!Boot.事業協同組合</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_人事労務</b> / 面談資料</span><span class="f-tag perm-owner">人事＋部門長</span><span class="f-tag migrate">← Retool/チーフ面談</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_人事労務</b> / 社内制度 / マニュアル</span><span class="f-tag perm-all">全社閲覧</span><span class="f-tag migrate">← Re!Boot.事業協同組合</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_人事労務</b> / 採用 / 応募者管理 / {候補者名}</span><span class="f-tag perm-owner">人事担当</span><span class="f-tag migrate">← RebootTower/採用</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_人事労務</b> / 健康診断 / {YYYY}年</span><span class="f-tag perm-owner">人事担当</span><span class="f-tag migrate">← Re!Boot.事業協同組合</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_人事労務</b> / 面談資料</span><span class="f-tag perm-owner">人事＋部門長</span><span class="f-tag migrate">← Retool/チーフ面談</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_人事労務</b> / 社内制度 / マニュアル</span><span class="f-tag perm-all">全社閲覧</span><span class="f-tag migrate">← Re!Boot.事業協同組合</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
       </div>
     </div>
 
     <div class="folder-group">
       <div class="fg-label">全社規程（原本管理 ― 法務総務が管理責任を持つ会社の恒久資産）</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / 就業規則</span><span class="f-tag perm-owner">法務担当</span><span class="f-tag migrate">← IPO_PJ/規程関係</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / 組織規程</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / 経理規程</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / 取締役会規程</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / 内部監査規程</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / その他規程</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / 改訂履歴・承認記録</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / 就業規則</span><span class="f-tag perm-owner">法務担当</span><span class="f-tag migrate">← IPO_PJ/規程関係</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / 組織規程</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / 経理規程</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / 取締役会規程</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / 内部監査規程</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / その他規程</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 01_全社規程（原本） / 改訂履歴・承認記録</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
       </div>
     </div>
 
@@ -1790,22 +1840,22 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
     <div class="folder-group">
       <div class="fg-label">法務・総務（その他）</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 02_契約書管理</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 03_登記関連</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>04_広報</b> / 帝国データ / プレスリリース</span><span class="f-tag perm-dept">広報担当</span><span class="f-tag migrate">← 89_広報関連</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 02_契約書管理</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_法務総務</b> / 03_登記関連</span><span class="f-tag perm-owner">法務担当</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>04_広報</b> / 帝国データ / プレスリリース</span><span class="f-tag perm-dept">広報担当</span><span class="f-tag migrate">← 89_広報関連</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
       </div>
     </div>
 
     <div class="folder-group">
       <div class="fg-label">内部統制（J-SOX 3点セット ― 内部監査部門/管理部門が管理）</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 01_販売プロセス / 業務記述書 / 業務フローチャート / RCM</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 02_購買プロセス / 業務記述書 / 業務フローチャート / RCM</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 03_経理・決算プロセス / 業務記述書 / 業務フローチャート / RCM</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 04_人事・給与プロセス / 業務記述書 / 業務フローチャート / RCM</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 05_BPO運営プロセス / 業務記述書 / 業務フローチャート / RCM</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 99_全社的内部統制 / 統制環境評価 / リスク評価</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 内部統制報告書 / {期}_評価結果</span><span class="f-tag perm-owner">内部監査＋CFO</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 01_販売プロセス / 業務記述書 / 業務フローチャート / RCM</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 02_購買プロセス / 業務記述書 / 業務フローチャート / RCM</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 03_経理・決算プロセス / 業務記述書 / 業務フローチャート / RCM</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 04_人事・給与プロセス / 業務記述書 / 業務フローチャート / RCM</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 05_BPO運営プロセス / 業務記述書 / 業務フローチャート / RCM</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 99_全社的内部統制 / 統制環境評価 / リスク評価</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_内部統制</b> / 内部統制報告書 / {期}_評価結果</span><span class="f-tag perm-owner">内部監査＋CFO</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
       </div>
     </div>
 
@@ -1849,38 +1899,38 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
     <div class="folder-group">
       <div class="fg-label">ISMS文書体系（ISO 27001:2022）</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_ISMS</b> / マネジメントシステムマニュアル</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_ISMS</b> / 情報セキュリティマニュアル</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_ISMS</b> / 適用宣言書</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_ISMS</b> / リスクアセスメント / 情報資産台帳</span><span class="f-tag perm-owner">ISMS事務局</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_ISMS</b> / 内部監査 / {YYYY}年度</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_ISMS</b> / マネジメントレビュー</span><span class="f-tag perm-owner">経営層</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_ISMS</b> / マネジメントシステムマニュアル</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_ISMS</b> / 情報セキュリティマニュアル</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_ISMS</b> / 適用宣言書</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_ISMS</b> / リスクアセスメント / 情報資産台帳</span><span class="f-tag perm-owner">ISMS事務局</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_ISMS</b> / 内部監査 / {YYYY}年度</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_ISMS</b> / マネジメントレビュー</span><span class="f-tag perm-owner">経営層</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
       </div>
     </div>
 
     <div class="folder-group">
       <div class="fg-label">IT統制規程（J-SOX）</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / 情報セキュリティ基本方針</span><span class="f-tag perm-all">全社閲覧</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / 情報システム管理規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / アクセス管理規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / 開発管理規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / IT運用管理規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / 外部委託管理規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / インシデント対応規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / BCP・DR規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / 情報セキュリティ基本方針</span><span class="f-tag perm-all">全社閲覧</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / 情報システム管理規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / アクセス管理規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / 開発管理規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / IT運用管理規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / 外部委託管理規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / インシデント対応規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_IT統制規程</b> / BCP・DR規程</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
       </div>
     </div>
 
     <div class="folder-group">
       <div class="fg-label">監査証跡・SOC</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_監査証跡</b> / アクセス権限棚卸 / {YYYY}Q{N}</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_監査証跡</b> / 変更管理記録</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>04_SOCレポート</b> / 委託先SOC / {サービス名}_{YYYY}</span><span class="f-tag perm-owner">IT管理責任者</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>04_SOCレポート</b> / 自社SOC / Type1 / Type2</span><span class="f-tag perm-owner">IT管理責任者</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_セキュリティ教育</b> / 研修記録 / 訓練結果</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_IT資産管理</b> / 端末台帳 / ライセンス一覧</span><span class="f-tag perm-owner">IT管理責任者</span><span class="f-tag migrate">← Leaders業務用</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_監査証跡</b> / アクセス権限棚卸 / {YYYY}Q{N}</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_監査証跡</b> / 変更管理記録</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>04_SOCレポート</b> / 委託先SOC / {サービス名}_{YYYY}</span><span class="f-tag perm-owner">IT管理責任者</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>04_SOCレポート</b> / 自社SOC / Type1 / Type2</span><span class="f-tag perm-owner">IT管理責任者</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_セキュリティ教育</b> / 研修記録 / 訓練結果</span><span class="f-tag perm-audit">監査対応</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_IT資産管理</b> / 端末台帳 / ライセンス一覧</span><span class="f-tag perm-owner">IT管理責任者</span><span class="f-tag migrate">← Leaders業務用</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
       </div>
     </div>
   </div>
@@ -1906,15 +1956,15 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
     <div class="folder-group">
       <div class="fg-label">全社共通</div>
       <div class="folder-tree">
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_社内規程（公開版・読取専用）</b> / 就業規則 / 組織規程 / 経理規程 等</span><span class="f-tag perm-all">全社閲覧</span><span class="f-desc">※ 原本は03_管理部門/法務総務が管理。ここは閲覧用コピー</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">第1層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_テンプレート</b> / 帳票 / 報告書 / 稟議書</span><span class="f-tag perm-all">全社閲覧</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_教育研修</b> / セキュリティハンドブック / 新入社員研修</span><span class="f-tag perm-all">全社閲覧</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>04_ナレッジライブラリ</b> / 経営戦略 / 人事・組織 / マーケティング / IT・開発 / 業界知識</span><span class="f-tag perm-all">全社閲覧</span><span class="f-tag migrate">← 09_631関連/03_SSOT成果物ファイル/03.自炊データPDF</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>01_社内規程（公開版・読取専用）</b> / 就業規則 / 組織規程 / 経理規程 等</span><span class="f-tag perm-all">全社閲覧</span><span class="f-desc">※ 原本は03_管理部門/法務総務が管理。ここは閲覧用コピー</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(220,38,38,0.08);color:var(--coral);border:1px solid rgba(220,38,38,0.2);margin-left:4px">[統制]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>02_テンプレート</b> / 帳票 / 報告書 / 稟議書</span><span class="f-tag perm-all">全社閲覧</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>03_教育研修</b> / セキュリティハンドブック / 新入社員研修</span><span class="f-tag perm-all">全社閲覧</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>04_ナレッジライブラリ</b> / 経営戦略 / 人事・組織 / マーケティング / IT・開発 / 業界知識</span><span class="f-tag perm-all">全社閲覧</span><span class="f-tag migrate">← 09_631関連/03_SSOT成果物ファイル/03.自炊データPDF</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
         <div class="folder-item" style="padding-left:32px;font-size:11px;color:var(--text3);border-left:2px solid var(--border);margin-left:12px">
           SSOTを「作る」ためのインプット材料。MBA書籍・業界調査・参考文献・外部セミナー資料をカテゴリ別に格納。全社員が閲覧可能。AI壁打ちの参照元としても活用。
         </div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_社内コミュニケーション</b> / イベント / 社内報</span><span class="f-tag perm-all">全社閲覧</span><span class="f-tag migrate">← Re!Boot.事業協同組合</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
-        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_業務マニュアル</b> / 部門別SOP</span><span class="f-tag perm-all">全社閲覧</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>05_社内コミュニケーション</b> / イベント / 社内報</span><span class="f-tag perm-all">全社閲覧</span><span class="f-tag migrate">← Re!Boot.事業協同組合</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
+        <div class="folder-item"><span class="f-icon">📁</span><span class="f-name"><b>06_業務マニュアル</b> / 部門別SOP</span><span class="f-tag perm-all">全社閲覧</span><span style="font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></div>
       </div>
     </div>
   </div>
@@ -1949,8 +1999,8 @@ body { background:var(--bg); color:var(--text); font-family:var(--font); line-he
     <tr><td class="from">Managed Trust / 00_MT事業運営 / 09_631関連</td><td class="to">01_経営管理 / 21_631戦略</td><td><span class="action-tag move">移行</span></td><td style="font-size:11px;color:var(--text2)">最新版統合ハンドブック等</td></tr>
     <tr><td class="from">REVISE / 3.加盟店個別</td><td class="to">02_業務共通 / BPO運営部 / 加盟店個別</td><td><span class="action-tag move">移行</span></td><td style="font-size:11px;color:var(--text2)">取引中の加盟店のみ。解約済みはアーカイブ</td></tr>
     <tr><td class="from">REQUEST（全体）</td><td class="to">02_業務共通 / BPO運営部</td><td><span class="action-tag move">移行</span></td><td style="font-size:11px;color:var(--text2)">プール金試算・未払いリスト等の現行ファイルのみ</td></tr>
-    <tr><td class="from">Managed Trust / 41_ヤマダデンキ</td><td class="to">02_業務共通 / 営業推進部 / 02_案件管理 / ヤマダデンキ</td><td><span class="action-tag move">移行</span></td><td style="font-size:11px;color:var(--text2)">プロセスのアウトプット（提案書・報告書・議事録）のみ移行<span style="font-family:var(--mono);font-size:9px;padding:1px 4px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></td></tr>
-    <tr><td class="from">Managed Trust / 63_インターゾーン</td><td class="to">02_業務共通 / 営業推進部 / 02_案件管理 / インターゾーン</td><td><span class="action-tag move">移行</span></td><td style="font-size:11px;color:var(--text2)">YAS関連の成果物のみ移行<span style="font-family:var(--mono);font-size:9px;padding:1px 4px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">第2層</span></td></tr>
+    <tr><td class="from">Managed Trust / 41_ヤマダデンキ</td><td class="to">02_業務共通 / 営業推進部 / 02_案件管理 / ヤマダデンキ</td><td><span class="action-tag move">移行</span></td><td style="font-size:11px;color:var(--text2)">プロセスのアウトプット（提案書・報告書・議事録）のみ移行<span style="font-family:var(--mono);font-size:9px;padding:1px 4px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></td></tr>
+    <tr><td class="from">Managed Trust / 63_インターゾーン</td><td class="to">02_業務共通 / 営業推進部 / 02_案件管理 / インターゾーン</td><td><span class="action-tag move">移行</span></td><td style="font-size:11px;color:var(--text2)">YAS関連の成果物のみ移行<span style="font-family:var(--mono);font-size:9px;padding:1px 4px;border-radius:3px;background:rgba(37,99,235,0.08);color:var(--accent);border:1px solid rgba(37,99,235,0.2);margin-left:4px">[OPS]</span></td></tr>
     <tr><td class="from">Managed Trust / 01_mobicon, 03_BI</td><td class="to">02_業務共通 / プロダクト開発部</td><td><span class="action-tag move">移行</span></td><td style="font-size:11px;color:var(--text2)">開発関連資料・BI議事録・設計書・テスト結果等。開発プロセスの記録</td></tr>
     <tr><td class="from">（開発工数集計の確定版）</td><td class="to">03_管理部門 / 05_ソフトウェア資産</td><td><span class="action-tag move">新規</span></td><td style="font-size:11px;color:var(--text2)">経理承認済みの工数確定版・資産計上判断・原価按分・償却スケジュール。J-SOX職務分掌の要件</td></tr>
     <tr><td class="from">Managed Trust / 109.補助金</td><td class="to">02_業務共通 / 補助金</td><td><span class="action-tag move">移行</span></td><td style="font-size:11px;color:var(--text2)">申請中・採択済みのみ</td></tr>
