@@ -433,6 +433,25 @@ function getESTopics(gid) {
   return _esGidMap[gid] || [];
 }
 
+// Display override: which ES topics to show as dots/tags for each meeting MS
+// (taskGids above is for filtering — all meetings appear under any ES filter)
+var MEETING_ES_DISPLAY = {
+  '1215509246860095': ['ES-01','ES-03','ES-04'],  // 第4回: ES-1クローズ, ES-3具体化, ES-4具体化
+  '1215509247201557': ['ES-02','ES-03','ES-04'],  // 第5回: ES-2具体化, ES-3エビデンス, ES-4エビデンス
+  '1215509239344664': ['ES-02','ES-03','ES-04'],  // 第6回: ES-2エビデンス, ES-3クローズ判定, ES-4クローズ判定
+  '1215509493565667': ['ES-03','ES-04'],           // 第7回: ES-3クローズ, ES-4クローズ判定
+  '1215509494149155': ['ES-02','ES-04'],           // 第8回: ES-2最終検証, ES-4クローズ
+  '1215508968999140': ['ES-01','ES-03','ES-04'],  // 第4回 prep
+  '1215508999920105': ['ES-02','ES-03','ES-04'],  // 第5回 prep
+  '1215508913174322': ['ES-02','ES-03','ES-04'],  // 第6回 prep
+  '1215508945664398': ['ES-03','ES-04'],           // 第7回 prep
+  '1215508945739910': ['ES-02','ES-04']            // 第8回 prep
+};
+
+function getESDisplay(gid) {
+  return MEETING_ES_DISPLAY[gid] || getESTopics(gid);
+}
+
 var ASANA_BASE = 'https://app.asana.com/api/1.0';
 var DATA = [], SUBTASKS = {}, FILTERED = [], lastFetchTime = null, activePresets = {};
 var _pat = '';
@@ -670,7 +689,8 @@ function parseTask(raw, projInfo) {
     projShort:projInfo.short,
     projColor:projInfo.color,
     projGid:projInfo.gid,
-    es:getESTopics(raw.gid)
+    es:getESTopics(raw.gid),
+    esDisplay:getESDisplay(raw.gid)
   };
 }
 
@@ -901,13 +921,14 @@ function buildBody(){
       var dot=document.createElement('div');dot.className='status-dot '+getStatusClass(task);nd.appendChild(dot);
       if(task.t==='milestone'){var msi=document.createElement('div');msi.className='ms-icon';nd.appendChild(msi);}
 
-      // ES topic colored dot(s)
-      if(task.es && task.es.length > 0){
-        for(var ei=0; ei<task.es.length; ei++){
+      // ES topic colored dot(s) — use esDisplay for visual, es for filtering
+      var esShow=task.esDisplay||task.es;
+      if(esShow && esShow.length > 0){
+        for(var ei=0; ei<esShow.length; ei++){
           var esDot=document.createElement('span');
           esDot.className='es-dot';
-          esDot.style.background=ES_TOPICS[task.es[ei]].color;
-          esDot.title=ES_TOPICS[task.es[ei]].name;
+          esDot.style.background=ES_TOPICS[esShow[ei]].color;
+          esDot.title=ES_TOPICS[esShow[ei]].name;
           nd.appendChild(esDot);
         }
       }
@@ -931,10 +952,11 @@ function buildBody(){
 
       // ES topic column
       var esCol=document.createElement('div');esCol.className='col-es';
-      if(task.es && task.es.length > 0){
-        for(var ei=0; ei<task.es.length; ei++){
+      var esShow2=task.esDisplay||task.es;
+      if(esShow2 && esShow2.length > 0){
+        for(var ei=0; ei<esShow2.length; ei++){
           var etag=document.createElement('span');etag.className='es-tag';
-          var ek=task.es[ei];
+          var ek=esShow2[ei];
           etag.textContent=ek.replace('ES-0','ES');
           etag.style.background=ES_TOPICS[ek].color+'22';
           etag.style.color=ES_TOPICS[ek].color;
@@ -988,9 +1010,10 @@ function showTooltip(task,e){
   lines.push('ステータス: '+getStatusLabel(task));
   if(task.t==='milestone')lines.push('種別: マイルストーン');
   if(task.tag)lines.push('タグ: '+task.tag);
-  // ES topic info in tooltip
-  if(task.es && task.es.length > 0){
-    var esLabels = task.es.map(function(k){
+  // ES topic info in tooltip — use esDisplay for visual
+  var esShowTT=task.esDisplay||task.es;
+  if(esShowTT && esShowTT.length > 0){
+    var esLabels = esShowTT.map(function(k){
       return '<span style="color:'+ES_TOPICS[k].color+';font-weight:700">●</span> '+ES_TOPICS[k].name;
     });
     lines.push('ESトピック: '+esLabels.join(', '));
