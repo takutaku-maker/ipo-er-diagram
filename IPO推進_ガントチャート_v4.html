@@ -68,9 +68,6 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .preset-btn.es-topic { background:#F3E8FF; color:#6D28D9; border-color:#8B5CF6; }
 .preset-btn.es-topic:hover { background:#EDE9FE; }
 .preset-btn.es-topic.active { background:#8B5CF6; color:#fff; }
-.preset-btn.kitei { background:#EDE7F6; color:#4527A0; border-color:#7A6FF0; }
-.preset-btn.kitei:hover { background:#D1C4E9; }
-.preset-btn.kitei.active { background:#7A6FF0; color:#fff; }
 .filter-divider { width:1px; height:24px; background:var(--midGray); margin:0 4px; }
 .multi-select-wrap { position:relative; display:inline-block; }
 .multi-select-btn { font-family:'Noto Sans JP',sans-serif; font-size:12px; padding:4px 24px 4px 8px; border:1px solid var(--midGray); border-radius:4px; background:var(--white); color:var(--dark); cursor:pointer; min-width:120px; text-align:left; position:relative; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px; }
@@ -302,7 +299,6 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
     <button class="preset-btn urgent" id="presetUrgent" title="期日超過タスクのみ">&#x1F534; 期日超過</button>
     <button class="preset-btn active-tasks" id="presetActive" title="仕掛中タスクのみ">&#x26A1; 仕掛中</button>
     <button class="preset-btn es-topic" id="presetES" title="SR指摘ESトピック関連タスクのみ">&#x1F4CA; ESトピック</button>
-    <button class="preset-btn kitei" id="presetKitei" title="【規程】タスクのみ表示">&#x1F4DC; 規程</button>
   </div>
   <div class="filter-divider"></div>
   <div class="filter-group">
@@ -367,11 +363,12 @@ var ES_TOPICS = {
       '1214138129691617','1214110941333253','1213943998432899','1213541079865020',
       '1213541079155116','1213541079865019','1214138129823641','1214057893983662',
       '1214057741582773','1214057983923125',
-      '1214722912601255',
       '1214635066837831','1214635019264425','1214635019379988',
       '1214691712986402','1214669736742474','1214691713097963','1214695377105357','1214696931131519',
-      '1214696931026577','1214669736915591'
-    ]
+      '1214696931026577','1214669736915591',
+      '1215508945739878','1215509000544083','1215508969825488'
+    ,
+      '1215509246860095','1215509247201557','1215509239344664','1215509493565667','1215509494149155','1215508968999140','1215508999920105','1215508913174322','1215508945664398','1215508945739910']
   },
   'ES-02': {
     name: 'ES-02 売上証跡管理',
@@ -381,10 +378,11 @@ var ES_TOPICS = {
       '1213528680128600','1214110941335856','1214628738581109','1214628738405278',
       '1214628738156678','1214628661965020','1214110941332177','1214108313608049',
       '1214057902087480',
-      '1214722912859792','1214108313607857','1214112877350931','1214723324235071',
       '1214635066837831','1214635019264425','1214635019379988',
-      '1214669736916713','1214696931026577','1214669736915591'
-    ]
+      '1214669736916713','1214696931026577','1214669736915591',
+      '1215508996695535','1215508946530133','1215508914042311','1215508946548249'
+    ,
+      '1215509246860095','1215509247201557','1215509239344664','1215509493565667','1215509494149155','1215508968999140','1215508999920105','1215508913174322','1215508945664398','1215508945739910']
   },
   'ES-03': {
     name: 'ES-03 収益認識',
@@ -394,10 +392,11 @@ var ES_TOPICS = {
       '1213528680128601','1214628969548690','1214628881675903','1214628661967833',
       '1214628662014792','1214628881677222','1214153027269595','1214112877237873',
       '1213541079155108',
-      '1214723080988416','1214722897493445','1214722912707449','1214057902087416','1214723324235071',
       '1214635066837831','1214635019264425','1214635019379988',
-      '1214669736638184','1214696931026577','1214669736915591'
-    ]
+      '1214669736638184','1214696931026577','1214669736915591',
+      '1215508912365895','1215508997961925','1215508995774614','1215508946444480'
+    ,
+      '1215509246860095','1215509247201557','1215509239344664','1215509493565667','1215509494149155','1215508968999140','1215508999920105','1215508913174322','1215508945664398','1215508945739910']
   },
   'ES-04': {
     name: 'ES-04 ソフトウェア',
@@ -408,10 +407,11 @@ var ES_TOPICS = {
       '1214628930570402','1214628661996707','1214628738462497','1214628738581273',
       '1214108313608305','1214057902087199','1213941495745309',
       '1214629250997420',
-      '1214722912466212','1214722912709773','1214722956086333','1214057902087416',
       '1214635066837831','1214635019264425','1214635019379988',
-      '1214696931026577','1214669736915591'
-    ]
+      '1214696931026577','1214669736915591',
+      '1215508967859788','1215508914211812'
+    ,
+      '1215509246860095','1215509247201557','1215509239344664','1215509493565667','1215509494149155','1215508968999140','1215508999920105','1215508913174322','1215508945664398','1215508945739910']
   }
 };
 
@@ -463,13 +463,12 @@ async function loadStatusOptions() {
 }
 
 var _members = [];
-var MEMBER_PROJECTS = ['1213287000499922'].concat(PROJECTS.map(function(p){return p.gid;}));
 async function loadMembers() {
   var seen = {};
   _members = [];
-  for(var i=0; i<MEMBER_PROJECTS.length; i++){
+  for(var i=0; i<PROJECTS.length; i++){
     try {
-      var res = await fetch(ASANA_BASE+'/projects/'+MEMBER_PROJECTS[i]+'/members',{headers:{'Authorization':'Bearer '+getPAT()}});
+      var res = await fetch(ASANA_BASE+'/projects/'+PROJECTS[i].gid+'/members',{headers:{'Authorization':'Bearer '+getPAT()}});
       if(res.ok){
         var json = await res.json();
         json.data.forEach(function(m){ if(!seen[m.gid]){seen[m.gid]=true; _members.push({gid:m.gid, name:m.name});} });
@@ -541,15 +540,8 @@ async function saveEdit() {
   var completed = document.getElementById('editDone').checked;
   var statusEnumGid = document.getElementById('editStatus').value || null;
 
-  // Find the task in DATA or SUBTASKS
+  // Find the task's own status field GID
   var taskData = DATA.find(function(t){return t.gid===_editGid;});
-  var subParentGid = null;
-  if(!taskData){
-    for(var pg in SUBTASKS){
-      var found = SUBTASKS[pg].find(function(s){return s.gid===_editGid;});
-      if(found){ taskData = found; subParentGid = pg; break; }
-    }
-  }
   var taskStatusFieldGid = taskData ? taskData.stFieldGid : _statusFieldGid;
 
   // Build request body
@@ -573,36 +565,30 @@ async function saveEdit() {
       throw new Error('API '+res.status+(errBody?': '+errBody:''));
     }
 
-    // Update local DATA or SUBTASKS
-    function applyLocalUpdate(t){
-      t.d = dueOn || '';
-      t.c = completed;
-      if(statusEnumGid){
-        var opt = _statusOptions.find(function(o){return o.gid===statusEnumGid;});
-        t.st = opt ? opt.name : '';
-        t.stEnumGid = statusEnumGid;
-      } else {
-        t.st = '';
-        t.stEnumGid = '';
-      }
-      if(assignee){
-        var allA = getAllAssignees();
-        var member = allA.find(function(m){return m.gid===assignee;});
-        t.assignee = member ? member.name : '';
-        t.assigneeGid = assignee;
-      } else {
-        t.assignee = '';
-        t.assigneeGid = '';
-      }
-    }
-    var updated = false;
+    // Update local DATA
     for(var i=0; i<DATA.length; i++){
-      if(DATA[i].gid === _editGid){ applyLocalUpdate(DATA[i]); updated=true; break; }
-    }
-    if(!updated){
-      for(var pg in SUBTASKS){
-        var st = SUBTASKS[pg].find(function(s){return s.gid===_editGid;});
-        if(st){ applyLocalUpdate(st); updated=true; break; }
+      if(DATA[i].gid === _editGid){
+        DATA[i].d = dueOn || '';
+        DATA[i].c = completed;
+        // Update status display value
+        if(statusEnumGid){
+          var opt = _statusOptions.find(function(o){return o.gid===statusEnumGid;});
+          DATA[i].st = opt ? opt.name : '';
+          DATA[i].stEnumGid = statusEnumGid;
+        } else {
+          DATA[i].st = '';
+          DATA[i].stEnumGid = '';
+        }
+        if(assignee){
+          var allA = getAllAssignees();
+          var member = allA.find(function(m){return m.gid===assignee;});
+          DATA[i].assignee = member ? member.name : '';
+          DATA[i].assigneeGid = assignee;
+        } else {
+          DATA[i].assignee = '';
+          DATA[i].assigneeGid = '';
+        }
+        break;
       }
     }
 
@@ -688,46 +674,10 @@ function parseTask(raw, projInfo) {
   };
 }
 
-async function fetchSubtasks(gid, parentProjInfo) {
-  var fields='name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.gid,custom_fields.display_value,custom_fields.name,custom_fields.type,custom_fields.enum_value.gid,custom_fields.enum_value.name,assignee.gid,assignee.name';
-  var res=await fetch(ASANA_BASE+'/tasks/'+gid+'/subtasks?opt_fields='+fields,{headers:{'Authorization':'Bearer '+getPAT()}});
+async function fetchSubtasks(gid) {
+  var res=await fetch(ASANA_BASE+'/tasks/'+gid+'/subtasks?opt_fields=name',{headers:{'Authorization':'Bearer '+getPAT()}});
   if(!res.ok) return [];
-  var data=(await res.json()).data;
-  return data.map(function(raw){
-    var status='', statusFieldGid='', statusEnumGid='';
-    if(raw.custom_fields){
-      for(var i=0;i<raw.custom_fields.length;i++){
-        var cf=raw.custom_fields[i];
-        if(cf.name==='ステータス'||cf.name==='Status'){
-          status=cf.display_value||'';
-          statusFieldGid=cf.gid||'';
-          if(cf.enum_value) statusEnumGid=cf.enum_value.gid||'';
-          break;
-        }
-      }
-    }
-    var tags=(raw.tags||[]).map(function(t){return t.name}).join(', ');
-    return {
-      gid:raw.gid,
-      n:raw.name,
-      s:raw.start_on||'',
-      d:raw.due_on||'',
-      c:raw.completed,
-      t:raw.resource_subtype||'default_task',
-      tag:tags,
-      st:status,
-      stFieldGid:statusFieldGid,
-      stEnumGid:statusEnumGid,
-      ns:0,
-      assignee:raw.assignee?raw.assignee.name:'',
-      assigneeGid:raw.assignee?raw.assignee.gid:'',
-      proj:parentProjInfo?parentProjInfo.name:'',
-      projShort:parentProjInfo?parentProjInfo.short:'',
-      projColor:parentProjInfo?parentProjInfo.color:'',
-      projGid:parentProjInfo?parentProjInfo.gid:'',
-      es:getESTopics(raw.gid)
-    };
-  });
+  return (await res.json()).data.map(function(s){return{n:s.name}});
 }
 
 async function loadData() {
@@ -758,15 +708,7 @@ async function loadData() {
     var withSubs=DATA.filter(function(t){return t.ns>0});
     for(var i=0;i<withSubs.length;i++){
       lt.textContent='サブタスクを取得中 ('+(i+1)+'/'+withSubs.length+')...';
-      try{
-        var parentProjInfo={
-          name:withSubs[i].proj,
-          short:withSubs[i].projShort,
-          color:withSubs[i].projColor,
-          gid:withSubs[i].projGid
-        };
-        SUBTASKS[withSubs[i].gid]=await fetchSubtasks(withSubs[i].gid, parentProjInfo);
-      }catch(e){}
+      try{SUBTASKS[withSubs[i].gid]=await fetchSubtasks(withSubs[i].gid);}catch(e){}
     }
     lastFetchTime=new Date();
     populateFilters();
@@ -847,9 +789,6 @@ function applyFilters() {
     }
     if(activePresets.es){
       if(!t.es||t.es.length===0) return false;
-    }
-    if(activePresets.kitei){
-      if(t.n.indexOf('【規程】')===-1) return false;
     }
 
     // Standard filters
@@ -1022,79 +961,19 @@ function buildBody(){
       })(task);
       container.appendChild(row);
 
-      if(hasSub){SUBTASKS[task.gid].forEach(function(st){
+      if(hasSub){var ps=task.s||task.d,pe=task.d;SUBTASKS[task.gid].forEach(function(st){
         var sr=document.createElement('div');sr.className='gantt-row subtask-row';sr.dataset.parent=task.gid;
         var si=document.createElement('div');si.className='row-info';
-        // Name
-        var sn=document.createElement('div');sn.className='col-name';
-        var stx=document.createElement('span');stx.className='task-name-text';stx.textContent=st.n;
-        sn.appendChild(stx);si.appendChild(sn);
-        // Project (inherits parent)
-        var sp=document.createElement('div');sp.className='col-proj';
-        if(st.projShort){var pb=document.createElement('span');pb.className='proj-badge';pb.style.background=st.projColor+'22';pb.style.color=st.projColor;pb.style.border='1px solid '+st.projColor+'44';pb.textContent=st.projShort;sp.appendChild(pb);}
-        si.appendChild(sp);
-        // Assignee
-        var sa=document.createElement('div');sa.className='col-assignee';sa.textContent=st.assignee||'−';sa.title=st.assignee||'';si.appendChild(sa);
-        // Due
-        var sdd=document.createElement('div');sdd.className='col-due '+getDueClass(st);sdd.textContent=formatDue(st.d);si.appendChild(sdd);
-        // Status
-        var sss=document.createElement('div');sss.className='col-status';
-        var sChip=document.createElement('span');sChip.className='status-chip '+getStatusClass(st);sChip.textContent=getStatusLabel(st);sss.appendChild(sChip);
-        si.appendChild(sss);
-        // ES topic
-        var ses=document.createElement('div');ses.className='col-es';
-        if(st.es && st.es.length>0){
-          for(var ei=0; ei<st.es.length; ei++){
-            var etag=document.createElement('span');etag.className='es-tag';
-            var ek=st.es[ei];
-            etag.textContent=ek.replace('ES-0','ES');
-            etag.style.background=ES_TOPICS[ek].color+'22';
-            etag.style.color=ES_TOPICS[ek].color;
-            etag.style.border='1px solid '+ES_TOPICS[ek].color+'55';
-            etag.title=ES_TOPICS[ek].name;
-            ses.appendChild(etag);
-          }
-        } else {
-          ses.innerHTML='<span style="color:#ccc;font-size:9px">−</span>';
-        }
-        si.appendChild(ses);
+        var sn=document.createElement('div');sn.className='col-name';var stx=document.createElement('span');stx.className='task-name-text';stx.textContent=st.n;sn.appendChild(stx);si.appendChild(sn);
+        var sp=document.createElement('div');sp.className='col-proj';si.appendChild(sp);
+        var sa=document.createElement('div');sa.className='col-assignee';si.appendChild(sa);
+        var sdd=document.createElement('div');sdd.className='col-due';si.appendChild(sdd);
+        var sss=document.createElement('div');sdd.className='col-status';si.appendChild(sss);
+        var ses=document.createElement('div');ses.className='col-es';si.appendChild(ses);
         sr.appendChild(si);
-        // Gantt bars
         var sb=document.createElement('div');sb.className='row-bars';
-        if(st.t==='milestone'){
-          var dx=dateToX(st.d);
-          if(dx!==null){
-            var dm=document.createElement('div');dm.className='milestone-marker '+getStatusClass(st);
-            dm.style.left=(dx-7)+'px';
-            dm.addEventListener('mouseenter',showTooltip.bind(null,st));
-            dm.addEventListener('mouseleave',hideTooltip);
-            sb.appendChild(dm);
-          }
-        } else {
-          var s0=st.s||st.d,e0=st.d;
-          if(s0&&e0){
-            var sx2=dateToX(s0),ex2=dateToX(e0);
-            if(sx2!==null&&ex2!==null){
-              var bar=document.createElement('div');bar.className='gantt-bar '+getStatusClass(st);
-              bar.style.left=sx2+'px';bar.style.width=Math.max(ex2-sx2,4)+'px';
-              bar.addEventListener('mouseenter',showTooltip.bind(null,st));
-              bar.addEventListener('mouseleave',hideTooltip);
-              sb.appendChild(bar);
-            }
-          }
-        }
-        sr.appendChild(sb);
-        // Click handler for subtask editing
-        (function(subTask){
-          sr.style.cursor='pointer';
-          sr.title='クリックで編集';
-          sr.addEventListener('click', function(e){
-            console.log('[Subtask click]', subTask.gid, subTask.n);
-            try { openEditModal(subTask); }
-            catch(err) { console.error('[openEditModal error]', err); alert('編集モーダルを開けませんでした: '+err.message); }
-          });
-        })(st);
-        container.appendChild(sr);
+        if(ps&&pe){var sx2=dateToX(ps),ex2=dateToX(pe);if(sx2!==null&&ex2!==null){var ln=document.createElement('div');ln.className='subtask-line';ln.style.left=sx2+'px';ln.style.width=Math.max(ex2-sx2,4)+'px';sb.appendChild(ln);}}
+        sr.appendChild(sb);container.appendChild(sr);
       });}
     });
   });
@@ -1135,7 +1014,7 @@ function scrollToToday(){var b=document.getElementById('ganttBody'),tx=dateToX(g
 
 function setPreset(p){
   if(activePresets[p]){delete activePresets[p];}else{activePresets[p]=true;}
-  var idMap={audit:'presetAudit',urgent:'presetUrgent',active:'presetActive',es:'presetES',kitei:'presetKitei'};
+  var idMap={audit:'presetAudit',urgent:'presetUrgent',active:'presetActive',es:'presetES'};
   Object.keys(idMap).forEach(function(k){
     var el=document.getElementById(idMap[k]);
     if(activePresets[k]) el.classList.add('active'); else el.classList.remove('active');
@@ -1147,7 +1026,6 @@ document.getElementById('presetAudit').addEventListener('click',function(){setPr
 document.getElementById('presetUrgent').addEventListener('click',function(){setPreset('urgent');});
 document.getElementById('presetActive').addEventListener('click',function(){setPreset('active');});
 document.getElementById('presetES').addEventListener('click',function(){setPreset('es');});
-document.getElementById('presetKitei').addEventListener('click',function(){setPreset('kitei');});
 
 document.getElementById('refreshBtn').addEventListener('click',async function(){this.classList.add('loading');this.disabled=true;await loadData();this.classList.remove('loading');this.disabled=false;});
 document.getElementById('settingsBtn').addEventListener('click',function(){document.getElementById('patInput').value=getPAT();document.getElementById('patDialog').classList.remove('hidden');});
