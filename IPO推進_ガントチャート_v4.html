@@ -218,6 +218,7 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
     <div class="edit-field">
       <label>ステータス</label>
       <select id="editStatus"><option value="">未設定</option></select>
+      <span id="editStatusHint" style="font-size:10px;color:#C62828;margin-left:8px;"></span>
     </div>
     <div class="edit-field">
       <label>完了</label>
@@ -449,6 +450,12 @@ function openEditModal(task) {
     if(task.stEnumGid === opt.gid) o.selected = true;
     stSel.appendChild(o);
   });
+  // 全タスクが「進捗ステータス」CFを保持する想定なので常に編集可能
+  var hasStatusField = !!task.stFieldGid;
+  stSel.disabled = !hasStatusField;
+  stSel.title = '';
+  var stHint = document.getElementById('editStatusHint');
+  if(stHint) stHint.textContent = hasStatusField ? '' : '※ このタスクは進捗ステータス未紐付け（最新化後に再試行）';
 
   document.getElementById('editDue').value = task.d || '';
   document.getElementById('editDone').checked = task.c || task.st === '完了';
@@ -475,13 +482,14 @@ async function saveEdit() {
   var completed = document.getElementById('editDone').checked;
   var statusEnumGid = document.getElementById('editStatus').value || null;
 
-  // Find the task's own status field GID
+  // Find the task's own status field GID（タスクが持っているCFのみ更新可能）
   var taskData = DATA.find(function(t){return t.gid===_editGid;});
-  var taskStatusFieldGid = taskData ? taskData.stFieldGid : _statusFieldGid;
+  var taskStatusFieldGid = taskData && taskData.stFieldGid ? taskData.stFieldGid : '';
+  var canUpdateStatus = !!taskStatusFieldGid;
 
   // Build request body
   var body = { assignee: assignee, due_on: dueOn, completed: completed };
-  if(taskStatusFieldGid && statusEnumGid){
+  if(canUpdateStatus && statusEnumGid){
     body.custom_fields = {};
     body.custom_fields[taskStatusFieldGid] = statusEnumGid;
   }
@@ -505,14 +513,16 @@ async function saveEdit() {
       if(DATA[i].gid === _editGid){
         DATA[i].d = dueOn || '';
         DATA[i].c = completed;
-        // Update status display value
-        if(statusEnumGid){
-          var opt = _statusOptions.find(function(o){return o.gid===statusEnumGid;});
-          DATA[i].st = opt ? opt.name : '';
-          DATA[i].stEnumGid = statusEnumGid;
-        } else {
-          DATA[i].st = '';
-          DATA[i].stEnumGid = '';
+        // Update status display value only if the task actually has the status field
+        if(canUpdateStatus){
+          if(statusEnumGid){
+            var opt = _statusOptions.find(function(o){return o.gid===statusEnumGid;});
+            DATA[i].st = opt ? opt.name : '';
+            DATA[i].stEnumGid = statusEnumGid;
+          } else {
+            DATA[i].st = '';
+            DATA[i].stEnumGid = '';
+          }
         }
         if(assignee){
           var allA = getAllAssignees();
@@ -527,7 +537,8 @@ async function saveEdit() {
       }
     }
 
-    showGanttToast('タスクを更新しました', 'success');
+    var savedMsg = canUpdateStatus ? 'タスクを更新しました' : 'タスクを更新しました（このタスクはステータスCF未対応のため完了チェックのみ反映）';
+    showGanttToast(savedMsg, 'success');
     closeEditModal();
     applyFilters();
   } catch(e) {
@@ -573,16 +584,33 @@ async function fetchProjectTasks(projectGid) {
 
 function parseTask(raw, projInfo) {
   var status='', statusFieldGid='', statusEnumGid='';
+  // 「進捗ステータス」(全社管理PJの enum: 仕掛中/未着手/完了) を優先採用
+  // フォールバック: 「ステータス」(伊藤卓個人PJの enum: 未着手/進行中/レビュー待ち/完了)
   if(raw.custom_fields){
+    // First pass: prefer 進捗ステータス
     for(var i=0;i<raw.custom_fields.length;i++){
       var cf=raw.custom_fields[i];
-      if(cf.name==='ステータス'||cf.name==='Status'){
+      if(cf.name==='進捗ステータス'){
         status=cf.display_value||'';
         statusFieldGid=cf.gid||'';
         if(cf.enum_value) statusEnumGid=cf.enum_value.gid||'';
-        // Capture the field GID for later use
-        if(cf.gid && !_statusFieldGid) _statusFieldGid=cf.gid;
+        // 進捗ステータスは常にグローバル優先（既存値を上書き）
+        if(cf.gid) _statusFieldGid=cf.gid;
         break;
+      }
+    }
+    // Second pass: fall back to ステータス if 進捗ステータス not found
+    if(!statusFieldGid){
+      for(var i=0;i<raw.custom_fields.length;i++){
+        var cf=raw.custom_fields[i];
+        if(cf.name==='ステータス'||cf.name==='Status'){
+          status=cf.display_value||'';
+          statusFieldGid=cf.gid||'';
+          if(cf.enum_value) statusEnumGid=cf.enum_value.gid||'';
+          // 既に進捗ステータス採用済みなら上書きしない
+          if(cf.gid && !_statusFieldGid) _statusFieldGid=cf.gid;
+          break;
+        }
       }
     }
   }
