@@ -113,7 +113,7 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .th-es { width:var(--es-w); padding:8px 4px; text-align:center; }
 .status-chip { display:inline-block; font-size:9px; font-weight:700; padding:1px 6px; border-radius:3px; white-space:nowrap; }
 .status-chip.in-progress { background:#FEDA3E; color:#1F2937; }
-.status-chip.not-started { background:#DBEAFE; color:#1E40AF; }
+.status-chip.not-started { background:#DBEAFE; color:#1E40AF; border:1px dashed #3B82F6; }
 .status-chip.completed { background:#047857; color:#FFFFFF; }
 .status-chip.no-status { background:#FEE2E2; color:#991B1B; border:1px dashed #DC2626; }
 .group-header .col-name { font-weight:700; font-size:12px; letter-spacing:0.5px; }
@@ -121,7 +121,7 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .group-progress { font-size:10px; opacity:0.7; margin-left:auto; margin-right:12px; }
 .status-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 .status-dot.in-progress { background:#FEDA3E; }
-.status-dot.not-started { background:#3B82F6; }
+.status-dot.not-started { background:#DBEAFE; border:1px dashed #3B82F6; }
 .status-dot.completed { background:#047857; }
 .status-dot.no-status { background:#FEE2E2; border:1px dashed #DC2626; }
 .toggle-arrow { cursor:pointer; font-size:10px; color:var(--gray); user-select:none; flex-shrink:0; }
@@ -132,14 +132,14 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .row-bars { flex:1; position:relative; height:100%; }
 .gantt-bar { position:absolute; height:14px; top:50%; transform:translateY(-50%); border-radius:3px; }
 .gantt-bar.in-progress { background:#FEDA3E; border:1px solid #C9A300; }
-.gantt-bar.not-started { background:#3B82F6; border:1px solid #1D4ED8; }
+.gantt-bar.not-started { background:#DBEAFE; border:1px dashed #3B82F6; }
 .gantt-bar.completed { background:#047857; border:1px solid #064E3B; }
 .gantt-bar.no-status { background:#FEE2E2; border:1px dashed #DC2626; }
 .milestone-marker { position:absolute; width:14px; height:14px; top:50%; transform:translateY(-50%) rotate(45deg); border:2px solid var(--dark); }
-.milestone-marker.in-progress { background:#FEDA3E; border-color:#C9A300; }
-.milestone-marker.not-started { background:#3B82F6; border-color:#1D4ED8; }
-.milestone-marker.completed { background:#047857; border-color:#064E3B; }
-.milestone-marker.no-status { background:#FEE2E2; border-color:#DC2626; }
+.milestone-marker.in-progress { background:#FEDA3E; border-color:#C9A300; border-style:solid; }
+.milestone-marker.not-started { background:#DBEAFE; border-color:#3B82F6; border-style:dashed; }
+.milestone-marker.completed { background:#047857; border-color:#064E3B; border-style:solid; }
+.milestone-marker.no-status { background:#FEE2E2; border-color:#DC2626; border-style:dashed; }
 .subtask-row { height:var(--subtask-row-height); display:none; background:#fafafa; }
 .subtask-row.visible { display:flex; }
 .subtask-row .row-info { background:#fafafa; }
@@ -265,7 +265,7 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
     <div class="legend">
       <span class="legend-label">ステータス:</span>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#FEDA3E"></div>進行中</div>
-      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#3B82F6"></div>未着手</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#DBEAFE;border:1px dashed #3B82F6"></div>未着手</div>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#047857"></div>完了</div>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#FEE2E2;border:1px dashed #DC2626"></div>未設定</div>
       <div class="legend-item"><div style="width:11px;height:11px;transform:rotate(45deg);border:2px solid var(--dark);background:var(--accent)"></div>MS</div>
@@ -833,7 +833,7 @@ function updateSummary(){
   var pct=total>0?Math.round((completed/total)*100):0;
   document.getElementById('summaryBar').innerHTML=
     '<div class="summary-stat"><div class="dot" style="background:#FEDA3E"></div>進行中: <b>'+inProg+'</b></div>'+
-    '<div class="summary-stat"><div class="dot" style="background:#3B82F6"></div>未着手: <b>'+notSt+'</b></div>'+
+    '<div class="summary-stat"><div class="dot" style="background:#DBEAFE;border:1px dashed #3B82F6"></div>未着手: <b>'+notSt+'</b></div>'+
     '<div class="summary-stat"><div class="dot" style="background:#047857"></div>完了: <b>'+completed+'</b></div>'+
     (overdue>0?'<div class="summary-stat" style="color:#C62828"><div class="dot" style="background:#E53935"></div>期日超過: <b>'+overdue+'</b></div>':'')+
     '<div class="summary-stat">全体進捗: <b>'+pct+'%</b></div>'+
