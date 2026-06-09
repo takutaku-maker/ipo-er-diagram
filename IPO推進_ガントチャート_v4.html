@@ -112,18 +112,18 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .es-tag { display:inline-block; font-size:8px; font-weight:700; padding:1px 5px; border-radius:3px; white-space:nowrap; line-height:1.3; }
 .th-es { width:var(--es-w); padding:8px 4px; text-align:center; }
 .status-chip { display:inline-block; font-size:9px; font-weight:700; padding:1px 6px; border-radius:3px; white-space:nowrap; }
-.status-chip.in-progress { background:var(--accent); color:var(--dark); }
-.status-chip.not-started { background:#E5E7EB; color:#374151; }
-.status-chip.completed { background:#475569; color:#FFFFFF; }
-.status-chip.no-status { background:#f5f5f5; color:#9ca3af; }
+.status-chip.in-progress { background:#FEDA3E; color:#1F2937; }
+.status-chip.not-started { background:#DBEAFE; color:#1E40AF; }
+.status-chip.completed { background:#047857; color:#FFFFFF; }
+.status-chip.no-status { background:#FEE2E2; color:#991B1B; border:1px dashed #DC2626; }
 .group-header .col-name { font-weight:700; font-size:12px; letter-spacing:0.5px; }
 .group-count { font-size:11px; opacity:0.8; margin-left:6px; }
 .group-progress { font-size:10px; opacity:0.7; margin-left:auto; margin-right:12px; }
 .status-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-.status-dot.in-progress { background:var(--accent); }
-.status-dot.not-started { background:#E5E7EB; border:1px solid #9ca3af; }
-.status-dot.completed { background:#475569; }
-.status-dot.no-status { background:#ccc; }
+.status-dot.in-progress { background:#FEDA3E; }
+.status-dot.not-started { background:#3B82F6; }
+.status-dot.completed { background:#047857; }
+.status-dot.no-status { background:#FEE2E2; border:1px dashed #DC2626; }
 .toggle-arrow { cursor:pointer; font-size:10px; color:var(--gray); user-select:none; flex-shrink:0; }
 .toggle-arrow:hover { color:var(--dark); }
 .task-name-text { overflow:hidden; text-overflow:ellipsis; }
@@ -131,15 +131,15 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .ms-icon { flex-shrink:0; width:10px; height:10px; transform:rotate(45deg); border:1.5px solid var(--dark); background:var(--accent); display:inline-block; }
 .row-bars { flex:1; position:relative; height:100%; }
 .gantt-bar { position:absolute; height:14px; top:50%; transform:translateY(-50%); border-radius:3px; }
-.gantt-bar.in-progress { background:var(--accent); border:1px solid #C9A300; }
-.gantt-bar.not-started { background:#E5E7EB; border:1px solid #9ca3af; }
-.gantt-bar.completed { background:#475569; border:1px solid #1f2937; }
-.gantt-bar.no-status { background:#f3f4f6; border:1px solid #d1d5db; }
+.gantt-bar.in-progress { background:#FEDA3E; border:1px solid #C9A300; }
+.gantt-bar.not-started { background:#3B82F6; border:1px solid #1D4ED8; }
+.gantt-bar.completed { background:#047857; border:1px solid #064E3B; }
+.gantt-bar.no-status { background:#FEE2E2; border:1px dashed #DC2626; }
 .milestone-marker { position:absolute; width:14px; height:14px; top:50%; transform:translateY(-50%) rotate(45deg); border:2px solid var(--dark); }
-.milestone-marker.in-progress { background:var(--accent); border-color:#C9A300; }
-.milestone-marker.not-started { background:#E5E7EB; border-color:#6b7280; }
-.milestone-marker.completed { background:#475569; border-color:#1f2937; }
-.milestone-marker.no-status { background:#f3f4f6; border-color:#9ca3af; }
+.milestone-marker.in-progress { background:#FEDA3E; border-color:#C9A300; }
+.milestone-marker.not-started { background:#3B82F6; border-color:#1D4ED8; }
+.milestone-marker.completed { background:#047857; border-color:#064E3B; }
+.milestone-marker.no-status { background:#FEE2E2; border-color:#DC2626; }
 .subtask-row { height:var(--subtask-row-height); display:none; background:#fafafa; }
 .subtask-row.visible { display:flex; }
 .subtask-row .row-info { background:#fafafa; }
@@ -263,10 +263,10 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
   <div class="legend-rows">
     <div class="legend">
       <span class="legend-label">ステータス:</span>
-      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:var(--accent)"></div>仕掛中</div>
-      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#E5E7EB;border:1px solid #9ca3af"></div>未着手</div>
-      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#475569"></div>完了</div>
-      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#ccc"></div>未設定</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#FEDA3E"></div>仕掛中</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#3B82F6"></div>未着手</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#047857"></div>完了</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#FEE2E2;border:1px dashed #DC2626"></div>未設定</div>
       <div class="legend-item"><div style="width:11px;height:11px;transform:rotate(45deg);border:2px solid var(--dark);background:var(--accent)"></div>MS</div>
     </div>
     <div style="width:1px;height:16px;background:#555"></div>
@@ -801,9 +801,9 @@ function updateSummary(){
   var overdue=DATA.filter(function(t){return!t.c&&t.st!=='完了'&&t.d&&new Date(t.d+'T00:00:00')<now}).length;
   var pct=total>0?Math.round((completed/total)*100):0;
   document.getElementById('summaryBar').innerHTML=
-    '<div class="summary-stat"><div class="dot" style="background:var(--accent)"></div>仕掛中: <b>'+inProg+'</b></div>'+
-    '<div class="summary-stat"><div class="dot" style="background:#E5E7EB;border:1px solid #9ca3af"></div>未着手: <b>'+notSt+'</b></div>'+
-    '<div class="summary-stat"><div class="dot" style="background:#475569"></div>完了: <b>'+completed+'</b></div>'+
+    '<div class="summary-stat"><div class="dot" style="background:#FEDA3E"></div>仕掛中: <b>'+inProg+'</b></div>'+
+    '<div class="summary-stat"><div class="dot" style="background:#3B82F6"></div>未着手: <b>'+notSt+'</b></div>'+
+    '<div class="summary-stat"><div class="dot" style="background:#047857"></div>完了: <b>'+completed+'</b></div>'+
     (overdue>0?'<div class="summary-stat" style="color:#C62828"><div class="dot" style="background:#E53935"></div>期日超過: <b>'+overdue+'</b></div>':'')+
     '<div class="summary-stat">全体進捗: <b>'+pct+'%</b></div>'+
     '<div class="progress-bar-bg"><div class="progress-bar-fill" style="width:'+pct+'%"></div></div>';
