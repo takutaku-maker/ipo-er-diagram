@@ -752,10 +752,10 @@ function applyFilters() {
       }
     }
     if(activePresets.es){
-      // 完了タスク等のESタグ未付与もプロジェクトでES関連と判定できれば残す
+      // ESトピックプリセット: 実際にESタグが付いているタスクのみ表示
+      // 定例会・MS（cross-ES）は常に表示
       var hasAnyTagES = t.es && t.es.length>0;
-      var hasAnyProjES = PROJECT_ES_DEFAULTS[t.projGid] && PROJECT_ES_DEFAULTS[t.projGid].length>0;
-      if(!hasAnyTagES && !hasAnyProjES) return false;
+      if(!hasAnyTagES && !t.isMeeting && t.t!=='milestone') return false;
     }
 
     // Standard filters
@@ -779,16 +779,13 @@ function applyFilters() {
     if(search&&!t.n.toLowerCase().includes(search)) return false;
 
     // ES topic dropdown filter — meetings always visible (cross-ES)
-    // 完了タスクは status=all|完了 のとき常に表示（ESタグ未付与でも消えないように）
-    // 未完了タスクはESタグ or プロジェクト→ES マッピングで補完して判定
+    // ES個別フィルタ: 該当ESタグが付いているタスクのみ表示
+    // 定例会・MS（cross-ES）は常に表示
     if(esFilter!=='all'){
       if(t.isMeeting) { /* meetings always visible */ }
-      else if(statusAllowsComplete && isComp) { /* 完了は status=all|完了 時に常に表示 */ }
       else {
         var hasTagES = t.es && t.es.indexOf(esFilter)!==-1;
-        var projFallback = PROJECT_ES_DEFAULTS[t.projGid];
-        var hasProjES = projFallback && projFallback.indexOf(esFilter)!==-1;
-        if(!hasTagES && !hasProjES) return false;
+        if(!hasTagES) return false;
       }
     }
 
