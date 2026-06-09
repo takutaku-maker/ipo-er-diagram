@@ -263,7 +263,7 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
   <div class="legend-rows">
     <div class="legend">
       <span class="legend-label">ステータス:</span>
-      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#FEDA3E"></div>仕掛中</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#FEDA3E"></div>進行中</div>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#3B82F6"></div>未着手</div>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#047857"></div>完了</div>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#FEE2E2;border:1px dashed #DC2626"></div>未設定</div>
@@ -295,9 +295,9 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 <div class="filter-bar" id="filterBar">
   <div class="filter-group">
     <label>プリセット:</label>
-    <button class="preset-btn audit" id="presetAudit" title="期日30日以内+期日超過+仕掛中+MS">&#x1F4CB; 監査法人定例</button>
+    <button class="preset-btn audit" id="presetAudit" title="期日30日以内+期日超過+進行中+MS">&#x1F4CB; 監査法人定例</button>
     <button class="preset-btn urgent" id="presetUrgent" title="期日超過タスクのみ">&#x1F534; 期日超過</button>
-    <button class="preset-btn active-tasks" id="presetActive" title="仕掛中タスクのみ">&#x26A1; 仕掛中</button>
+    <button class="preset-btn active-tasks" id="presetActive" title="進行中・レビュー待ちタスクのみ">&#x26A1; 進行中</button>
     <button class="preset-btn es-topic" id="presetES" title="SR指摘ESトピック関連タスクのみ">&#x1F4CA; ESトピック</button>
   </div>
   <div class="filter-divider"></div>
@@ -311,7 +311,7 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
   </div>
   <div class="filter-group">
     <label>ステータス:</label>
-    <select id="filterStatus"><option value="all">すべて</option><option value="仕掛中">仕掛中</option><option value="未着手">未着手</option><option value="完了">完了</option><option value="none">未設定</option></select>
+    <select id="filterStatus"><option value="all">すべて</option><option value="進行中">進行中</option><option value="レビュー待ち">レビュー待ち</option><option value="未着手">未着手</option><option value="完了">完了</option><option value="none">未設定</option></select>
   </div>
   <div class="filter-group">
     <label>担当者:</label>
@@ -732,7 +732,7 @@ function applyFilters() {
       if(isComp){
         if(!statusAllowsComplete) return false;
       } else {
-        var ip=t.st==='仕掛中';
+        var ip=t.st==='進行中'||t.st==='仕掛中'||t.st==='レビュー待ち';
         var od=t.d&&new Date(t.d+'T00:00:00')<now;
         var ds=t.d&&!od&&((new Date(t.d+'T00:00:00')-now)/86400000)<=30;
         var ms=t.t==='milestone';
@@ -750,7 +750,7 @@ function applyFilters() {
       if(isComp){
         if(!statusAllowsComplete) return false;
       } else {
-        if(t.st!=='仕掛中') return false;
+        if(t.st!=='進行中'&&t.st!=='仕掛中'&&t.st!=='レビュー待ち') return false;
       }
     }
     if(activePresets.es){
@@ -765,6 +765,7 @@ function applyFilters() {
     if(status!=='all'){
       if(status==='none'){if(t.c||t.st) return false;}
       else if(status==='完了'){if(!t.c&&t.st!=='完了') return false;}
+      else if(status==='進行中'){if(t.st!=='進行中'&&t.st!=='仕掛中') return false;}
       else if(t.st!==status) return false;
     }
     // Multi-select assignee filter
@@ -797,13 +798,13 @@ function applyFilters() {
 function updateSummary(){
   var total=DATA.length;
   var completed=DATA.filter(function(t){return t.c||t.st==='完了'}).length;
-  var inProg=DATA.filter(function(t){return t.st==='仕掛中'}).length;
+  var inProg=DATA.filter(function(t){return t.st==='進行中'||t.st==='仕掛中'||t.st==='レビュー待ち'}).length;
   var notSt=DATA.filter(function(t){return t.st==='未着手'}).length;
   var now=new Date();now.setHours(0,0,0,0);
   var overdue=DATA.filter(function(t){return!t.c&&t.st!=='完了'&&t.d&&new Date(t.d+'T00:00:00')<now}).length;
   var pct=total>0?Math.round((completed/total)*100):0;
   document.getElementById('summaryBar').innerHTML=
-    '<div class="summary-stat"><div class="dot" style="background:#FEDA3E"></div>仕掛中: <b>'+inProg+'</b></div>'+
+    '<div class="summary-stat"><div class="dot" style="background:#FEDA3E"></div>進行中: <b>'+inProg+'</b></div>'+
     '<div class="summary-stat"><div class="dot" style="background:#3B82F6"></div>未着手: <b>'+notSt+'</b></div>'+
     '<div class="summary-stat"><div class="dot" style="background:#047857"></div>完了: <b>'+completed+'</b></div>'+
     (overdue>0?'<div class="summary-stat" style="color:#C62828"><div class="dot" style="background:#E53935"></div>期日超過: <b>'+overdue+'</b></div>':'')+
@@ -813,8 +814,9 @@ function updateSummary(){
 
 function dateToX(ds){ if(!ds)return null; var d=new Date(ds+'T00:00:00'); return((d-TIMELINE_START)/(TIMELINE_END-TIMELINE_START))*TOTAL_WIDTH; }
 
-function getStatusClass(t){ if(t.c||t.st==='完了')return'completed'; if(t.st==='仕掛中')return'in-progress'; if(t.st==='未着手')return'not-started'; return'no-status'; }
-function getStatusLabel(t){ if(t.c||t.st==='完了')return'完了'; if(t.st==='仕掛中')return'仕掛中'; if(t.st==='未着手')return'未着手'; return'−'; }
+// Asanaの実ステータス値: 未着手 / 進行中 / レビュー待ち / 完了 を全て対応
+function getStatusClass(t){ if(t.c||t.st==='完了')return'completed'; if(t.st==='進行中'||t.st==='仕掛中'||t.st==='レビュー待ち')return'in-progress'; if(t.st==='未着手')return'not-started'; return'no-status'; }
+function getStatusLabel(t){ if(t.c||t.st==='完了')return'完了'; if(t.st==='レビュー待ち')return'レビュー待ち'; if(t.st==='進行中'||t.st==='仕掛中')return'進行中'; if(t.st==='未着手')return'未着手'; return'−'; }
 function formatDue(d){ if(!d)return''; return d.replace(/^\d{4}-/,'').replace('-','/'); }
 function getDueClass(t){ if(t.c||t.st==='完了'||!t.d)return''; var due=new Date(t.d+'T00:00:00'); var now=new Date();now.setHours(0,0,0,0); var diff=(due-now)/86400000; if(diff<0)return'overdue'; if(diff<=14)return'soon'; return''; }
 
