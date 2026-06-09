@@ -768,9 +768,11 @@ function applyFilters() {
     if(search&&!t.n.toLowerCase().includes(search)) return false;
 
     // ES topic dropdown filter — meetings always visible (cross-ES)
-    // 完了タスク等でESタグ未付与の場合、プロジェクト→ES マッピングで補完して判定
+    // 完了タスクは status=all のとき常に表示（ESタグ未付与でも消えないように）
+    // 未完了タスクはESタグ or プロジェクト→ES マッピングで補完して判定
     if(esFilter!=='all'){
       if(t.isMeeting) { /* meetings always visible */ }
+      else if(status==='all' && (t.c||t.st==='完了')) { /* 完了は status=all 時に常に表示 */ }
       else {
         var hasTagES = t.es && t.es.indexOf(esFilter)!==-1;
         var projFallback = PROJECT_ES_DEFAULTS[t.projGid];
