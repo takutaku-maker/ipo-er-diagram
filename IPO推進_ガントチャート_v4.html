@@ -1,3 +1,7 @@
+https://raw.githubusercontent.com/takutaku-maker/ipo-er-diagram/main/IPO%E6%8E%A8%E9%80%B2_%E3%82%AC%E3%83%B3%E3%83%88%E3%83%81%E3%83%A3%E3%83%BC%E3%83%88_v4.html
+→ https://raw.githubusercontent.com/takutaku-maker/ipo-er-diagram/main/IPO%E6%8E%A8%E9%80%B2_%E3%82%AC%E3%83%B3%E3%83%88%E3%83%81%E3%83%A3%E3%83%BC%E3%83%88_v4.html
+Content-Type: text/plain; charset=utf-8
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -357,6 +361,14 @@ var ES_TOPICS = {
   'ES-02': { name: 'ES-02 売上証跡管理', desc: '売上計上根拠資料の網羅的な入手及び管理', color: '#F59E0B' },
   'ES-03': { name: 'ES-03 収益認識', desc: '収益認識に関する会計基準の適用', color: '#3B82F6' },
   'ES-04': { name: 'ES-04 ソフトウェア', desc: 'ソフトウェアの収益性判断プロセスとソフトウェア開発プロセスの構築', color: '#10B981' }
+};
+// プロジェクト → ESトピック の暗黙マッピング（ESタグ未付与タスクのフィルタ補完用）
+// 完了タスク等でESタグが付いていない場合でも、プロジェクトベースでフィルタヒットさせる
+var PROJECT_ES_DEFAULTS = {
+  '1214347783106959': ['ES-01'],                            // 関連当事者・組織整理 → ES-01
+  '1214629191807667': ['ES-02','ES-03','ES-04'],            // 財務・決算・J-SOX → ES-02/03/04
+  '1214628881129837': ['ES-01','ES-02','ES-03','ES-04'],    // 規程整備 → 全ES横断
+  '1214023537871202': ['ES-02','ES-03','ES-04']             // IPO業務推進 → ES-02/03/04
 };
 var ASANA_BASE = 'https://app.asana.com/api/1.0';
 var DATA = [], SUBTASKS = {}, FILTERED = [], lastFetchTime = null, activePresets = {};
@@ -729,7 +741,10 @@ function applyFilters() {
       if(t.st!=='仕掛中') return false;
     }
     if(activePresets.es){
-      if(!t.es||t.es.length===0) return false;
+      // 完了タスク等のESタグ未付与もプロジェクトでES関連と判定できれば残す
+      var hasAnyTagES = t.es && t.es.length>0;
+      var hasAnyProjES = PROJECT_ES_DEFAULTS[t.projGid] && PROJECT_ES_DEFAULTS[t.projGid].length>0;
+      if(!hasAnyTagES && !hasAnyProjES) return false;
     }
 
     // Standard filters
@@ -753,8 +768,15 @@ function applyFilters() {
     if(search&&!t.n.toLowerCase().includes(search)) return false;
 
     // ES topic dropdown filter — meetings always visible (cross-ES)
+    // 完了タスク等でESタグ未付与の場合、プロジェクト→ES マッピングで補完して判定
     if(esFilter!=='all'){
-      if(!t.isMeeting && (!t.es||t.es.indexOf(esFilter)===-1)) return false;
+      if(t.isMeeting) { /* meetings always visible */ }
+      else {
+        var hasTagES = t.es && t.es.indexOf(esFilter)!==-1;
+        var projFallback = PROJECT_ES_DEFAULTS[t.projGid];
+        var hasProjES = projFallback && projFallback.indexOf(esFilter)!==-1;
+        if(!hasTagES && !hasProjES) return false;
+      }
     }
 
     return true;
