@@ -147,8 +147,8 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .subtask-row:hover .row-info { background:var(--lightBg); }
 .subtask-line { position:absolute; height:6px; top:50%; transform:translateY(-50%); background:var(--midGray); border-radius:2px; opacity:0.5; }
 .quarter-line { position:absolute; top:0; bottom:0; width:1px; background:var(--midGray); opacity:0.4; z-index:1; }
-.today-line { position:absolute; top:0; bottom:0; width:2px; background:#E53935; z-index:3; }
-.today-label { position:absolute; top:0; left:-14px; background:#E53935; color:white; font-size:9px; font-weight:700; padding:1px 5px; border-radius:2px; opacity:0.5; }
+.today-line { position:absolute; top:0; bottom:0; width:2px; background:#E53935; z-index:3; box-shadow:0 0 4px rgba(229,57,53,0.4); }
+.today-label { position:absolute; top:2px; left:-22px; background:#E53935; color:white; font-size:10px; font-weight:700; padding:2px 6px; border-radius:3px; opacity:0.95; white-space:nowrap; box-shadow:0 1px 3px rgba(0,0,0,0.2); }
 .tooltip { position:fixed; background:var(--dark); color:var(--white); padding:8px 12px; border-radius:4px; font-size:12px; line-height:1.5; z-index:200; pointer-events:none; display:none; max-width:360px; }
 .footer { flex-shrink:0; text-align:center; padding:6px; font-size:13px; color:var(--gray); border-top:1px solid var(--midGray); background:var(--white); }
 .overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; display:flex; align-items:center; justify-content:center; }
@@ -845,8 +845,16 @@ function buildBody(){
 
   months.forEach(function(m,i){if(m.month%3===0){var ql=document.createElement('div');ql.className='quarter-line';ql.style.left=(INFO_COL_WIDTH+i*MONTH_WIDTH)+'px';container.appendChild(ql);}});
 
-  var todayX=dateToX(getTodayStr());
-  if(todayX!==null){var tl=document.createElement('div');tl.className='today-line';tl.style.left=(INFO_COL_WIDTH+todayX)+'px';var tlab=document.createElement('div');tlab.className='today-label';tlab.textContent='TODAY';tl.appendChild(tlab);container.appendChild(tl);}
+  var todayStr=getTodayStr();
+  var todayX=dateToX(todayStr);
+  if(todayX!==null){
+    var tl=document.createElement('div');tl.className='today-line';tl.style.left=(INFO_COL_WIDTH+todayX)+'px';
+    var tlab=document.createElement('div');tlab.className='today-label';
+    // 「TODAY 2026/06/09」のように本日の日付を動的に表示
+    var td=new Date();
+    tlab.textContent='TODAY '+td.getFullYear()+'/'+String(td.getMonth()+1).padStart(2,'0')+'/'+String(td.getDate()).padStart(2,'0');
+    tl.appendChild(tlab);container.appendChild(tl);
+  }
 
   sortedKeys.forEach(function(projGid){
     var proj=PROJECTS.find(function(p){return p.gid===projGid});
@@ -977,11 +985,22 @@ function updateHeader(){
   if(lastFetchTime){var h=String(lastFetchTime.getHours()).padStart(2,'0'),m=String(lastFetchTime.getMinutes()).padStart(2,'0');document.getElementById('lastUpdate').textContent='最終取得 '+h+':'+m;}
 }
 
-function rebuildChart(){updateHeader();buildTimelineHeader();buildBody();syncScroll();setTimeout(scrollToToday,100);}
+function rebuildChart(){
+  updateHeader();buildTimelineHeader();buildBody();syncScroll();
+  // 初期表示時にTodayが画面中央付近に来るよう確実にスクロール
+  requestAnimationFrame(function(){setTimeout(scrollToToday,50);setTimeout(scrollToToday,300);});
+}
 function showError(msg){document.getElementById('errorMsg').textContent=msg;document.getElementById('errorBanner').classList.add('visible');}
 function hideError(){document.getElementById('errorBanner').classList.remove('visible');}
 function syncScroll(){var b=document.getElementById('ganttBody'),h=document.getElementById('timelineHeader');b.addEventListener('scroll',function(){h.scrollLeft=b.scrollLeft;});}
-function scrollToToday(){var b=document.getElementById('ganttBody'),tx=dateToX(getTodayStr());if(tx!==null)b.scrollLeft=Math.max(0,tx-200);}
+function scrollToToday(){
+  var b=document.getElementById('ganttBody');
+  if(!b)return;
+  var tx=dateToX(getTodayStr());
+  if(tx===null)return;
+  // 本日を画面左寄り（200px）に表示。infoカラム分の余白も考慮
+  b.scrollLeft=Math.max(0,tx-200);
+}
 
 function setPreset(p){
   if(activePresets[p]){delete activePresets[p];}else{activePresets[p]=true;}
