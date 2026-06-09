@@ -403,9 +403,19 @@ async function loadStatusOptions() {
 }
 
 var _members = [];
+var WORKSPACE_GID = '1212871056187970'; // reboot.vision
 async function loadMembers() {
   var seen = {};
   _members = [];
+  // 1) ワークスペース全ユーザーを取得（最も網羅的）
+  try {
+    var wsRes = await fetch(ASANA_BASE+'/workspaces/'+WORKSPACE_GID+'/users?opt_fields=name,email&limit=100',{headers:{'Authorization':'Bearer '+getPAT()}});
+    if(wsRes.ok){
+      var wsJson = await wsRes.json();
+      (wsJson.data||[]).forEach(function(u){ if(!seen[u.gid]){seen[u.gid]=true; _members.push({gid:u.gid, name:u.name});} });
+    }
+  } catch(e){}
+  // 2) フォールバック: プロジェクトメンバーも統合（取りこぼし防止）
   for(var i=0; i<PROJECTS.length; i++){
     try {
       var res = await fetch(ASANA_BASE+'/projects/'+PROJECTS[i].gid+'/members',{headers:{'Authorization':'Bearer '+getPAT()}});
@@ -422,9 +432,12 @@ var _editGid = null;
 
 function getAllAssignees(){
   var seen={}, list=[];
-  // Merge project members and task assignees
+  // Merge workspace users, project members, task assignees and followers
   _members.forEach(function(m){ if(!seen[m.gid]){seen[m.gid]=true; list.push({gid:m.gid,name:m.name});} });
-  DATA.forEach(function(t){ if(t.assigneeGid&&!seen[t.assigneeGid]){seen[t.assigneeGid]=true; list.push({gid:t.assigneeGid,name:t.assignee});} });
+  DATA.forEach(function(t){
+    if(t.assigneeGid&&!seen[t.assigneeGid]){seen[t.assigneeGid]=true; list.push({gid:t.assigneeGid,name:t.assignee});}
+    (t.followers||[]).forEach(function(f){ if(f.gid&&!seen[f.gid]){seen[f.gid]=true; list.push({gid:f.gid,name:f.name});} });
+  });
   list.sort(function(a,b){return a.name.localeCompare(b.name,'ja');});
   return list;
 }
