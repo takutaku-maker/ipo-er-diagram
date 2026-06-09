@@ -113,16 +113,16 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .th-es { width:var(--es-w); padding:8px 4px; text-align:center; }
 .status-chip { display:inline-block; font-size:9px; font-weight:700; padding:1px 6px; border-radius:3px; white-space:nowrap; }
 .status-chip.in-progress { background:var(--accent); color:var(--dark); }
-.status-chip.not-started { background:#f0f0f0; color:var(--gray); }
-.status-chip.completed { background:var(--midGray); color:var(--white); }
-.status-chip.no-status { background:#f5f5f5; color:#bbb; }
+.status-chip.not-started { background:#E5E7EB; color:#374151; }
+.status-chip.completed { background:#475569; color:#FFFFFF; }
+.status-chip.no-status { background:#f5f5f5; color:#9ca3af; }
 .group-header .col-name { font-weight:700; font-size:12px; letter-spacing:0.5px; }
 .group-count { font-size:11px; opacity:0.8; margin-left:6px; }
 .group-progress { font-size:10px; opacity:0.7; margin-left:auto; margin-right:12px; }
 .status-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 .status-dot.in-progress { background:var(--accent); }
-.status-dot.not-started { background:var(--lightBg); border:1px solid var(--midGray); }
-.status-dot.completed { background:var(--midGray); }
+.status-dot.not-started { background:#E5E7EB; border:1px solid #9ca3af; }
+.status-dot.completed { background:#475569; }
 .status-dot.no-status { background:#ccc; }
 .toggle-arrow { cursor:pointer; font-size:10px; color:var(--gray); user-select:none; flex-shrink:0; }
 .toggle-arrow:hover { color:var(--dark); }
@@ -131,15 +131,15 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .ms-icon { flex-shrink:0; width:10px; height:10px; transform:rotate(45deg); border:1.5px solid var(--dark); background:var(--accent); display:inline-block; }
 .row-bars { flex:1; position:relative; height:100%; }
 .gantt-bar { position:absolute; height:14px; top:50%; transform:translateY(-50%); border-radius:3px; }
-.gantt-bar.in-progress { background:var(--accent); }
-.gantt-bar.not-started { background:var(--lightBg); border:1px solid var(--midGray); }
-.gantt-bar.completed { background:var(--midGray); }
-.gantt-bar.no-status { background:#e0e0e0; border:1px solid #ccc; }
+.gantt-bar.in-progress { background:var(--accent); border:1px solid #C9A300; }
+.gantt-bar.not-started { background:#E5E7EB; border:1px solid #9ca3af; }
+.gantt-bar.completed { background:#475569; border:1px solid #1f2937; }
+.gantt-bar.no-status { background:#f3f4f6; border:1px solid #d1d5db; }
 .milestone-marker { position:absolute; width:14px; height:14px; top:50%; transform:translateY(-50%) rotate(45deg); border:2px solid var(--dark); }
-.milestone-marker.in-progress { background:var(--accent); }
-.milestone-marker.not-started { background:var(--lightBg); }
-.milestone-marker.completed { background:var(--midGray); }
-.milestone-marker.no-status { background:#ddd; }
+.milestone-marker.in-progress { background:var(--accent); border-color:#C9A300; }
+.milestone-marker.not-started { background:#E5E7EB; border-color:#6b7280; }
+.milestone-marker.completed { background:#475569; border-color:#1f2937; }
+.milestone-marker.no-status { background:#f3f4f6; border-color:#9ca3af; }
 .subtask-row { height:var(--subtask-row-height); display:none; background:#fafafa; }
 .subtask-row.visible { display:flex; }
 .subtask-row .row-info { background:#fafafa; }
@@ -264,8 +264,8 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
     <div class="legend">
       <span class="legend-label">ステータス:</span>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:var(--accent)"></div>仕掛中</div>
-      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:var(--lightBg);border:1px solid var(--midGray)"></div>未着手</div>
-      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:var(--midGray)"></div>完了</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#E5E7EB;border:1px solid #9ca3af"></div>未着手</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#475569"></div>完了</div>
       <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#ccc"></div>未設定</div>
       <div class="legend-item"><div style="width:11px;height:11px;transform:rotate(45deg);border:2px solid var(--dark);background:var(--accent)"></div>MS</div>
     </div>
@@ -752,10 +752,9 @@ function applyFilters() {
       }
     }
     if(activePresets.es){
-      // ESトピックプリセット: 実際にESタグが付いているタスクのみ表示
-      // 定例会・MS（cross-ES）は常に表示
+      // ESトピックプリセット: 実際にESタグが付いているタスクのみ表示（厳密）
       var hasAnyTagES = t.es && t.es.length>0;
-      if(!hasAnyTagES && !t.isMeeting && t.t!=='milestone') return false;
+      if(!hasAnyTagES) return false;
     }
 
     // Standard filters
@@ -779,14 +778,10 @@ function applyFilters() {
     if(search&&!t.n.toLowerCase().includes(search)) return false;
 
     // ES topic dropdown filter — meetings always visible (cross-ES)
-    // ES個別フィルタ: 該当ESタグが付いているタスクのみ表示
-    // 定例会・MS（cross-ES）は常に表示
+    // ES個別フィルタ: 該当ESタグが付いているタスクのみ表示（厳密）
     if(esFilter!=='all'){
-      if(t.isMeeting) { /* meetings always visible */ }
-      else {
-        var hasTagES = t.es && t.es.indexOf(esFilter)!==-1;
-        if(!hasTagES) return false;
-      }
+      var hasTagES = t.es && t.es.indexOf(esFilter)!==-1;
+      if(!hasTagES) return false;
     }
 
     return true;
@@ -807,8 +802,8 @@ function updateSummary(){
   var pct=total>0?Math.round((completed/total)*100):0;
   document.getElementById('summaryBar').innerHTML=
     '<div class="summary-stat"><div class="dot" style="background:var(--accent)"></div>仕掛中: <b>'+inProg+'</b></div>'+
-    '<div class="summary-stat"><div class="dot" style="background:#f0f0f0;border:1px solid #ccc"></div>未着手: <b>'+notSt+'</b></div>'+
-    '<div class="summary-stat"><div class="dot" style="background:var(--midGray)"></div>完了: <b>'+completed+'</b></div>'+
+    '<div class="summary-stat"><div class="dot" style="background:#E5E7EB;border:1px solid #9ca3af"></div>未着手: <b>'+notSt+'</b></div>'+
+    '<div class="summary-stat"><div class="dot" style="background:#475569"></div>完了: <b>'+completed+'</b></div>'+
     (overdue>0?'<div class="summary-stat" style="color:#C62828"><div class="dot" style="background:#E53935"></div>期日超過: <b>'+overdue+'</b></div>':'')+
     '<div class="summary-stat">全体進捗: <b>'+pct+'%</b></div>'+
     '<div class="progress-bar-bg"><div class="progress-bar-fill" style="width:'+pct+'%"></div></div>';
