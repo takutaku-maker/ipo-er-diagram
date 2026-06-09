@@ -1,7 +1,3 @@
-https://raw.githubusercontent.com/takutaku-maker/ipo-er-diagram/main/IPO%E6%8E%A8%E9%80%B2_%E3%82%AC%E3%83%B3%E3%83%88%E3%83%81%E3%83%A3%E3%83%BC%E3%83%88_v4.html
-→ https://raw.githubusercontent.com/takutaku-maker/ipo-er-diagram/main/IPO%E6%8E%A8%E9%80%B2_%E3%82%AC%E3%83%B3%E3%83%88%E3%83%81%E3%83%A3%E3%83%BC%E3%83%88_v4.html
-Content-Type: text/plain; charset=utf-8
-
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -723,22 +719,37 @@ function applyFilters() {
   var now=new Date(); now.setHours(0,0,0,0);
   var hasPreset=Object.keys(activePresets).length>0;
 
+  // 完了タスクは status=all|完了 のときプリセット制約を緩和して表示
+  var statusAllowsComplete = (status==='all'||status==='完了');
+
   FILTERED=DATA.filter(function(t){
+    var isComp = t.c||t.st==='完了';
     // Preset filters (AND logic: must pass ALL active presets)
+    // 完了タスクは status が all|完了 の時、プリセットの他条件をスキップして表示
     if(activePresets.audit){
-      if(t.c||t.st==='完了') return false;
-      var ip=t.st==='仕掛中';
-      var od=t.d&&new Date(t.d+'T00:00:00')<now;
-      var ds=t.d&&!od&&((new Date(t.d+'T00:00:00')-now)/86400000)<=30;
-      var ms=t.t==='milestone';
-      if(!ip&&!od&&!ds&&!ms) return false;
+      if(isComp){
+        if(!statusAllowsComplete) return false;
+      } else {
+        var ip=t.st==='仕掛中';
+        var od=t.d&&new Date(t.d+'T00:00:00')<now;
+        var ds=t.d&&!od&&((new Date(t.d+'T00:00:00')-now)/86400000)<=30;
+        var ms=t.t==='milestone';
+        if(!ip&&!od&&!ds&&!ms) return false;
+      }
     }
     if(activePresets.urgent){
-      if(t.c||t.st==='完了') return false;
-      if(!t.d||new Date(t.d+'T00:00:00')>=now) return false;
+      if(isComp){
+        if(!statusAllowsComplete) return false;
+      } else {
+        if(!t.d||new Date(t.d+'T00:00:00')>=now) return false;
+      }
     }
     if(activePresets.active){
-      if(t.st!=='仕掛中') return false;
+      if(isComp){
+        if(!statusAllowsComplete) return false;
+      } else {
+        if(t.st!=='仕掛中') return false;
+      }
     }
     if(activePresets.es){
       // 完了タスク等のESタグ未付与もプロジェクトでES関連と判定できれば残す
@@ -768,11 +779,11 @@ function applyFilters() {
     if(search&&!t.n.toLowerCase().includes(search)) return false;
 
     // ES topic dropdown filter — meetings always visible (cross-ES)
-    // 完了タスクは status=all のとき常に表示（ESタグ未付与でも消えないように）
+    // 完了タスクは status=all|完了 のとき常に表示（ESタグ未付与でも消えないように）
     // 未完了タスクはESタグ or プロジェクト→ES マッピングで補完して判定
     if(esFilter!=='all'){
       if(t.isMeeting) { /* meetings always visible */ }
-      else if(status==='all' && (t.c||t.st==='完了')) { /* 完了は status=all 時に常に表示 */ }
+      else if(statusAllowsComplete && isComp) { /* 完了は status=all|完了 時に常に表示 */ }
       else {
         var hasTagES = t.es && t.es.indexOf(esFilter)!==-1;
         var projFallback = PROJECT_ES_DEFAULTS[t.projGid];
