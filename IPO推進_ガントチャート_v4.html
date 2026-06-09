@@ -225,6 +225,10 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
       <input type="checkbox" id="editDone">
       <span id="editDoneLabel">未完了</span>
     </div>
+    <div class="edit-field" id="editFollowersRow" style="align-items:flex-start;">
+      <label style="padding-top:4px;">フォロワー</label>
+      <div id="editFollowers" style="display:flex;flex-wrap:wrap;gap:4px;flex:1;max-width:500px;font-size:11px;color:#475569;"></div>
+    </div>
     <div class="edit-actions">
       <a id="editAsanaLink" href="#" target="_blank" rel="noopener" class="btn-asana-link">Asanaで開く ↗</a>
       <button class="btn-cancel" id="editCancel">キャンセル</button>
@@ -461,6 +465,21 @@ function openEditModal(task) {
   document.getElementById('editDone').checked = task.c || task.st === '完了';
   document.getElementById('editDoneLabel').textContent = (task.c || task.st === '完了') ? '完了' : '未完了';
 
+  // フォロワーは表示のみ（参照用）
+  var followersEl = document.getElementById('editFollowers');
+  followersEl.innerHTML = '';
+  var followers = task.followers || [];
+  if(followers.length === 0){
+    followersEl.innerHTML = '<span style="color:#9ca3af;">なし</span>';
+  } else {
+    followers.forEach(function(f){
+      var chip = document.createElement('span');
+      chip.style.cssText = 'background:#E0E7FF;color:#3730A3;padding:2px 8px;border-radius:10px;font-size:11px;';
+      chip.textContent = f.name || '(unknown)';
+      followersEl.appendChild(chip);
+    });
+  }
+
   document.getElementById('editAsanaLink').href = 'https://app.asana.com/0/0/' + task.gid;
 
   document.getElementById('editOverlay').classList.remove('hidden');
@@ -568,7 +587,7 @@ document.getElementById('editOverlay').addEventListener('click', function(e){
 });
 
 async function fetchProjectTasks(projectGid) {
-  var fields='name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.gid,custom_fields.display_value,custom_fields.name,custom_fields.type,custom_fields.enum_value.gid,custom_fields.enum_value.name,num_subtasks,assignee.gid,assignee.name,memberships.project.gid';
+  var fields='name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.gid,custom_fields.display_value,custom_fields.name,custom_fields.type,custom_fields.enum_value.gid,custom_fields.enum_value.name,num_subtasks,assignee.gid,assignee.name,followers.gid,followers.name,memberships.project.gid';
   var all=[], offset=null;
   do {
     var url='/tasks?project='+projectGid+'&opt_fields='+fields+'&limit=100';
@@ -643,6 +662,7 @@ function parseTask(raw, projInfo) {
     ns:raw.num_subtasks||0,
     assignee:raw.assignee?raw.assignee.name:'',
     assigneeGid:raw.assignee?raw.assignee.gid:'',
+    followers:(raw.followers||[]).map(function(f){return{name:f.name,gid:f.gid}}),
     proj:projInfo.name,
     projShort:projInfo.short,
     projColor:projInfo.color,
