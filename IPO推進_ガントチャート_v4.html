@@ -68,6 +68,9 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .preset-btn.es-topic { background:#F3E8FF; color:#6D28D9; border-color:#8B5CF6; }
 .preset-btn.es-topic:hover { background:#EDE9FE; }
 .preset-btn.es-topic.active { background:#8B5CF6; color:#fff; }
+.preset-btn.kitei { background:#EDE9FE; color:#5B21B6; border-color:#7A6FF0; }
+.preset-btn.kitei:hover { background:#DDD6FE; }
+.preset-btn.kitei.active { background:#7A6FF0; color:#fff; }
 .filter-divider { width:1px; height:24px; background:var(--midGray); margin:0 4px; }
 .multi-select-wrap { position:relative; display:inline-block; }
 .multi-select-btn { font-family:'Noto Sans JP',sans-serif; font-size:12px; padding:4px 24px 4px 8px; border:1px solid var(--midGray); border-radius:4px; background:var(--white); color:var(--dark); cursor:pointer; min-width:120px; text-align:left; position:relative; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:200px; }
@@ -112,18 +115,18 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .es-tag { display:inline-block; font-size:8px; font-weight:700; padding:1px 5px; border-radius:3px; white-space:nowrap; line-height:1.3; }
 .th-es { width:var(--es-w); padding:8px 4px; text-align:center; }
 .status-chip { display:inline-block; font-size:9px; font-weight:700; padding:1px 6px; border-radius:3px; white-space:nowrap; }
-.status-chip.in-progress { background:#FEDA3E; color:#1F2937; }
-.status-chip.not-started { background:#DBEAFE; color:#1E40AF; border:1px dashed #3B82F6; }
-.status-chip.completed { background:#047857; color:#FFFFFF; }
-.status-chip.no-status { background:#FEE2E2; color:#991B1B; border:1px dashed #DC2626; }
+.status-chip.in-progress { background:var(--accent); color:var(--dark); }
+.status-chip.not-started { background:#f0f0f0; color:var(--gray); }
+.status-chip.completed { background:var(--midGray); color:var(--white); }
+.status-chip.no-status { background:#f5f5f5; color:#bbb; }
 .group-header .col-name { font-weight:700; font-size:12px; letter-spacing:0.5px; }
 .group-count { font-size:11px; opacity:0.8; margin-left:6px; }
 .group-progress { font-size:10px; opacity:0.7; margin-left:auto; margin-right:12px; }
 .status-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
-.status-dot.in-progress { background:#FEDA3E; }
-.status-dot.not-started { background:#DBEAFE; border:1px dashed #3B82F6; }
-.status-dot.completed { background:#047857; }
-.status-dot.no-status { background:#FEE2E2; border:1px dashed #DC2626; }
+.status-dot.in-progress { background:var(--accent); }
+.status-dot.not-started { background:var(--lightBg); border:1px solid var(--midGray); }
+.status-dot.completed { background:var(--midGray); }
+.status-dot.no-status { background:#ccc; }
 .toggle-arrow { cursor:pointer; font-size:10px; color:var(--gray); user-select:none; flex-shrink:0; }
 .toggle-arrow:hover { color:var(--dark); }
 .task-name-text { overflow:hidden; text-overflow:ellipsis; }
@@ -131,15 +134,15 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .ms-icon { flex-shrink:0; width:10px; height:10px; transform:rotate(45deg); border:1.5px solid var(--dark); background:var(--accent); display:inline-block; }
 .row-bars { flex:1; position:relative; height:100%; }
 .gantt-bar { position:absolute; height:14px; top:50%; transform:translateY(-50%); border-radius:3px; }
-.gantt-bar.in-progress { background:#FEDA3E; border:1px solid #C9A300; }
-.gantt-bar.not-started { background:#DBEAFE; border:1px dashed #3B82F6; }
-.gantt-bar.completed { background:#047857; border:1px solid #064E3B; }
-.gantt-bar.no-status { background:#FEE2E2; border:1px dashed #DC2626; }
+.gantt-bar.in-progress { background:var(--accent); }
+.gantt-bar.not-started { background:var(--lightBg); border:1px solid var(--midGray); }
+.gantt-bar.completed { background:var(--midGray); }
+.gantt-bar.no-status { background:#e0e0e0; border:1px solid #ccc; }
 .milestone-marker { position:absolute; width:14px; height:14px; top:50%; transform:translateY(-50%) rotate(45deg); border:2px solid var(--dark); }
-.milestone-marker.in-progress { background:#FEDA3E; border-color:#C9A300; border-style:solid; }
-.milestone-marker.not-started { background:#DBEAFE; border-color:#3B82F6; border-style:dashed; }
-.milestone-marker.completed { background:#047857; border-color:#064E3B; border-style:solid; }
-.milestone-marker.no-status { background:#FEE2E2; border-color:#DC2626; border-style:dashed; }
+.milestone-marker.in-progress { background:var(--accent); }
+.milestone-marker.not-started { background:var(--lightBg); }
+.milestone-marker.completed { background:var(--midGray); }
+.milestone-marker.no-status { background:#ddd; }
 .subtask-row { height:var(--subtask-row-height); display:none; background:#fafafa; }
 .subtask-row.visible { display:flex; }
 .subtask-row .row-info { background:#fafafa; }
@@ -147,8 +150,8 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 .subtask-row:hover .row-info { background:var(--lightBg); }
 .subtask-line { position:absolute; height:6px; top:50%; transform:translateY(-50%); background:var(--midGray); border-radius:2px; opacity:0.5; }
 .quarter-line { position:absolute; top:0; bottom:0; width:1px; background:var(--midGray); opacity:0.4; z-index:1; }
-.today-line { position:absolute; top:0; bottom:0; width:2px; background:#E53935; z-index:3; box-shadow:0 0 4px rgba(229,57,53,0.4); }
-.today-label { position:absolute; top:2px; left:-22px; background:#E53935; color:white; font-size:10px; font-weight:700; padding:2px 6px; border-radius:3px; opacity:0.95; white-space:nowrap; box-shadow:0 1px 3px rgba(0,0,0,0.2); }
+.today-line { position:absolute; top:0; bottom:0; width:2px; background:#E53935; z-index:3; }
+.today-label { position:absolute; top:0; left:-14px; background:#E53935; color:white; font-size:9px; font-weight:700; padding:1px 5px; border-radius:2px; opacity:0.5; }
 .tooltip { position:fixed; background:var(--dark); color:var(--white); padding:8px 12px; border-radius:4px; font-size:12px; line-height:1.5; z-index:200; pointer-events:none; display:none; max-width:360px; }
 .footer { flex-shrink:0; text-align:center; padding:6px; font-size:13px; color:var(--gray); border-top:1px solid var(--midGray); background:var(--white); }
 .overlay { position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:1000; display:flex; align-items:center; justify-content:center; }
@@ -218,16 +221,11 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
     <div class="edit-field">
       <label>ステータス</label>
       <select id="editStatus"><option value="">未設定</option></select>
-      <span id="editStatusHint" style="font-size:10px;color:#C62828;margin-left:8px;"></span>
     </div>
     <div class="edit-field">
       <label>完了</label>
       <input type="checkbox" id="editDone">
       <span id="editDoneLabel">未完了</span>
-    </div>
-    <div class="edit-field" id="editFollowersRow" style="align-items:flex-start;">
-      <label style="padding-top:4px;">フォロワー</label>
-      <div id="editFollowers" style="display:flex;flex-wrap:wrap;gap:4px;flex:1;max-width:500px;font-size:11px;color:#475569;"></div>
     </div>
     <div class="edit-actions">
       <a id="editAsanaLink" href="#" target="_blank" rel="noopener" class="btn-asana-link">Asanaで開く ↗</a>
@@ -268,10 +266,10 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
   <div class="legend-rows">
     <div class="legend">
       <span class="legend-label">ステータス:</span>
-      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#FEDA3E"></div>進行中</div>
-      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#DBEAFE;border:1px dashed #3B82F6"></div>未着手</div>
-      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#047857"></div>完了</div>
-      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#FEE2E2;border:1px dashed #DC2626"></div>未設定</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:var(--accent)"></div>仕掛中</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:var(--lightBg);border:1px solid var(--midGray)"></div>未着手</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:var(--midGray)"></div>完了</div>
+      <div class="legend-item"><div style="width:9px;height:9px;border-radius:50%;background:#ccc"></div>未設定</div>
       <div class="legend-item"><div style="width:11px;height:11px;transform:rotate(45deg);border:2px solid var(--dark);background:var(--accent)"></div>MS</div>
     </div>
     <div style="width:1px;height:16px;background:#555"></div>
@@ -300,10 +298,11 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
 <div class="filter-bar" id="filterBar">
   <div class="filter-group">
     <label>プリセット:</label>
-    <button class="preset-btn audit" id="presetAudit" title="期日30日以内+期日超過+進行中+MS">&#x1F4CB; 監査法人定例</button>
+    <button class="preset-btn audit" id="presetAudit" title="期日30日以内+期日超過+仕掛中+MS">&#x1F4CB; 監査法人定例</button>
     <button class="preset-btn urgent" id="presetUrgent" title="期日超過タスクのみ">&#x1F534; 期日超過</button>
-    <button class="preset-btn active-tasks" id="presetActive" title="進行中・レビュー待ちタスクのみ">&#x26A1; 進行中</button>
+    <button class="preset-btn active-tasks" id="presetActive" title="仕掛中タスクのみ">&#x26A1; 仕掛中</button>
     <button class="preset-btn es-topic" id="presetES" title="SR指摘ESトピック関連タスクのみ">&#x1F4CA; ESトピック</button>
+    <button class="preset-btn kitei" id="presetKitei" title="規程整備プロジェクト＋【規程】タスクを抽出">&#x1F4D1; 規程整備</button>
   </div>
   <div class="filter-divider"></div>
   <div class="filter-group">
@@ -316,7 +315,7 @@ body { font-family:'Noto Sans JP',sans-serif; background:var(--white); color:var
   </div>
   <div class="filter-group">
     <label>ステータス:</label>
-    <select id="filterStatus"><option value="all">すべて</option><option value="進行中">進行中</option><option value="レビュー待ち">レビュー待ち</option><option value="未着手">未着手</option><option value="完了">完了</option><option value="none">未設定</option></select>
+    <select id="filterStatus"><option value="all">すべて</option><option value="仕掛中">仕掛中</option><option value="未着手">未着手</option><option value="完了">完了</option><option value="none">未設定</option></select>
   </div>
   <div class="filter-group">
     <label>担当者:</label>
@@ -363,21 +362,11 @@ var ES_TOPICS = {
   'ES-03': { name: 'ES-03 収益認識', desc: '収益認識に関する会計基準の適用', color: '#3B82F6' },
   'ES-04': { name: 'ES-04 ソフトウェア', desc: 'ソフトウェアの収益性判断プロセスとソフトウェア開発プロセスの構築', color: '#10B981' }
 };
-// プロジェクト → ESトピック の暗黙マッピング（ESタグ未付与タスクのフィルタ補完用）
-// 完了タスク等でESタグが付いていない場合でも、プロジェクトベースでフィルタヒットさせる
-var PROJECT_ES_DEFAULTS = {
-  '1214347783106959': ['ES-01'],                            // 関連当事者・組織整理 → ES-01
-  '1214629191807667': ['ES-02','ES-03','ES-04'],            // 財務・決算・J-SOX → ES-02/03/04
-  '1214628881129837': ['ES-01','ES-02','ES-03','ES-04'],    // 規程整備 → 全ES横断
-  '1214023537871202': ['ES-02','ES-03','ES-04']             // IPO業務推進 → ES-02/03/04
-};
 var ASANA_BASE = 'https://app.asana.com/api/1.0';
 var DATA = [], SUBTASKS = {}, FILTERED = [], lastFetchTime = null, activePresets = {};
 var _pat = '';
 var TIMELINE_START = new Date(2026,0,1), TIMELINE_END = new Date(2029,5,30);
-// INFO_COL_WIDTH は CSS --info-col-width (640px) と一致させる
-// = name(240) + proj(90) + assignee(70) + due(75) + status(40) + es(125)
-var MONTH_WIDTH = 60, INFO_COL_WIDTH = 640;
+var MONTH_WIDTH = 60, INFO_COL_WIDTH = 560;
 
 function getTodayStr() { var d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
 
@@ -403,19 +392,9 @@ async function loadStatusOptions() {
 }
 
 var _members = [];
-var WORKSPACE_GID = '1212871056187970'; // reboot.vision
 async function loadMembers() {
   var seen = {};
   _members = [];
-  // 1) ワークスペース全ユーザーを取得（最も網羅的）
-  try {
-    var wsRes = await fetch(ASANA_BASE+'/workspaces/'+WORKSPACE_GID+'/users?opt_fields=name,email&limit=100',{headers:{'Authorization':'Bearer '+getPAT()}});
-    if(wsRes.ok){
-      var wsJson = await wsRes.json();
-      (wsJson.data||[]).forEach(function(u){ if(!seen[u.gid]){seen[u.gid]=true; _members.push({gid:u.gid, name:u.name});} });
-    }
-  } catch(e){}
-  // 2) フォールバック: プロジェクトメンバーも統合（取りこぼし防止）
   for(var i=0; i<PROJECTS.length; i++){
     try {
       var res = await fetch(ASANA_BASE+'/projects/'+PROJECTS[i].gid+'/members',{headers:{'Authorization':'Bearer '+getPAT()}});
@@ -432,12 +411,9 @@ var _editGid = null;
 
 function getAllAssignees(){
   var seen={}, list=[];
-  // Merge workspace users, project members, task assignees and followers
+  // Merge project members and task assignees
   _members.forEach(function(m){ if(!seen[m.gid]){seen[m.gid]=true; list.push({gid:m.gid,name:m.name});} });
-  DATA.forEach(function(t){
-    if(t.assigneeGid&&!seen[t.assigneeGid]){seen[t.assigneeGid]=true; list.push({gid:t.assigneeGid,name:t.assignee});}
-    (t.followers||[]).forEach(function(f){ if(f.gid&&!seen[f.gid]){seen[f.gid]=true; list.push({gid:f.gid,name:f.name});} });
-  });
+  DATA.forEach(function(t){ if(t.assigneeGid&&!seen[t.assigneeGid]){seen[t.assigneeGid]=true; list.push({gid:t.assigneeGid,name:t.assignee});} });
   list.sort(function(a,b){return a.name.localeCompare(b.name,'ja');});
   return list;
 }
@@ -467,31 +443,10 @@ function openEditModal(task) {
     if(task.stEnumGid === opt.gid) o.selected = true;
     stSel.appendChild(o);
   });
-  // 全タスクが「進捗ステータス」CFを保持する想定なので常に編集可能
-  var hasStatusField = !!task.stFieldGid;
-  stSel.disabled = !hasStatusField;
-  stSel.title = '';
-  var stHint = document.getElementById('editStatusHint');
-  if(stHint) stHint.textContent = hasStatusField ? '' : '※ このタスクは進捗ステータス未紐付け（最新化後に再試行）';
 
   document.getElementById('editDue').value = task.d || '';
   document.getElementById('editDone').checked = task.c || task.st === '完了';
   document.getElementById('editDoneLabel').textContent = (task.c || task.st === '完了') ? '完了' : '未完了';
-
-  // フォロワーは表示のみ（参照用）
-  var followersEl = document.getElementById('editFollowers');
-  followersEl.innerHTML = '';
-  var followers = task.followers || [];
-  if(followers.length === 0){
-    followersEl.innerHTML = '<span style="color:#9ca3af;">なし</span>';
-  } else {
-    followers.forEach(function(f){
-      var chip = document.createElement('span');
-      chip.style.cssText = 'background:#E0E7FF;color:#3730A3;padding:2px 8px;border-radius:10px;font-size:11px;';
-      chip.textContent = f.name || '(unknown)';
-      followersEl.appendChild(chip);
-    });
-  }
 
   document.getElementById('editAsanaLink').href = 'https://app.asana.com/0/0/' + task.gid;
 
@@ -514,14 +469,13 @@ async function saveEdit() {
   var completed = document.getElementById('editDone').checked;
   var statusEnumGid = document.getElementById('editStatus').value || null;
 
-  // Find the task's own status field GID（タスクが持っているCFのみ更新可能）
+  // Find the task's own status field GID
   var taskData = DATA.find(function(t){return t.gid===_editGid;});
-  var taskStatusFieldGid = taskData && taskData.stFieldGid ? taskData.stFieldGid : '';
-  var canUpdateStatus = !!taskStatusFieldGid;
+  var taskStatusFieldGid = taskData ? taskData.stFieldGid : _statusFieldGid;
 
   // Build request body
   var body = { assignee: assignee, due_on: dueOn, completed: completed };
-  if(canUpdateStatus && statusEnumGid){
+  if(taskStatusFieldGid && statusEnumGid){
     body.custom_fields = {};
     body.custom_fields[taskStatusFieldGid] = statusEnumGid;
   }
@@ -545,16 +499,14 @@ async function saveEdit() {
       if(DATA[i].gid === _editGid){
         DATA[i].d = dueOn || '';
         DATA[i].c = completed;
-        // Update status display value only if the task actually has the status field
-        if(canUpdateStatus){
-          if(statusEnumGid){
-            var opt = _statusOptions.find(function(o){return o.gid===statusEnumGid;});
-            DATA[i].st = opt ? opt.name : '';
-            DATA[i].stEnumGid = statusEnumGid;
-          } else {
-            DATA[i].st = '';
-            DATA[i].stEnumGid = '';
-          }
+        // Update status display value
+        if(statusEnumGid){
+          var opt = _statusOptions.find(function(o){return o.gid===statusEnumGid;});
+          DATA[i].st = opt ? opt.name : '';
+          DATA[i].stEnumGid = statusEnumGid;
+        } else {
+          DATA[i].st = '';
+          DATA[i].stEnumGid = '';
         }
         if(assignee){
           var allA = getAllAssignees();
@@ -569,8 +521,7 @@ async function saveEdit() {
       }
     }
 
-    var savedMsg = canUpdateStatus ? 'タスクを更新しました' : 'タスクを更新しました（このタスクはステータスCF未対応のため完了チェックのみ反映）';
-    showGanttToast(savedMsg, 'success');
+    showGanttToast('タスクを更新しました', 'success');
     closeEditModal();
     applyFilters();
   } catch(e) {
@@ -600,7 +551,7 @@ document.getElementById('editOverlay').addEventListener('click', function(e){
 });
 
 async function fetchProjectTasks(projectGid) {
-  var fields='name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.gid,custom_fields.display_value,custom_fields.name,custom_fields.type,custom_fields.enum_value.gid,custom_fields.enum_value.name,num_subtasks,assignee.gid,assignee.name,followers.gid,followers.name,memberships.project.gid';
+  var fields='name,start_on,due_on,completed,resource_subtype,tags.name,custom_fields.gid,custom_fields.display_value,custom_fields.name,custom_fields.type,custom_fields.enum_value.gid,custom_fields.enum_value.name,num_subtasks,assignee.gid,assignee.name,memberships.project.gid';
   var all=[], offset=null;
   do {
     var url='/tasks?project='+projectGid+'&opt_fields='+fields+'&limit=100';
@@ -616,33 +567,16 @@ async function fetchProjectTasks(projectGid) {
 
 function parseTask(raw, projInfo) {
   var status='', statusFieldGid='', statusEnumGid='';
-  // 「進捗ステータス」(全社管理PJの enum: 仕掛中/未着手/完了) を優先採用
-  // フォールバック: 「ステータス」(伊藤卓個人PJの enum: 未着手/進行中/レビュー待ち/完了)
   if(raw.custom_fields){
-    // First pass: prefer 進捗ステータス
     for(var i=0;i<raw.custom_fields.length;i++){
       var cf=raw.custom_fields[i];
-      if(cf.name==='進捗ステータス'){
+      if(cf.name==='ステータス'||cf.name==='Status'){
         status=cf.display_value||'';
         statusFieldGid=cf.gid||'';
         if(cf.enum_value) statusEnumGid=cf.enum_value.gid||'';
-        // 進捗ステータスは常にグローバル優先（既存値を上書き）
-        if(cf.gid) _statusFieldGid=cf.gid;
+        // Capture the field GID for later use
+        if(cf.gid && !_statusFieldGid) _statusFieldGid=cf.gid;
         break;
-      }
-    }
-    // Second pass: fall back to ステータス if 進捗ステータス not found
-    if(!statusFieldGid){
-      for(var i=0;i<raw.custom_fields.length;i++){
-        var cf=raw.custom_fields[i];
-        if(cf.name==='ステータス'||cf.name==='Status'){
-          status=cf.display_value||'';
-          statusFieldGid=cf.gid||'';
-          if(cf.enum_value) statusEnumGid=cf.enum_value.gid||'';
-          // 既に進捗ステータス採用済みなら上書きしない
-          if(cf.gid && !_statusFieldGid) _statusFieldGid=cf.gid;
-          break;
-        }
       }
     }
   }
@@ -675,7 +609,6 @@ function parseTask(raw, projInfo) {
     ns:raw.num_subtasks||0,
     assignee:raw.assignee?raw.assignee.name:'',
     assigneeGid:raw.assignee?raw.assignee.gid:'',
-    followers:(raw.followers||[]).map(function(f){return{name:f.name,gid:f.gid}}),
     proj:projInfo.name,
     projShort:projInfo.short,
     projColor:projInfo.color,
@@ -782,42 +715,30 @@ function applyFilters() {
   var now=new Date(); now.setHours(0,0,0,0);
   var hasPreset=Object.keys(activePresets).length>0;
 
-  // 完了タスクは status=all|完了 のときプリセット制約を緩和して表示
-  var statusAllowsComplete = (status==='all'||status==='完了');
-
   FILTERED=DATA.filter(function(t){
-    var isComp = t.c||t.st==='完了';
     // Preset filters (AND logic: must pass ALL active presets)
-    // 完了タスクは status が all|完了 の時、プリセットの他条件をスキップして表示
     if(activePresets.audit){
-      if(isComp){
-        if(!statusAllowsComplete) return false;
-      } else {
-        var ip=t.st==='進行中'||t.st==='仕掛中'||t.st==='レビュー待ち';
-        var od=t.d&&new Date(t.d+'T00:00:00')<now;
-        var ds=t.d&&!od&&((new Date(t.d+'T00:00:00')-now)/86400000)<=30;
-        var ms=t.t==='milestone';
-        if(!ip&&!od&&!ds&&!ms) return false;
-      }
+      if(t.c||t.st==='完了') return false;
+      var ip=t.st==='仕掛中';
+      var od=t.d&&new Date(t.d+'T00:00:00')<now;
+      var ds=t.d&&!od&&((new Date(t.d+'T00:00:00')-now)/86400000)<=30;
+      var ms=t.t==='milestone';
+      if(!ip&&!od&&!ds&&!ms) return false;
     }
     if(activePresets.urgent){
-      if(isComp){
-        if(!statusAllowsComplete) return false;
-      } else {
-        if(!t.d||new Date(t.d+'T00:00:00')>=now) return false;
-      }
+      if(t.c||t.st==='完了') return false;
+      if(!t.d||new Date(t.d+'T00:00:00')>=now) return false;
     }
     if(activePresets.active){
-      if(isComp){
-        if(!statusAllowsComplete) return false;
-      } else {
-        if(t.st!=='進行中'&&t.st!=='仕掛中'&&t.st!=='レビュー待ち') return false;
-      }
+      if(t.st!=='仕掛中') return false;
     }
     if(activePresets.es){
-      // ESトピックプリセット: 実際にESタグが付いているタスクのみ表示（厳密）
-      var hasAnyTagES = t.es && t.es.length>0;
-      if(!hasAnyTagES) return false;
+      if(!t.es||t.es.length===0) return false;
+    }
+    if(activePresets.kitei){
+      var isKiteiProj=(t.projGid==='1214628881129837');
+      var isKiteiName=/【規程】|規程.*策定|規程.*整備/.test(t.n);
+      if(!isKiteiProj&&!isKiteiName) return false;
     }
 
     // Standard filters
@@ -826,7 +747,6 @@ function applyFilters() {
     if(status!=='all'){
       if(status==='none'){if(t.c||t.st) return false;}
       else if(status==='完了'){if(!t.c&&t.st!=='完了') return false;}
-      else if(status==='進行中'){if(t.st!=='進行中'&&t.st!=='仕掛中') return false;}
       else if(t.st!==status) return false;
     }
     // Multi-select assignee filter
@@ -842,10 +762,8 @@ function applyFilters() {
     if(search&&!t.n.toLowerCase().includes(search)) return false;
 
     // ES topic dropdown filter — meetings always visible (cross-ES)
-    // ES個別フィルタ: 該当ESタグが付いているタスクのみ表示（厳密）
     if(esFilter!=='all'){
-      var hasTagES = t.es && t.es.indexOf(esFilter)!==-1;
-      if(!hasTagES) return false;
+      if(!t.isMeeting && (!t.es||t.es.indexOf(esFilter)===-1)) return false;
     }
 
     return true;
@@ -859,15 +777,15 @@ function applyFilters() {
 function updateSummary(){
   var total=DATA.length;
   var completed=DATA.filter(function(t){return t.c||t.st==='完了'}).length;
-  var inProg=DATA.filter(function(t){return t.st==='進行中'||t.st==='仕掛中'||t.st==='レビュー待ち'}).length;
+  var inProg=DATA.filter(function(t){return t.st==='仕掛中'}).length;
   var notSt=DATA.filter(function(t){return t.st==='未着手'}).length;
   var now=new Date();now.setHours(0,0,0,0);
   var overdue=DATA.filter(function(t){return!t.c&&t.st!=='完了'&&t.d&&new Date(t.d+'T00:00:00')<now}).length;
   var pct=total>0?Math.round((completed/total)*100):0;
   document.getElementById('summaryBar').innerHTML=
-    '<div class="summary-stat"><div class="dot" style="background:#FEDA3E"></div>進行中: <b>'+inProg+'</b></div>'+
-    '<div class="summary-stat"><div class="dot" style="background:#DBEAFE;border:1px dashed #3B82F6"></div>未着手: <b>'+notSt+'</b></div>'+
-    '<div class="summary-stat"><div class="dot" style="background:#047857"></div>完了: <b>'+completed+'</b></div>'+
+    '<div class="summary-stat"><div class="dot" style="background:var(--accent)"></div>仕掛中: <b>'+inProg+'</b></div>'+
+    '<div class="summary-stat"><div class="dot" style="background:#f0f0f0;border:1px solid #ccc"></div>未着手: <b>'+notSt+'</b></div>'+
+    '<div class="summary-stat"><div class="dot" style="background:var(--midGray)"></div>完了: <b>'+completed+'</b></div>'+
     (overdue>0?'<div class="summary-stat" style="color:#C62828"><div class="dot" style="background:#E53935"></div>期日超過: <b>'+overdue+'</b></div>':'')+
     '<div class="summary-stat">全体進捗: <b>'+pct+'%</b></div>'+
     '<div class="progress-bar-bg"><div class="progress-bar-fill" style="width:'+pct+'%"></div></div>';
@@ -875,9 +793,8 @@ function updateSummary(){
 
 function dateToX(ds){ if(!ds)return null; var d=new Date(ds+'T00:00:00'); return((d-TIMELINE_START)/(TIMELINE_END-TIMELINE_START))*TOTAL_WIDTH; }
 
-// Asanaの実ステータス値: 未着手 / 進行中 / レビュー待ち / 完了 を全て対応
-function getStatusClass(t){ if(t.c||t.st==='完了')return'completed'; if(t.st==='進行中'||t.st==='仕掛中'||t.st==='レビュー待ち')return'in-progress'; if(t.st==='未着手')return'not-started'; return'no-status'; }
-function getStatusLabel(t){ if(t.c||t.st==='完了')return'完了'; if(t.st==='レビュー待ち')return'レビュー待ち'; if(t.st==='進行中'||t.st==='仕掛中')return'進行中'; if(t.st==='未着手')return'未着手'; return'−'; }
+function getStatusClass(t){ if(t.c||t.st==='完了')return'completed'; if(t.st==='仕掛中')return'in-progress'; if(t.st==='未着手')return'not-started'; return'no-status'; }
+function getStatusLabel(t){ if(t.c||t.st==='完了')return'完了'; if(t.st==='仕掛中')return'仕掛中'; if(t.st==='未着手')return'未着手'; return'−'; }
 function formatDue(d){ if(!d)return''; return d.replace(/^\d{4}-/,'').replace('-','/'); }
 function getDueClass(t){ if(t.c||t.st==='完了'||!t.d)return''; var due=new Date(t.d+'T00:00:00'); var now=new Date();now.setHours(0,0,0,0); var diff=(due-now)/86400000; if(diff<0)return'overdue'; if(diff<=14)return'soon'; return''; }
 
@@ -910,16 +827,8 @@ function buildBody(){
 
   months.forEach(function(m,i){if(m.month%3===0){var ql=document.createElement('div');ql.className='quarter-line';ql.style.left=(INFO_COL_WIDTH+i*MONTH_WIDTH)+'px';container.appendChild(ql);}});
 
-  var todayStr=getTodayStr();
-  var todayX=dateToX(todayStr);
-  if(todayX!==null){
-    var tl=document.createElement('div');tl.className='today-line';tl.style.left=(INFO_COL_WIDTH+todayX)+'px';
-    var tlab=document.createElement('div');tlab.className='today-label';
-    // 「TODAY 2026/06/09」のように本日の日付を動的に表示
-    var td=new Date();
-    tlab.textContent='TODAY '+td.getFullYear()+'/'+String(td.getMonth()+1).padStart(2,'0')+'/'+String(td.getDate()).padStart(2,'0');
-    tl.appendChild(tlab);container.appendChild(tl);
-  }
+  var todayX=dateToX(getTodayStr());
+  if(todayX!==null){var tl=document.createElement('div');tl.className='today-line';tl.style.left=(INFO_COL_WIDTH+todayX)+'px';var tlab=document.createElement('div');tlab.className='today-label';tlab.textContent='TODAY';tl.appendChild(tlab);container.appendChild(tl);}
 
   sortedKeys.forEach(function(projGid){
     var proj=PROJECTS.find(function(p){return p.gid===projGid});
@@ -1050,26 +959,15 @@ function updateHeader(){
   if(lastFetchTime){var h=String(lastFetchTime.getHours()).padStart(2,'0'),m=String(lastFetchTime.getMinutes()).padStart(2,'0');document.getElementById('lastUpdate').textContent='最終取得 '+h+':'+m;}
 }
 
-function rebuildChart(){
-  updateHeader();buildTimelineHeader();buildBody();syncScroll();
-  // 初期表示時にTodayが画面中央付近に来るよう確実にスクロール
-  requestAnimationFrame(function(){setTimeout(scrollToToday,50);setTimeout(scrollToToday,300);});
-}
+function rebuildChart(){updateHeader();buildTimelineHeader();buildBody();syncScroll();setTimeout(scrollToToday,100);}
 function showError(msg){document.getElementById('errorMsg').textContent=msg;document.getElementById('errorBanner').classList.add('visible');}
 function hideError(){document.getElementById('errorBanner').classList.remove('visible');}
 function syncScroll(){var b=document.getElementById('ganttBody'),h=document.getElementById('timelineHeader');b.addEventListener('scroll',function(){h.scrollLeft=b.scrollLeft;});}
-function scrollToToday(){
-  var b=document.getElementById('ganttBody');
-  if(!b)return;
-  var tx=dateToX(getTodayStr());
-  if(tx===null)return;
-  // 本日を画面左寄り（200px）に表示。infoカラム分の余白も考慮
-  b.scrollLeft=Math.max(0,tx-200);
-}
+function scrollToToday(){var b=document.getElementById('ganttBody'),tx=dateToX(getTodayStr());if(tx!==null)b.scrollLeft=Math.max(0,tx-200);}
 
 function setPreset(p){
   if(activePresets[p]){delete activePresets[p];}else{activePresets[p]=true;}
-  var idMap={audit:'presetAudit',urgent:'presetUrgent',active:'presetActive',es:'presetES'};
+  var idMap={audit:'presetAudit',urgent:'presetUrgent',active:'presetActive',es:'presetES',kitei:'presetKitei'};
   Object.keys(idMap).forEach(function(k){
     var el=document.getElementById(idMap[k]);
     if(activePresets[k]) el.classList.add('active'); else el.classList.remove('active');
@@ -1081,6 +979,7 @@ document.getElementById('presetAudit').addEventListener('click',function(){setPr
 document.getElementById('presetUrgent').addEventListener('click',function(){setPreset('urgent');});
 document.getElementById('presetActive').addEventListener('click',function(){setPreset('active');});
 document.getElementById('presetES').addEventListener('click',function(){setPreset('es');});
+document.getElementById('presetKitei').addEventListener('click',function(){setPreset('kitei');});
 
 document.getElementById('refreshBtn').addEventListener('click',async function(){this.classList.add('loading');this.disabled=true;await loadData();this.classList.remove('loading');this.disabled=false;});
 document.getElementById('settingsBtn').addEventListener('click',function(){document.getElementById('patInput').value=getPAT();document.getElementById('patDialog').classList.remove('hidden');});
