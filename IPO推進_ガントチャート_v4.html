@@ -362,6 +362,29 @@ var ES_TOPICS = {
   'ES-03': { name: 'ES-03 収益認識', desc: '収益認識に関する会計基準の適用', color: '#3B82F6' },
   'ES-04': { name: 'ES-04 ソフトウェア', desc: 'ソフトウェアの収益性判断プロセスとソフトウェア開発プロセスの構築', color: '#10B981' }
 };
+// SR指摘マッピングに基づく規程→ES推論ルール
+var ES_KITEI_RULES = [
+  // ES-01: 関連当事者整理 (B-1-6,B-1-7,B-1-9,ES-1 → II-C,V-G,VI-C)
+  { pattern: /関連当事者|関係会社|連結決算/, es: ['ES-01'] },
+  // ES-02: 売上証跡管理 (B-3-1〜B-3-8,ES-2 → V-D,V-E,VI-B,VI-D)
+  { pattern: /販売管理|与信管理|債権管理|契約管理|証憑管理|納品書|請求業務/, es: ['ES-02'] },
+  // ES-03: 収益認識 (B-4-3〜B-4-6,ES-3 → VI-D)
+  { pattern: /収益認識|会計処理|会計基準/, es: ['ES-03'] },
+  // ES-03+ES-04: 経理・原価計算 (B-3-10,B-4-3 → VI-A,VI-D)
+  { pattern: /経理規程|原価計算/, es: ['ES-03','ES-04'] },
+  // ES-04: ソフトウェア (B-3-16〜B-3-21,ES-4 → V-F-c,VI-A)
+  { pattern: /ソフトウェア|制作方針|開発管理|開発稟議|工数管理|プロジェクト管理|固定資産/, es: ['ES-04'] }
+];
+function inferESFromName(name){
+  var result=[];
+  for(var i=0;i<ES_KITEI_RULES.length;i++){
+    if(ES_KITEI_RULES[i].pattern.test(name)){
+      var keys=ES_KITEI_RULES[i].es;
+      for(var j=0;j<keys.length;j++){ if(result.indexOf(keys[j])===-1) result.push(keys[j]); }
+    }
+  }
+  return result;
+}
 var ASANA_BASE = 'https://app.asana.com/api/1.0';
 var DATA = [], SUBTASKS = {}, FILTERED = [], lastFetchTime = null, activePresets = {};
 var _pat = '';
@@ -593,6 +616,14 @@ function parseTask(raw, projInfo) {
   }
   // Non-ES tags for display
   var otherTags=tagNames.filter(function(t){return !/^ES-0/.test(t);}).join(', ');
+  // Infer ES from task name for regulation tasks (規程整備 project or 【規程】 prefix)
+  var isKiteiTask=(projInfo.gid==='1214628881129837')||/【規程】|規程.*策定|規程.*整備/.test(raw.name);
+  if(isKiteiTask){
+    var esInferred=inferESFromName(raw.name);
+    for(var ii=0;ii<esInferred.length;ii++){
+      if(esFromTags.indexOf(esInferred[ii])===-1) esFromTags.push(esInferred[ii]);
+    }
+  }
   // Detect meeting/prep milestones for cross-ES filtering
   var isMtg=/定例会|資料準備/.test(raw.name);
   return {
